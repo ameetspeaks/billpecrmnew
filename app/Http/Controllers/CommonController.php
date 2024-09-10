@@ -1,0 +1,298 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\User;
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Log;
+use Intervention\Image\Facades\Image;
+use Spatie\Permission\Models\Permission;
+use App\Models\OrderDetail;
+
+class CommonController extends Controller
+{
+
+    public static function generate_uuid()
+    {
+        $uuid = (string) Str::uuid();
+        if (self::uuid_exists($uuid)) {
+            return  self::generate_uuid();
+        }
+        return $uuid;
+    }
+
+    public static function uuid_exists($uuid)
+    {
+        return User::where('unique_id', $uuid)->exists();
+    }
+
+    public static function saveImage($image, $path, $filename)
+    {
+        $path  =  base_path($path);
+
+        $image_extension    = $image->getClientOriginalExtension();
+        $image_size         = $image->getSize();
+        $type               = $image->getMimeType();
+
+        $new_name           = rand(1111, 9999) . date('mdYHis') . uniqid() . '.' . $image_extension;
+        $thumbnail_name     = 'thumbnail_' . rand(1111, 9999) . date('mdYHis') . uniqid() . '.' .  $image_extension;
+
+        $image->move("storage/app/images/$filename", $new_name);
+
+        $userImageUrl = url("storage/app/images/$filename/".$new_name);
+        if($userImageUrl){
+            return $userImageUrl;
+        }else{
+            return null;
+        }
+    }
+
+    public static function sendWhatsappOtp($postdata)
+    {
+        // $phone = '91'.$phone;
+        $url = 'https://graph.facebook.com/'.env('FACEBOOK_GRAPH_VERSION').'/'.env('FACEBOOK_GRAPH_PHONE_ID').'/messages';
+        
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => $url,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS => $postdata,
+          CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer '.env('WHATSAPP_CLOUD_API_TOKEN').'',
+            'Content-Type: application/json',
+            'Cookie: ps_l=0; ps_n=0'
+          ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
+
+    public static function verifyOTPLess($token)
+    {
+        $curl = curl_init();
+        
+        $postField = 'token='.$token.'&client_id='.env('OTPLessCliendID').'&client_secret='.env('OTPLessCliendSecret').'';
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://auth.otpless.app/auth/userInfo',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS => $postField,
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/x-www-form-urlencoded'
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        return json_decode($response, true);
+    }
+
+
+    public static function allPermissions($type = '')
+    {
+        $query = Permission::all();
+        return $query;
+    }
+
+    public static function getRolePermission($role_id)
+    {
+        if (!empty($role_id)) {
+            $role = Role::find($role_id);
+            return $role->permissions();
+        } else {
+            return null;
+        }
+    }
+
+    public static function showRolePermission($role_id, $type = '')
+    {
+
+        // dd($type);
+        #get all permission
+        $allPermissionsLists  = self::allPermissions($type);
+
+        #get role permission ids
+        if ($role_id) {
+            $rolePermissions    = self::getRolePermission($role_id);
+            $rolePermissions    = !empty($rolePermissions) ? $rolePermissions->pluck('id')->toArray() : null;
+        } else {
+            $rolePermissions = [];
+        }
+
+        return [
+            'allPermissionsLists' => !empty($allPermissionsLists) ? $allPermissionsLists : null,
+            'allGroups'           => !empty($allPermissionsLists) ? array_values(array_unique($allPermissionsLists->pluck('group')->toArray())) : null,
+            'rolePermissions'     => $rolePermissions,
+        ];
+    }
+
+    public static function cashfree_Payment($data)
+    {
+        $url = env('CASHFREE_URL').'/orders';
+       
+        $headers = array(
+             "Content-Type: application/json",
+             "x-api-version: 2023-08-01",
+             "x-client-id: ".env('CASHFREE_API_KEY'),
+             "x-client-secret: ".env('CASHFREE_API_SECRET')
+        );
+
+        $curl = curl_init($url);
+
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+        $resp = curl_exec($curl);
+        curl_close($curl);
+        return $resp;
+    }
+
+    public static function cashfree_Payment_settlement($order_id)
+    {
+        $url = env('CASHFREE_URL').'/orders'.'/'.$order_id.'/payments';
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'accept: application/json',
+            'x-api-version: 2023-08-01',
+            "x-client-id: ".env('CASHFREE_API_KEY'),
+            "x-client-secret: ".env('CASHFREE_API_SECRET')
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        return $response;
+    }
+
+    //CF Signature 
+        public static function CFSignature()
+        {
+            $clientId = env('CASHFREE_VERIFICATION_API_KEY');
+            $file_path = '';
+            if (file_exists('/home4/billp5kj/public_html/public_key/accountId_63574_public_key.pem')) {
+                $file_path = '/home4/billp5kj/public_html/public_key/accountId_63574_public_key.pem';
+            }
+
+            $key_contents = file_get_contents($file_path);
+            $publicKey = openssl_pkey_get_public($key_contents);
+
+            $encodedData = $clientId.".".strtotime("now");
+
+            return static::encrypt_RSA($encodedData, $publicKey);
+        }
+
+        private static function encrypt_RSA($plainData, $publicKey) { if (openssl_public_encrypt($plainData, $encrypted, $publicKey,
+            OPENSSL_PKCS1_OAEP_PADDING)){
+                    $encryptedData = base64_encode($encrypted);
+            }else{
+                return NULL;
+            }
+            return $encryptedData;
+        }
+
+        public static function upiVerification($upi_id, $signature)
+        {
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.cashfree.com/verification/upi/advance',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>'
+            {
+                "vpa": "'.$upi_id.'"
+            }
+            ',
+            CURLOPT_HTTPHEADER => array(
+                'accept: application/json',
+                'content-type: application/json',
+                'x-cf-signature: '.$signature.'',
+                'x-client-id: '.env('CASHFREE_VERIFICATION_API_KEY').'',
+                'x-client-secret: '.env('CASHFREE__VERIFICATION_API_SECRET').''
+            ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            return $response;
+        }
+
+        public static function gstVerification($gstnumber, $signature)
+        {
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.cashfree.com/verification/gstin',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>'
+            {
+            "GSTIN": "'.$gstnumber.'"
+            }
+            ',
+            CURLOPT_HTTPHEADER => array(
+            'accept: application/json',
+            'content-type: application/json',
+            'x-client-id: '.env('CASHFREE_VERIFICATION_API_KEY').'',
+            'x-client-secret: '.env('CASHFREE__VERIFICATION_API_SECRET').'',
+            'x-cf-signature: '.$signature.''
+            ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            return $response;
+        }
+    //END CF Signature 
+}

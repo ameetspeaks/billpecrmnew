@@ -1,0 +1,14 @@
+[
+    {
+      "relation": [
+        "delegate_permission/common.handle_all_urls"
+      ],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.arjhtechlabs.billpe",
+        "sha256_cert_fingerprints": [
+          "00:DB:CC:4D:90:99:46:64:45:79:8D:FB:C7:DB:9F:FA:D8:63:64:06:15:49:EA:C3:77:18:56:90:57:E1:4F:6F"
+        ]
+      }
+    }
+]
