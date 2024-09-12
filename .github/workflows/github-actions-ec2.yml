@@ -7,12 +7,12 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to EC2 on main branch push
+    name: Deploy to EC2 on branch push
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout the files
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Deploy to Server 1
         uses: easingthemes/ssh-deploy@main
@@ -29,9 +29,12 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Use rsync to synchronize files without overwriting existing directories
-            rsync -avz --exclude='node_modules' --exclude='vendor' $TARGET /var/www/html/
+            # Push only new changes to /var/www/html
+            rsync -avz --delete --exclude='node_modules' --exclude='vendor' $TARGET /var/www/html/
 
-            # Optional: set ownership and permissions
+            # Set correct permissions
             sudo chown -R www-data:www-data /var/www/html
             sudo chmod -R 755 /var/www/html
+
+            # Optional: Restart Apache (if required for your changes)
+            sudo systemctl restart apache2
