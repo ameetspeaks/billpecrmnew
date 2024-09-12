@@ -28,6 +28,7 @@ use App\Models\Attribute;
 use App\Models\CustomerOrder;
 use App\Models\OrderStatus;
 use App\Models\User;
+use App\Events\OrderTrackingUpdated;
 
 use DataTables;
 
@@ -41,8 +42,32 @@ class OrderController extends Controller
                 $datas->date = date('Y-m-d H:i:s', strtotime($datas->created_at));
                 // print_r($data); die;
             }
-            return DataTables::of($data)
-                ->make(true);
+            return  Datatables::of($data)
+           
+            ->editColumn('order_number', function ($row) {
+                return @$row->order_number;
+            })
+            ->editColumn('date', function ($row) {
+                return @$row->date;
+            })
+            ->editColumn('customer_name', function ($row) {
+                return @$row->customer->name;
+            })
+            ->editColumn('shop_name', function ($row) {
+                return @$row->store->shop_name;
+            })
+            ->editColumn('total_amount', function ($row) {
+                return @$row->total_amount;
+            })
+            ->editColumn('order_status', function ($row) {
+                
+                return '<button class="btn btn-primary btn-sm">'.@$row->orderStatus->name.'<button> ';
+            })
+            ->addColumn('action',function($row){
+                return ' <ul>  <li ><a href="'.url('admin/ViewOrder').' /' . $row->id .'" " ><button class="btn btn-success btn-sm">View<button></a></li>  <li><a href="#" > </ul>';
+            })
+            ->rawColumns(['action','order_status'])
+            ->make(true);
         }
         return view('admin.order.allOrder');
     }
@@ -55,6 +80,91 @@ class OrderController extends Controller
         $deliveryAgents = User::where('role_type',5)->get();
         // print_r($orderStatus->toarray()); die;
         return view('admin.order.viewOrder', compact('order','orderStatus','deliveryAgents'));
+    }
+
+    public function orderTracking()
+    {
+        $orders  = CustomerOrder::with('customer','store','address','orderStatus','delivery_boy')->get();
+        $allOrderStatus = OrderStatus::get();
+        return view('admin.order.trackOrder', compact('orders','allOrderStatus'));
+    }
+
+    public function updateOrderStatus(Request $request)
+    {
+        // Validate the incoming request data
+        $request->validate([
+            'order_id' => 'required|exists:customer_orders,id',
+            'order_status_id' => 'required|exists:order_statuses,id',
+        ]);
+
+        // Find the order by ID
+        $order = CustomerOrder::find($request->order_id);
+        
+        // Update the order status
+        $order->order_status = $request->order_status_id;
+        $order->save();
+
+
+        $orders = CustomerOrder::with([
+            'customer' => function($query) {
+                $query->select('id', 'name'); // Select only 'id' and 'name' from the customer table
+            },
+            'store' => function($query) {
+                $query->select('id', 'shop_name'); // Select only 'id' and 'shop_name' from the store table
+            },
+            'address' => function($query) {
+                $query->select('id', 'address'); // Select only 'id' and 'address' from the address table
+            },
+            'orderStatus' => function($query) {
+                $query->select('id', 'name'); // Select only 'id' and 'name' from the orderStatus table
+            },
+            'delivery_boy' => function($query) {
+                $query->select('id', 'name'); // Select only 'id' and 'name' from the delivery_boy table
+            }
+        ])
+        ->select( 'order_number','created_at', 'total_amount') // Select necessary fields from CustomerOrder
+        ->orderBy('created_at', 'DESC')
+        ->get();
+                
+        //$chunks = $orders->chunk(5); // Split orders into chunks of 5
+
+        // foreach ($chunks as $chunk) {
+        //     event(new OrderTrackingUpdated($chunk));
+        // }
+
+        $ordersDatatable = Datatables::of($orders)
+           
+            ->editColumn('order_number', function ($row) {
+                return @$row->order_number;
+            })
+            ->editColumn('date', function ($row) {
+                return @$row->created_at;
+            })
+            ->editColumn('customer_name', function ($row) {
+                return @$row->customer->name;
+            })
+            ->editColumn('shop_name', function ($row) {
+                return @$row->store->shop_name;
+            })
+            ->editColumn('total_amount', function ($row) {
+                return @$row->total_amount;
+            })
+            ->editColumn('order_status', function ($row) {
+                return '<button class="btn btn-primary btn-sm">'.@$row->orderStatus->name.'<button> ';
+            })
+            ->addColumn('action',function($row){
+                return ' <ul>  <li ><a href="'.url('admin/ViewOrder').' /' . $row->id .'" " ><button class="btn btn-success btn-sm">View<button></a></li>  <li><a href="#" > </ul>';
+            })
+            ->rawColumns(['action','order_status'])
+            ->make(true);
+
+        event(new OrderTrackingUpdated($ordersDatatable));
+        //dd($ordersDatatable);        
+        // Trigger the event for order status update
+        //event(new OrderTrackingUpdated($orders));
+
+        // Return success response for AJAX
+        return response()->json(['message' => 'Order status updated successfully!'], 200);
     }
 
     public function orderStatusChange(Request $request)
