@@ -351,6 +351,9 @@ Route::group(['as' => 'admin.'], function () {
 
         //Customer order
                 Route::get('All-Order', [OrderController::class, 'allOrder'])->name('order.allOrder')->middleware('adminLogin');
+                Route::get('Order-Tracking', [OrderController::class, 'orderTracking'])->name('order.tracking')->middleware('adminLogin');
+                Route::post('/order/update-status', [OrderController::class, 'updateOrderStatus'])->name('updateOrderStatus')->middleware('adminLogin');
+
                 Route::get('ViewOrder/{id}', [OrderController::class, 'viewOrder'])->name('order.viewOrder')->middleware('adminLogin');
                 Route::post('OrderStatusChange', [OrderController::class, 'orderStatusChange'])->name('order.orderStatusChange');
                 Route::post('AssignTo-DeliveryBoy', [OrderController::class, 'assignOrderToDeliveryBoy'])->name('order.assignOrderToDeliveryBoy');
