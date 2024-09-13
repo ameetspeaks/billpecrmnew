@@ -100,18 +100,16 @@
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
 
-        var pusher = new Pusher('71624133ab7ae26dbec1', {
-            cluster: 'ap2',
+        var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+            cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
             forceTLS: true
         });
 
         var channel = pusher.subscribe('order-tracking');
         
-        channel.bind('live-orders-list', function(data) {
-
-                console.log('Working - ',data['live-orders-list'].original);
-
-                table.clear().rows.add(data['live-orders-list']).draw();
+        channel.bind('order-tracker', function(data) {
+                console.log('Event Data - ',JSON.stringify(data));
+                
                 
         });
 
