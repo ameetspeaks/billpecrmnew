@@ -28,7 +28,8 @@ use App\Models\Attribute;
 use App\Models\CustomerOrder;
 use App\Models\OrderStatus;
 use App\Models\User;
-use App\Events\OrderTrackingUpdated;
+use App\Events\OrderStatusUpdated;
+
 
 use DataTables;
 
@@ -104,61 +105,67 @@ class OrderController extends Controller
         $order->order_status = $request->order_status_id;
         $order->save();
 
+        $orderStatus = OrderStatus::where('id',$request->order_status_id)->first();
+        $statusLabel = (isset($orderStatus))?$orderStatus->name:'';
 
-        $orders = CustomerOrder::with([
-            'customer' => function($query) {
-                $query->select('id', 'name'); // Select only 'id' and 'name' from the customer table
-            },
-            'store' => function($query) {
-                $query->select('id', 'shop_name'); // Select only 'id' and 'shop_name' from the store table
-            },
-            'address' => function($query) {
-                $query->select('id', 'address'); // Select only 'id' and 'address' from the address table
-            },
-            'orderStatus' => function($query) {
-                $query->select('id', 'name'); // Select only 'id' and 'name' from the orderStatus table
-            },
-            'delivery_boy' => function($query) {
-                $query->select('id', 'name'); // Select only 'id' and 'name' from the delivery_boy table
-            }
-        ])
-        ->select( 'order_number','created_at', 'total_amount') // Select necessary fields from CustomerOrder
-        ->orderBy('created_at', 'DESC')
-        ->get();
+        event(new OrderStatusUpdated($order,$statusLabel));
+
+
+
+        // $orders = CustomerOrder::with([
+        //     'customer' => function($query) {
+        //         $query->select('id', 'name'); // Select only 'id' and 'name' from the customer table
+        //     },
+        //     'store' => function($query) {
+        //         $query->select('id', 'shop_name'); // Select only 'id' and 'shop_name' from the store table
+        //     },
+        //     'address' => function($query) {
+        //         $query->select('id', 'address'); // Select only 'id' and 'address' from the address table
+        //     },
+        //     'orderStatus' => function($query) {
+        //         $query->select('id', 'name'); // Select only 'id' and 'name' from the orderStatus table
+        //     },
+        //     'delivery_boy' => function($query) {
+        //         $query->select('id', 'name'); // Select only 'id' and 'name' from the delivery_boy table
+        //     }
+        // ])
+        // ->select( 'order_number','created_at', 'total_amount') // Select necessary fields from CustomerOrder
+        // ->orderBy('created_at', 'DESC')
+        // ->get();
                 
-        //$chunks = $orders->chunk(5); // Split orders into chunks of 5
+        // //$chunks = $orders->chunk(5); // Split orders into chunks of 5
 
-        // foreach ($chunks as $chunk) {
-        //     event(new OrderTrackingUpdated($chunk));
-        // }
+        // // foreach ($chunks as $chunk) {
+        // //     event(new OrderTrackingUpdated($chunk));
+        // // }
 
-        $ordersDatatable = Datatables::of($orders)
+        // $ordersDatatable = Datatables::of($orders)
            
-            ->editColumn('order_number', function ($row) {
-                return @$row->order_number;
-            })
-            ->editColumn('date', function ($row) {
-                return @$row->created_at;
-            })
-            ->editColumn('customer_name', function ($row) {
-                return @$row->customer->name;
-            })
-            ->editColumn('shop_name', function ($row) {
-                return @$row->store->shop_name;
-            })
-            ->editColumn('total_amount', function ($row) {
-                return @$row->total_amount;
-            })
-            ->editColumn('order_status', function ($row) {
-                return '<button class="btn btn-primary btn-sm">'.@$row->orderStatus->name.'<button> ';
-            })
-            ->addColumn('action',function($row){
-                return ' <ul>  <li ><a href="'.url('admin/ViewOrder').' /' . $row->id .'" " ><button class="btn btn-success btn-sm">View<button></a></li>  <li><a href="#" > </ul>';
-            })
-            ->rawColumns(['action','order_status'])
-            ->make(true);
+        //     ->editColumn('order_number', function ($row) {
+        //         return @$row->order_number;
+        //     })
+        //     ->editColumn('date', function ($row) {
+        //         return @$row->created_at;
+        //     })
+        //     ->editColumn('customer_name', function ($row) {
+        //         return @$row->customer->name;
+        //     })
+        //     ->editColumn('shop_name', function ($row) {
+        //         return @$row->store->shop_name;
+        //     })
+        //     ->editColumn('total_amount', function ($row) {
+        //         return @$row->total_amount;
+        //     })
+        //     ->editColumn('order_status', function ($row) {
+        //         return '<button class="btn btn-primary btn-sm">'.@$row->orderStatus->name.'<button> ';
+        //     })
+        //     ->addColumn('action',function($row){
+        //         return ' <ul>  <li ><a href="'.url('admin/ViewOrder').' /' . $row->id .'" " ><button class="btn btn-success btn-sm">View<button></a></li>  <li><a href="#" > </ul>';
+        //     })
+        //     ->rawColumns(['action','order_status'])
+        //     ->make(true);
 
-        event(new OrderTrackingUpdated($ordersDatatable));
+        // event(new OrderTrackingUpdated($ordersDatatable));
         //dd($ordersDatatable);        
         // Trigger the event for order status update
         //event(new OrderTrackingUpdated($orders));
