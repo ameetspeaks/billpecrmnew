@@ -96,33 +96,16 @@ class ApiController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                if($request->phone == '9634188285' || $request->phone == '9670006261'){
-                    $randNo = '123456';
-                }else{
+                // if($request->phone == '9634188285' || $request->phone == '9670006261'){
+                //     $randNo = '123456';
+                // }else{
                     $randNo = rand(100000, 999999);
-                    $phone = '91'.$request->phone;
-                    $postdata = '{
-                        "messaging_product": "whatsapp",
-                        "to" : "'.$phone.'",
-                        "type": "template",
-                        "template": {
-                            "name": "send_otp",
-                            "language": {"code": "en_US"},
-                            "components": [
-                                {
-                                    "type": "body",
-                                    "parameters": [{
-                                        "type": "text",
-                                        "text":"'.$randNo.'"
-                                    }]
-                                }
-                            ]
-                        }
-                    }';
+                    $phone = $request->phone;
+                    
                     // print_r($postdata); die;
 
-                    $sendOtpResponse = CommonController::sendWhatsappOtp($postdata);
-                }
+                    $sendOtpResponse = CommonController::sendMsg91WhatsappOtp($phone, $otp);
+                //}
 
                 $checkPhone = Otp::where('phone_number',$request->phone)->first();
                 if($checkPhone){

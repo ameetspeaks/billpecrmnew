@@ -294,5 +294,77 @@ class CommonController extends Controller
             curl_close($curl);
             return $response;
         }
-    //END CF Signature 
+    //END CF Signature
+    
+     public static function sendMsg91WhatsappOtp($phone, $otp) {
+        $curl = curl_init();
+        try {
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://api.msg91.com/api/v5/whatsapp/whatsapp-outbound-message/bulk/',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_SSL_VERIFYHOST => 0,
+        CURLOPT_SSL_VERIFYPEER => 0,
+        CURLOPT_POSTFIELDS =>'{
+            "integrated_number": "917290052408",
+            "content_type": "template",
+            "payload": {
+                "messaging_product": "whatsapp",
+                "type": "template",
+                "template": {
+                    "name": "otp",
+                    "language": {
+                        "code": "hi",
+                        "policy": "deterministic"
+                    },
+                    "namespace": null,
+                    "to_and_components": [
+                        {
+                            "to": [
+                                "91' . $phone . '"
+                            ],
+                            "components": {
+                                "body_1": {
+                                    "type": "text",
+                                    "value": "'. $otp . '"
+                                },
+                                "button_1": {
+                                    "subtype": "url",
+                                    "type": "text",
+                                    "value": "' . $otp . '"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }',
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            'authkey: 372139AN1phFfb4wx866e73080P1',
+            'X-API-Key: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZGE0ODE0YTZiNDM2NjZlODJmZDRlMGQ0ZWI1MWYyNTk5NGNlOGU0MGVlMjM1Y2VjODI2OWM5Y2RlMzQ3NmRkZmZmYzVlZjFmNTUyMWY5NDIiLCJpYXQiOjE3MjY0ODAwNDcuNDg4ODQ2LCJuYmYiOjE3MjY0ODAwNDcuNDg4ODQ4LCJleHAiOjE3NTgwMTYwNDcuNDc4NjI3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.K35Q5iOPL75BHaGZ0bzISacUu7LpuPzxKARPjDDXpW9L7CBkElYmqtolKl6BcTVUx8vwxjHyhpQBKSaRpFvnORzVFoVjCKHOBK7EN9hXxJ8x0Ebuxdriry_secxRU9agjWkMN3dtBXfnHV8bs47rtuNXkM6mcR0RNZ1KFNM6RW4LOVW6SYPxx1pSD-uC921wcjDD_ihk0XQ_XNVzZjfr8wfQw0VYNWtOyO4aKGGmQ8qZYp9R8yMWAnuhM-iG8CFwIvGigmakkHeGsPZNhIWoVUSFGdx8PaDkG2bRCpVS76UJVhFUJFQGMwYrVJOBBanqSyGyMmpVcyqo6fd9u1XFBm_TBUPApEd2l1qLFDnia4Fz8a8kDaKlhmFLVKqcBqzAPivI_CrFZd6XkOa0GQkMTsQKxEEGFmYJXTIWbClsqTsTEnBrQgjOnKChVlSgYk_teHjmlitgOSaHr8-NcgJV0NeEWEyxeR71MvnU6MNQiZJKOQvLfIl2q-SmQ1nR9ValrDMJf0yEVe_sN2WbiLtnqYWl6_lDSe0Nd8iEQCko_h8qfiB1i0L0_BfbgmeBAjrWF59vLULmeR1uwaX9tR4aku_crBOtMZ51_vz8FaZB0yiraLGJPvMSFbelDvh6BtYMvAPMl8IxZJYi77PlVuL4E_szeIuJ4igtHsI62FuEGmA',
+            'Cookie: PHPSESSID=rkkcl4b8cohplt8drimc4t0q25'
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        
+        if($response === false)
+        {
+            return 'Curl error: ' . curl_error($curl);
+        }
+
+        curl_close($curl);
+        
+        return $response;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+        
+     }
 }
