@@ -31,7 +31,7 @@ class OrderStatusUpdated  implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('order-tracking');
+        return new PresenceChannel('order-tracking');
     }
 
     public function broadcastAs()
