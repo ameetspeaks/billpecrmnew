@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Store;
 
 use Illuminate\Http\Request;
@@ -185,16 +186,17 @@ class AuthController extends Controller
         // VALIDATION END
 
         $checkOtp = Otp::where("phone_number",$request->phone)->where('otp',$request->otp)->first();
-        if($checkOtp){
+        if(!empty($checkOtp)){
             $user = User::where('whatsapp_no',$request->phone)->first();
-            if($user){
+            if(!empty($user)){
                 $store = Store::where('user_id', $user->id)->first();
                 // $redirect = url('store/storeDashboard/'.$store->id.'/'.$user->unique_id);
                 Session::put('store_id', $store->id);
                 $redirect = url('store/dashboard/');
                 Auth::login($user);
                 return response()->json(['status' => 1,'data' => "", 'redirect' => $redirect]);
-            }else{
+            }else{            
+                Session::put('whatsapp_no', $request->phone);
                 $error = array('otp'=>'User Not exist In this phone number.');
                 $redirect = url('store/register-store/');
                 return response()->json(['status' => 200,'error1' => $error , 'redirect' => $redirect]);

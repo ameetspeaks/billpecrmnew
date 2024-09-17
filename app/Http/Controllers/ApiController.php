@@ -139,6 +139,7 @@ class ApiController extends Controller
 
             $requestData = $request->all();
             $validator = Validator::make($requestData, $rules);
+            $store = $token =  null;
 
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
@@ -163,7 +164,11 @@ class ApiController extends Controller
                         DB::commit();
                         $response = ['success' => true, 'is_complete' => true, 'message' => 'User Login successfully.', 'token' => $token, 'data' => $user, 'store' => $store];
                     }else{
-                        $response = ['success' => true, 'is_complete' => false, 'message' => 'Complete your profile.'];
+                        $data = [
+                            'whatsappNo' => $request->phone,
+                            'roleType' => 4
+                        ];
+                        $response = ['success' => true, 'is_complete' => false, 'message' => 'Complete your profile.', 'token' => $token, 'data'=> $data , 'store' => $store];
                     }
                 }else{
                     return Response::json(['success' => false, 'message' => "Phone or otp is not valid. Enter valid detail."], 404);
