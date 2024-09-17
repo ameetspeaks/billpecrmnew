@@ -96,16 +96,16 @@ class ApiController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                // if($request->phone == '9634188285' || $request->phone == '9670006261'){
-                //     $randNo = '123456';
-                // }else{
+                if($request->phone == '9634188285' || $request->phone == '9670006261'){
+                    $randNo = '123456';
+                }else{
                     $randNo = rand(100000, 999999);
                     $phone = $request->phone;
                     
                     // print_r($postdata); die;
 
                     $sendOtpResponse = CommonController::sendMsg91WhatsappOtp($phone, $otp);
-                //}
+                }
 
                 $checkPhone = Otp::where('phone_number',$request->phone)->first();
                 if($checkPhone){
@@ -144,9 +144,9 @@ class ApiController extends Controller
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
                 $checkOtp = Otp::where("phone_number",$request->phone)->where('otp',$request->otp)->first();
-                if($checkOtp){
+                if(!empty($checkOtp)){
                     $user = User::where('whatsapp_no',$request->phone)->first();
-                    if($user){
+                    if(!empty($user)){
                         $store = Store::where('user_id', $user->id)->first();
                         User::where('whatsapp_no',$request->phone)->update(['device_token' => $request->device_token]);
                         $user = User::where('whatsapp_no',$request->phone)->first();

@@ -49,6 +49,7 @@
                         <div class="card-body">
                             <h4 class="card-title text-center">Login via WhatsApp</h4>
 
+                            <div class="errordiv alert alert-danger" style="display:none;"></div>
 
                             <form method="post" action="{{ route('store.login.post') }}" id="loginForm">
                                 @csrf
@@ -87,13 +88,20 @@
 
     <script>
         $(".sentotp").on("click", function(){
+            $(".errordiv").hide();
+            if($("#receiver_number").val() == "") {
+                $(".errordiv").show();
+                $(".errordiv").html("Please enter phone");
+                return false;
+            }
+
             $.ajax({
                 url:"{{ route('store.login.sendotpnew') }}",
                 type:"post",
                 data:{phone:$("#receiver_number").val(), "_token": "{{ csrf_token() }}"},
                 dataType:"json",
                 success:function(response){
-                    if(response.status) {
+                    if(response.status == true) {
                         $(".sendotprow").hide();
                         $(".otprow").show();
                     }
@@ -103,12 +111,33 @@
         })
 
         $(".verifyotp").on("click", function(){
+            $(".errordiv").hide();
+            if($("#receiver_number").val() == "") {
+                $(".errordiv").show();
+                $(".errordiv").html("Please enter phone");
+                return false;
+            }
+            if($("#otp").val() == "") {
+                $(".errordiv").show();
+                $(".errordiv").html("Please enter otp");
+                return false;
+            }
+
             $.ajax({
                 url:"{{ route('store.login.verifyotp') }}",
                 type:"post",
                 data:{phone:$("#receiver_number").val(),otp: $("#otp").val(), "_token": "{{ csrf_token() }}"},
                 dataType:"json",
                 success:function(response){
+                    if(response.error1 !== undefined) {
+
+                        if(response.redirect !== undefined) {
+                            location.href = response.redirect;
+                        }
+                        $(".errordiv").show();
+                        $(".errordiv").html(response.error1.otp);
+                        return false;
+                    }
                     
                     if(response.status) {
                         location.href = response.redirect;

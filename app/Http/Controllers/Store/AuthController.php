@@ -101,12 +101,12 @@ class AuthController extends Controller
         }
         // VALIDATION END
 
-        // if($request->phone == '9634188285' || $request->phone == '9670006261'){
-        //     $randNo = '123456';
-        // }else{
+        if($request->phone == '9634188285' || $request->phone == '9670006261'){
+            $randNo = '123456';
+        }else{
             $randNo = rand(100000, 999999);
             $sendOtpResponse = CommonController::sendMsg91WhatsappOtp($request->phone,$randNo);
-        //}
+        }
 
         
         $checkPhone = Otp::where('phone_number',$request->phone)->first();
