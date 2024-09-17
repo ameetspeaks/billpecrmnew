@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+Broadcast::channel('order-tracking', function ($user, $orderId) {
+    // Replace this with your own logic for authorizing users to listen to order tracking
+    return true;  // Allow the user to listen to the channel
+});
