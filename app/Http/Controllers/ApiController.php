@@ -104,7 +104,7 @@ class ApiController extends Controller
                     
                     // print_r($postdata); die;
 
-                    $sendOtpResponse = CommonController::sendMsg91WhatsappOtp($phone, $otp);
+                    $sendOtpResponse = CommonController::sendMsg91WhatsappOtp($phone, $randNo);
                 }
 
                 $checkPhone = Otp::where('phone_number',$request->phone)->first();
