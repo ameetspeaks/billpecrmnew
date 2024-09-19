@@ -1,15 +1,19 @@
-# Trigger deployment only on push to master branch
+name: Push-to-EC2
+
 on:
   push:
     branches:
       - updated17sept
+
 jobs:
   deploy:
-    name: Deploy to EC2 on master branch push
+    name: Deploy to EC2 on branch push
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout the files
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
       - name: Deploy to Server 1
         uses: easingthemes/ssh-deploy@main
         env:
@@ -17,3 +21,20 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
+
+      - name: Executing remote SSH commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Push only new changes to /var/www/html
+            rsync -avz --delete --exclude='node_modules' --exclude='vendor' $TARGET /var/www/html/
+
+            # Set correct permissions
+            sudo chown -R www-data:www-data /var/www/html
+            sudo chmod -R 755 /var/www/html
+
+            # Optional: Restart Apache (if required for your changes)
+            sudo systemctl restart apache2
