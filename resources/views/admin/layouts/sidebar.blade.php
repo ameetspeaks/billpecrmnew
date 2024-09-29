@@ -52,6 +52,15 @@
             </li>
             @endcan
 
+            @can('Assign Zone')
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.zone.assignZone') }}">
+                    <i class="fa fa-globe menu-icon"></i>
+                    <span class="menu-title">Assign Zone</span>
+                </a>
+            </li>
+            @endcan
+
             <!-- @can('View Sub Zone')
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.subzone.index') }}">
@@ -128,6 +137,15 @@
                 <a class="nav-link" href="{{ route('admin.store.billHistory') }}">
                     <i class="fa fa-store menu-icon"></i>
                     <span class="menu-title">Bill History</span>
+                </a>
+            </li>
+            @endcan
+
+            @can('View Withdrawal')
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.store.withdrawal') }}">
+                    <i class="fa fa-store menu-icon"></i>
+                    <span class="menu-title">Withdrawal</span>
                 </a>
             </li>
             @endcan

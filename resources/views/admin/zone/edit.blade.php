@@ -102,8 +102,8 @@
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                 const pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
+                    lat: zone[0].lat,
+                    lng: zone[0].lng,
                 };
                 map.setCenter(pos);
             });

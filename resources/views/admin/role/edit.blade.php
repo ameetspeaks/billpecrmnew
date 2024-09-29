@@ -18,10 +18,10 @@
         @foreach($permissions['allPermissionsLists'] as $permission)
             @if (in_array($permission->id, $permissions['rolePermissions']))
             <input type="checkbox" name="permissions[]" value="{{$permission->id}}" checked>
-            <lable>{{$permission->name}}</lable>
+            <lable>{{$permission->name}}</lable><br>
             @else
             <input type="checkbox" name="permissions[]" value="{{$permission->id}}">
-            <lable>{{$permission->name}}</lable>
+            <lable>{{$permission->name}}</lable><br>
             @endif
         @endforeach
         

@@ -37,6 +37,9 @@ use App\Models\CustomerOrder;
 
 use App\Models\SubscriptionPackage;
 use App\Models\WholesellerBillcreate;
+use App\Models\ShiftTimings;
+use App\Models\DeliveryPartners;
+use App\Models\DeliveryPartnerEarnings;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -55,17 +58,23 @@ use App\Models\PackageOrder;
 use App\Models\PackageTransection;
 use App\Models\TemplateType;
 use App\Models\NotificationHistory;
+use App\Models\OrderStatus;
 
 use Illuminate\Support\Str;
 use App;
 use Session;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 
+use App\Events\OrderStatusUpdated;
+
 use PDF;
 use Carbon\Carbon;
 
 use App\Exports\BillExport;
 use Excel;
+
+// JOBS
+use App\Jobs\UpdateOrderStatus;
 
 class ApiController extends Controller
 {
@@ -100,28 +109,11 @@ class ApiController extends Controller
                     $randNo = '123456';
                 }else{
                     $randNo = rand(100000, 999999);
-                    $phone = '91'.$request->phone;
-                    $postdata = '{
-                        "messaging_product": "whatsapp",
-                        "to" : "'.$phone.'",
-                        "type": "template",
-                        "template": {
-                            "name": "send_otp",
-                            "language": {"code": "en_US"},
-                            "components": [
-                                {
-                                    "type": "body",
-                                    "parameters": [{
-                                        "type": "text",
-                                        "text":"'.$randNo.'"
-                                    }]
-                                }
-                            ]
-                        }
-                    }';
+                    $phone = $request->phone;
+                    
                     // print_r($postdata); die;
 
-                    $sendOtpResponse = CommonController::sendWhatsappOtp($postdata);
+                    $sendOtpResponse = CommonController::sendMsg91WhatsappOtp($phone, $randNo);
                 }
 
                 $checkPhone = Otp::where('phone_number',$request->phone)->first();
@@ -156,14 +148,15 @@ class ApiController extends Controller
 
             $requestData = $request->all();
             $validator = Validator::make($requestData, $rules);
+            $store = $token =  null;
 
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
                 $checkOtp = Otp::where("phone_number",$request->phone)->where('otp',$request->otp)->first();
-                if($checkOtp){
+                if(!empty($checkOtp)){
                     $user = User::where('whatsapp_no',$request->phone)->first();
-                    if($user){
+                    if(!empty($user)){
                         $store = Store::where('user_id', $user->id)->first();
                         User::where('whatsapp_no',$request->phone)->update(['device_token' => $request->device_token]);
                         $user = User::where('whatsapp_no',$request->phone)->first();
@@ -180,7 +173,11 @@ class ApiController extends Controller
                         DB::commit();
                         $response = ['success' => true, 'is_complete' => true, 'message' => 'User Login successfully.', 'token' => $token, 'data' => $user, 'store' => $store];
                     }else{
-                        $response = ['success' => true, 'is_complete' => false, 'message' => 'Complete your profile.'];
+                        $data = [
+                            'whatsappNo' => $request->phone,
+                            'roleType' => 4
+                        ];
+                        $response = ['success' => true, 'is_complete' => false, 'message' => 'Complete your profile.', 'token' => $token, 'data'=> $data , 'store' => $store];
                     }
                 }else{
                     return Response::json(['success' => false, 'message' => "Phone or otp is not valid. Enter valid detail."], 404);
@@ -281,8 +278,9 @@ class ApiController extends Controller
                     $rules['merchant_id'] = 'required';
                     $rules['store_id'] = 'required';
                 }else if($request->role_type == '5'){
-                    $rules['aadhar_number'] = 'required';
-                    $rules['driving_licence'] = 'required';
+                    // $rules['aadhar_number'] = 'required';
+                    // $rules['driving_licence'] = 'required';
+                    $rules['store_id'] = 'required';
                 }else if($request->role_type == '6'){
                     $rules['store_id'] = 'required';
                     $rules['merchant_id'] = 'required';
@@ -313,30 +311,35 @@ class ApiController extends Controller
                             $package = SubscriptionPackage::where('id',1)->first();
                             $validdate = date('Y-m-d',strtotime(''.$package->validity_days.' days'));
 
-                            $storeAdd = Store::create([
-                                'user_id'               => $checkUserformultiple->id,
-                                'store_type'            => $request->store_type,
-                                'module_id'             => $request->store_category,
-                                'store_image'           => $store_image,
-                                'shop_name'             => $request->shop_name,
-                                'latitude'              => $request->latitude,
-                                'longitude'             => $request->longitude,
-                                'address'               => $request->address,
-                                'pincode'               => $request->pincode,
-                                'city'                  => $request->city,
-                                'gst'                   => $request->gst,
-                                'owner_name'            => $request->owner_name,
-                                'package_id'            => $package->id,
-                                'package_active_date'   => date('Y-m-d'),
-                                'package_valid_date'    => $validdate,
-                                'package_amount'        => $package->subscription_price,
-                                'package_status'        => $package->status,
-                                'store_open_time'       => $request->store_open_time,
-                                'store_close_time'      => $request->store_close_time,
-                                'store_days'            => $request->store_days,
-                            ]);
+                            $storeAdd = Store::where('user_id', $checkUserformultiple->id)->first();
+                            if(empty($storeAdd)){
+                                $storeAdd = Store::create([
+                                    'user_id'               => $checkUserformultiple->id,
+                                    'store_type'            => $request->store_type,
+                                    'module_id'             => $request->store_category,
+                                    'store_image'           => $store_image,
+                                    'shop_name'             => $request->shop_name,
+                                    'latitude'              => $request->latitude,
+                                    'longitude'             => $request->longitude,
+                                    'address'               => $request->address,
+                                    'pincode'               => $request->pincode,
+                                    'city'                  => $request->city,
+                                    'gst'                   => $request->gst,
+                                    'owner_name'            => $request->owner_name,
+                                    'package_id'            => $package->id,
+                                    'package_active_date'   => date('Y-m-d'),
+                                    'package_valid_date'    => $validdate,
+                                    'package_amount'        => $package->subscription_price,
+                                    'package_status'        => $package->status,
+                                    'store_open_time'       => $request->store_open_time,
+                                    'store_close_time'      => $request->store_close_time,
+                                    'store_days'            => $request->store_days,
+                                ]);
+    
+                                $storeAdd->save();
+                            }
 
-                            $storeAdd->save();
+
                             $token = $checkUserformultiple->createToken('billpe.cloud')->accessToken;
                             DB::commit();
                             return Response::json(['success' => true, 'message' => 'User added successfully', 'token'=>$token, 'data' => $checkUserformultiple, 'store' => $storeAdd], 200);
@@ -406,30 +409,33 @@ class ApiController extends Controller
                     $package = SubscriptionPackage::where('id',1)->first();
                     $validdate = date('Y-m-d',strtotime(''.$package->validity_days.' days'));
 
-                    $storeAdd = Store::create([
-                        'user_id'               => $userAdd->id,
-                        'store_type'            => $request->store_type,
-                        'module_id'             => $request->store_category,
-                        'store_image'           => $store_image,
-                        'shop_name'             => $request->shop_name,
-                        'latitude'              => $request->latitude,
-                        'longitude'             => $request->longitude,
-                        'address'               => $request->address,
-                        'pincode'               => $request->pincode,
-                        'city'                  => $request->city,
-                        'gst'                   => $request->gst,
-                        'owner_name'            => $request->owner_name,
-                        'package_id'            => $package->id,
-                        'package_active_date'   => date('Y-m-d'),
-                        'package_valid_date'    => $validdate,
-                        'package_amount'        => $package->subscription_price,
-                        'package_status'        => $package->status,
-                        'store_open_time'       => $request->store_open_time,
-                        'store_close_time'      => $request->store_close_time,
-                        'store_days'            => $request->store_days,
-                    ]);
-
-                    $storeAdd->save();
+                    $storeAdd = Store::where('user_id', $checkUserformultiple->id)->first();
+                    if(empty($storeAdd)){
+                        $storeAdd = Store::create([
+                            'user_id'               => $userAdd->id,
+                            'store_type'            => $request->store_type,
+                            'module_id'             => $request->store_category,
+                            'store_image'           => $store_image,
+                            'shop_name'             => $request->shop_name,
+                            'latitude'              => $request->latitude,
+                            'longitude'             => $request->longitude,
+                            'address'               => $request->address,
+                            'pincode'               => $request->pincode,
+                            'city'                  => $request->city,
+                            'gst'                   => $request->gst,
+                            'owner_name'            => $request->owner_name,
+                            'package_id'            => $package->id,
+                            'package_active_date'   => date('Y-m-d'),
+                            'package_valid_date'    => $validdate,
+                            'package_amount'        => $package->subscription_price,
+                            'package_status'        => $package->status,
+                            'store_open_time'       => $request->store_open_time,
+                            'store_close_time'      => $request->store_close_time,
+                            'store_days'            => $request->store_days,
+                        ]);
+    
+                        $storeAdd->save();
+                    }
 
                     if($request->device_token){
                         $postdata = '{
@@ -3959,6 +3965,458 @@ class ApiController extends Controller
             return Response::json($response, 200);
 
         } catch (Exception $e) {
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
+    public function getMyDeliveryPartners(Request $request) {
+        try {
+            $rules = [
+                'merchant_id' => 'required',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $deliveryAgents = User::select("id","name")->where('user_id', $request->merchant_id)->where('role_type',5)->get();
+    
+                $response = ['success' => true, 'message' => 'Delivery Agents.', 'deliveryAgents' => $deliveryAgents];
+            }
+        
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
+    public function assignOrderToDeliveryBoy(Request $request)
+    {
+        try {
+            $rules = [
+                'order_id' => 'required|numeric',
+                'agent_id' => 'required|numeric',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                CustomerOrder::where('id',$request->order_id)->update(['deliveryboy_id' => $request->agent_id]);
+                $response = ['success' => true, 'message' => 'Order Assign Successfully.'];
+            }
+        
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
+    public function orderStatusChange(Request $request)
+    {
+        try {
+            $rules = [
+                'order_id' => 'required|numeric',
+                'order_status_id' => 'required|numeric',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $order = CustomerOrder::find($request->order_id);
+                
+                // Update the order status
+                $order->order_status = $request->order_status_id;
+                $order->save();
+                if($request->order_status_id == 3){
+                    $homeDelivery = HomeDeliveryDetail::where('store_id',$order->store_id)->where('delivery_mode', 0)->first();
+                    if(@$homeDelivery){
+                        UpdateOrderStatus::dispatch($order)->delay(now()->addMinutes($homeDelivery->processing_time));
+                    }
+                }
+
+                $orderStatus = OrderStatus::where('id',$request->order_status_id)->first();
+                $statusLabel = (isset($orderStatus))?$orderStatus->name:'';
+
+                event(new OrderStatusUpdated($order,$statusLabel));
+                
+                $response = ['success' => true, 'message' => 'Order Status Update Successfully.'];
+            }
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
+
+    public function verifyDPOTP(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'phone' => 'required|numeric|digits:10',
+                'otp'   => 'required|numeric',
+                'device_token' => 'required',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $checkOtp = Otp::where("phone_number",$request->phone)->where('otp',$request->otp)->first();
+                if($checkOtp){
+                    $role_type = 5;
+                    $user = User::where('whatsapp_no',$request->phone)->where('role_type',$role_type)->first();
+                    $token = null;
+                    if($user){
+                        User::where('whatsapp_no',$request->phone)->where('role_type',$role_type)->update(['device_token' => $request->device_token]);
+                        $user = User::where('whatsapp_no',$request->phone)->where('role_type',$role_type)->first();
+
+                        Auth::login($user);
+
+                        $activity = AppActivity::create([
+                            'action'  => 'Login',
+                            'message' => $user->name.' logged in',
+                        ]);
+                        $activity->save();
+
+                        DB::commit();
+
+                        $DeliveryPartnersSave = DeliveryPartners::where("user_id", $user->id)->first();
+                        if(empty($DeliveryPartnersSave)){
+                            $conditions = [
+                                "user_id" => $user->id,
+                            ];
+                            $data = [
+                                "account_status" => 'Pending',
+                                "created_at" => now(),
+                                "updated_at" => now(),
+                            ];
+                            $DeliveryPartnersSave = DeliveryPartners::updateOrCreate($conditions, $data);
+                        }
+                        $token = $user->createToken('billpe.cloud')->accessToken;
+                        if($DeliveryPartnersSave->account_status == 'Approved'){
+                            $successStatus = true;
+                            $msgg = 'User Login successfully.';
+                        } else if($DeliveryPartnersSave->account_status == "Rejected") {
+                            $successStatus = false;
+                            $msgg = 'You have rejected.';
+                        } else {
+                            $successStatus = false;
+                            $msgg = 'Your account status is pending.';
+                        }
+                        return response()->json(['success' => $successStatus, 'account_status' => $DeliveryPartnersSave->account_status, 'message' => $msgg, 'token' => $token, 'data' => $user], 200);
+                    }else{
+
+                        $roleID = Role::where('id',$role_type)->first();
+
+                        $partner = new User();
+                        $partner->whatsapp_no = $request->phone;
+                        $partner->role_type = $role_type;
+                        $partner->unique_id = CommonController::generate_uuid('users');
+                        $partner->device_token = $request->device_token;
+                        $partner->save();
+
+                        #assign role to user
+                        $partner->syncRoles($roleID->id);
+                        $partner->save();
+
+                        $conditions = [
+                            "user_id" => $partner->id,
+                        ];
+                        $data = [
+                            "account_status" => 'Pending',
+                            "created_at" => now(),
+                            "updated_at" => now(),
+                        ];
+                        $DeliveryPartnersSave = DeliveryPartners::updateOrCreate($conditions, $data);
+                        
+                        $user = User::where('id',$partner->id)->first();
+                        Auth::login($user);
+                        DB::commit();
+
+                        $token = $partner->createToken('billpe.cloud')->accessToken;
+                        if($DeliveryPartnersSave->account_status == 'Approved'){
+                            $successStatus = true;
+                            $msgg = 'User Login successfully.';
+                        } else if($DeliveryPartnersSave->account_status == "Rejected") {
+                            $successStatus = false;
+                            $msgg = 'You have rejected.';
+                        } else {
+                            $successStatus = false;
+                            $msgg = 'Your account status is pending.';
+                        }
+                        return response()->json(['success' => $successStatus, 'account_status' => $DeliveryPartnersSave->account_status, 'message' => $msgg, 'token' => $token, 'data' => $user], 200);
+                    }
+                }else{
+                    return Response::json(['success' => false, 'message' => "Phone or otp is not valid. Enter valid detail."], 404);
+                }
+            }
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
+    public function getShiftTimings(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'type' => 'string|in:Full Time,Part Time',
+            ];
+
+            $messages = [
+                'type.in' => 'The type must be either (Full Time) or (Part Time).',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules, $messages);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $shiftTimings = ShiftTimings::where("status", 1);
+                if($request->type) {
+                    $shiftTimings->where("type", $request->type);
+                }
+                $shiftTimings = $shiftTimings->get();
+                DB::commit();
+
+                $response = ['success' => true, 'message' => 'Success.', 'shiftTimings' => $shiftTimings];
+            }
+            
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
+    public function saveDeliveryPartnersDetail(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'name' => 'required|string',
+                'email' => 'required|string',
+                'aadhar_number' => 'required|numeric',
+                // 'driving_licence' => 'required|string',
+                'work_shift_id' => 'required|numeric',
+                'aadhar_front_img' => 'required|image|mimes:jpg,png,jpeg',
+                'aadhar_back_img' => 'required|image|mimes:jpg,png,jpeg',
+                'pan_number' => 'required|string',
+                'pan_front_img' => 'required|image|mimes:jpg,png,jpeg',
+                // 'dl_front_img' => 'required|image|mimes:jpg,png,jpeg',
+                // 'dl_back_img' => 'required|image|mimes:jpg,png,jpeg',
+                // 'rc_number' => 'required|string',
+                // 'rc_front_img' => 'required|image|mimes:jpg,png,jpeg',
+                // 'rc_back_img' => 'required|image|mimes:jpg,png,jpeg',
+                'image' => 'required|image|mimes:jpg,png,jpeg',
+                'referral_code' => 'string',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $user = Auth::user();
+                if(!$user->referral_code)
+                {
+                    $referralCode = substr($user->name, 0, 4).rand(10000, 99999);
+                    $user->referral_code = $referralCode;
+                    $user->save();
+                }
+
+                $referUser = User::where('referral_code',$request->referral_code)->first();
+
+                $image = $request->image;
+                if ($image) {
+                    $path  = config('image.profile_image_path_view');
+                    $image = CommonController::saveImage($image, $path , 'store');
+                } else {
+                    $image = null;
+                }
+
+                // 'dl_front_img' => 'required|image|mimes:jpg,png,jpeg',
+                // 'dl_back_img' => 'required|image|mimes:jpg,png,jpeg',
+                // 'rc_number' => 'required|string',
+                // 'rc_front_img' => 'required|image|mimes:jpg,png,jpeg',
+                // 'rc_back_img' => 'required|image|mimes:jpg,png,jpeg',
+                $data = [
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'aadhar_number' => $request->aadhar_number,
+                    // 'driving_licence' => $request->driving_licence,
+                    'image' => $image,
+                ];
+                User::where('id',$user->id)->update($data);
+                $user = User::where('id',$user->id)->first();
+
+                #save image
+                $arr = [
+                    'aadhar_front_img',
+                    'aadhar_back_img',
+                    'pan_front_img',
+                    // 'dl_front_img',
+                    // 'dl_back_img',
+                    // 'rc_front_img',
+                    // 'rc_back_img',
+                ];
+                $imgDataArr = [];
+                foreach ($arr as $key => $value) {
+                    $imgUpload = $request->$value;
+                    if ($imgUpload) {
+                        $path  = config('image.profile_image_path_view');
+                        $imgUpload = CommonController::saveImage($imgUpload, $path , 'store');
+                    } else {
+                        $imgUpload = null;
+                    }
+                    $imgDataArr[$value] = $imgUpload;
+                }
+
+                $conditions = [
+                    "user_id" => $user->id,
+                ];
+                $data = [
+                    'work_shift_id' => $request->work_shift_id,
+                    'pan_number' => $request->pan_number,
+                    // 'rc_number' => $request->rc_number,
+                    "created_at" => now(),
+                    "updated_at" => now(),
+                ];
+                if (@$referUser->id) {
+                    $data['refer_id'] = $referUser->id;
+                }
+                foreach ($imgDataArr as $key => $value) {
+                    $data[$key] = $value;
+                }
+                $save = DeliveryPartners::updateOrCreate($conditions, $data);
+
+                DB::commit();
+
+                $user['delivery_boy_detail'] = $save;
+                
+                $response = ['success' => true, 'message' => 'Detail Saved Successfully.', 'user' => $user];
+            }
+
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
+    public function saveDeliveryPartnersBankDetail(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'bank_name' => 'required|string',
+                'account_holder_name' => 'required|string',
+                'account_number' => 'required|numeric',
+                'ifsc' => 'required|string',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $user = Auth::user();
+
+                $conditions = [
+                    "user_id" => $user->id,
+                ];
+                $data = [
+                    'bank_name' => $request->bank_name,
+                    'account_holder_name' => $request->account_holder_name,
+                    'account_number' => $request->account_number,
+                    'ifsc' => $request->ifsc,
+                ];
+                $save = DeliveryPartners::updateOrCreate($conditions, $data);
+
+                DB::commit();
+
+                $user['delivery_boy_detail'] = $save;
+                
+                $response = ['success' => true, 'message' => 'Bank Detail Saved Successfully.', 'user' => $user];
+            }
+
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
+    public function currentWorkStatusUpdate(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'current_work_status' => 'required|in:0,1',
+            ];
+            
+            $messages = [
+                'current_work_status.in' => 'The current work status must be either 1 (Online) or 0 (Offline).',
+            ];
+            
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules, $messages);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $user = Auth::user();
+
+                $conditions = [
+                    "user_id" => $user->id,
+                ];
+                $data = [
+                    'current_work_status' => $request->current_work_status
+                ];
+                $save = DeliveryPartners::updateOrCreate($conditions, $data);
+
+                DB::commit();
+
+                $user['delivery_boy_detail'] = $save;
+                
+                $response = ['success' => true, 'message' => 'Work Status Updated.', 'user' => $user];
+            }
+
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
+    public function getMyDeliveryBoys(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'store_id' => 'required|exists:stores,id|numeric',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $delivery_boys = User::where('store_id', $request->store_id)->where('role_type', 5)->get();
+                DB::commit();
+                $response = ['success' => true, 'message' => 'Delivery Boys Detail' , 'delivery_boys' => $delivery_boys];
+            }
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
             return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
         }
     }

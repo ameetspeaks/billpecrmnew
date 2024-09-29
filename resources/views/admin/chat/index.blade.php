@@ -138,9 +138,8 @@
 
 @endslot
 @slot('script')
-<script>
-    {!! Vite::content('resources/js/app.js') !!}
-</script>
+   <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 
 <script>
     $(document).ready(function(){
@@ -219,45 +218,55 @@
 
     });
 
-    Echo.channel(`webchat`)
-    .listen('webappchat', (e) => {
-        console.log(e)
 
-        if(e.data.message_type == 'user'){
-            var userdatasend = '<div class="message admin">'+
-                            '<p>'+e.data.message+'</p>'+
-                            '</div>'
-        }else if(e.data.message_type == 'admin'){
-            var userdatasend = '<div class="message user">'+
-                            '<p>'+e.data.message+'</p>'+
-                            '</div>'
-        }
-        $.ajax({
-            url: "{{ route('admin.chatUsers') }}",
-            method: 'get',
-            data: { "_token" : "{{csrf_token()}}"},
-            success: function(data){
-                $('#userShow').empty();
-                $.each(data.users, function(index, value) {
-                    console.log(value.last_chat)
-                    var user = '<div class="user " onclick = clickUser()  data-id='+value.id+'>'+
-                                '<input type="hidden" name="user_id" id="user_id" value="'+value.id+'">'+
-                                '<h3>'+value.name+'</h3>'+
-                                '<p>'+value.last_chat.message+'</p>'+
-                            '</div>'
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
 
-                    $('#userShow').append(user);
-                })
-
-            }
-        });
-        if(e.data.message_type == 'admin' || clickUserID){
-            $('#chat-messages').append(userdatasend);
-        }
-        // if(clickUserID){
-        //     $('#chat-messages').append(userdatasend);
-        // }
+    var pusher = new Pusher('71624133ab7ae26dbec1', {
+        cluster: 'ap2',
+        forceTLS: true
     });
+
+    var channel = pusher.subscribe('webchat');
+
+    channel.bind('chat', function(e) {
+
+            if(e.chat.message_type == 'user'){
+                var userdatasend = '<div class="message admin">'+
+                                '<p>'+e.chat.message+'</p>'+
+                                '</div>'
+            }else if(e.chat.message_type == 'admin'){
+                var userdatasend = '<div class="message user">'+
+                                '<p>'+e.chat.message+'</p>'+
+                                '</div>'
+            }
+            $.ajax({
+                url: "{{ route('admin.chatUsers') }}",
+                method: 'get',
+                data: { "_token" : "{{csrf_token()}}"},
+                success: function(data){
+                    $('#userShow').empty();
+                    $.each(data.users, function(index, value) {
+                        console.log(yes)
+                        console.log(value)
+                        var user = '<div class="user " onclick = clickUser()  data-id='+value.id+'>'+
+                                    '<input type="hidden" name="user_id" id="user_id" value="'+value.id+'">'+
+                                    '<h3>'+value.name+'</h3>'+
+                                    '<p>'+value.last_chat.message+'</p>'+
+                                '</div>'
+
+                        $('#userShow').append(user);
+                    })
+
+                }
+            });
+            if(e.chat.message_type == 'admin' || clickUserID){
+                $('#chat-messages').append(userdatasend);
+            }
+            
+    });
+
+   
 </script>
 @endslot
 @endcomponent

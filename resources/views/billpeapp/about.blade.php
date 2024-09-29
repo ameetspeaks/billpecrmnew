@@ -10,12 +10,12 @@
     <section>
         <div class="about-hero container">
             <h1 class="text-center">About Us</h1>
-            <p class="text-center about-p">Join Smart Bharat Smart Billing Club.</p>
+            <p class="text-center about-p">Quick Dleivery from nearby.</p>
             <div class="services  pb-lg-4 pb-md-2 pb-sm-0 pb-0 mb-lg-2 mb-md-1 mb-sm-0 mb-0">
                 <div class="container">
                     <div class="row gap-md-0 gap-sm-4 gap-4">
                         <div class="col-lg-6 col-md-6" data-aos="fade-up">
-                            <h2 class="text-lg-start text-md-start text-sm-center text-center">Smart & Hassle FREE Billing with BillPe </h2>
+                            <h2 class="text-lg-start text-md-start text-sm-center text-center">10 min* Hassle FREE delivery with ParcelPe </h2>
                             <p
                                 class="text-lg-start text-md-start text-sm-center text-center mt-lg-4 mt-md-2 mt-sm-2 mt-2 pb-4 ">
                                 BillPe simplifies your invoicing with easy-to-use tools for creating, managing, and sending professional invoices. 

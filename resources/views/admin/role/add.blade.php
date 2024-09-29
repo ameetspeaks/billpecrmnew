@@ -16,7 +16,7 @@
 
         @foreach($permissions['allPermissionsLists'] as $permission)
         <input type="checkbox" name="permissions[]" value="{{$permission->id}}">
-        <lable>{{$permission->name}}</lable>
+        <lable>{{$permission->name}}</lable><br>
         @endforeach
         
     </div>

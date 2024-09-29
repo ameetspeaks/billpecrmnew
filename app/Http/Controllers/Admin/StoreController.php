@@ -26,6 +26,7 @@ use App\Models\SubscriptionPackage;
 use App\Models\ChangePackageSubscription;
 use App\Models\PackageExtentDate;
 use App\Models\StoreType;
+use App\Models\Withdral;
 
 use Carbon\Carbon;
 use DataTables;
@@ -371,5 +372,15 @@ class StoreController extends Controller
                 ->make(true);
         }
         return view('admin.store.billHistory');
+    }
+
+    public function withdrawal()
+    {
+        if(\request()->ajax()){
+            $data = Withdral::with('store','statusvalue')->get();
+            return DataTables::of($data)
+                ->make(true);
+        }
+        return view('admin.store.withdrawal');
     }
 }

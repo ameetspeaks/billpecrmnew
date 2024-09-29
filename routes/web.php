@@ -105,5 +105,27 @@ Route::post('eventfire', [WebSocketController::class, 'eventfire'])->name('event
 // })->name('eventfire');
 Route::get('UserSendChat',[WebSocketController::Class, 'UserSendChat'])->name('UserSendChat');
 
+//Parcel pay pages
+
+Route::get('about-parcelpay', function () {
+        return view('billpeapp.aboutpp');
+})->name('aboutpp');
+
+Route::get('privacy-parcelpay', function () {
+        return view('billpeapp.privacypp');
+})->name('privacypp');
+
+Route::get('returns-parcelpay', function () {
+        return view('billpeapp.returnspp');
+})->name('returnspp');
+
+Route::get('shippingPolicy-parcelpay', function () {
+        return view('billpeapp.shippingpolicy');
+})->name('shippingpolicy');
+
+Route::get('terms&condition-parcelpay', function () {
+        return view('billpeapp.terms&conditionpp');
+})->name('terms&conditionpp');
+
 
 

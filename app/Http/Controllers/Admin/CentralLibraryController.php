@@ -37,6 +37,9 @@ use App\Models\Zone;
 use App\Models\SubZone;
 use App\Models\Store;
 use App\Models\Charges;
+use App\Models\CustomerBanner;
+use App\Models\User;
+use App\Models\ShiftTimings;
 
 class CentralLibraryController extends Controller
 {
@@ -422,6 +425,27 @@ class CentralLibraryController extends Controller
                 $charges->status = '1';
             }
             $charges->save();
+        }
+
+        if($request->statusName == 'customerBanner')
+        {
+            $customerBanner = CustomerBanner::where('id', $request->id)->first();
+            if ($customerBanner->status == '1') {
+                $customerBanner->status = '0';
+            } else {
+                $customerBanner->status = '1';
+            }
+            $customerBanner->save();
+        }
+        if($request->statusName == 'shiftTimings')
+        {
+            $ShiftTimings = ShiftTimings::where('id', $request->id)->first();
+            if ($ShiftTimings->status == '1') {
+                $ShiftTimings->status = '0';
+            } else {
+                $ShiftTimings->status = '1';
+            }
+            $ShiftTimings->save();
         }
         return response()->json(['status' => true, 'message' => 'Status Change successfully']);
     }

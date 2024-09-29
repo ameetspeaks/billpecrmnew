@@ -6,6 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ApiUpdateController;
 use App\Http\Controllers\WarehouseApiController;
 use App\Http\Controllers\CustomerAppController;
+use App\Http\Controllers\ApiDeliveryPartnerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,9 @@ Route::post('/force-update', [ApiController::class, 'forceUpdate']);
 
 //verify Otpless
 Route::post('/verify-token', [ApiController::class, 'verifyToken']);
+
+// Delivery Partner
+Route::post('/verify-delivery-partner-OTP', [ApiController::class, 'verifyDPOTP']);
 
 Route::group(
     [
@@ -88,6 +92,15 @@ Route::group(
     Route::post('/add-store', [ApiController::class, 'addStore']);
     Route::post('/edit-store', [ApiController::class, 'editStore']);
     Route::post('/Change-StoreStatus', [ApiController::class, 'changeStoreStatus']);
+    
+    //Delivery Partner
+    Route::post('/getMyDeliveryPartners', [ApiController::class, 'getMyDeliveryPartners']);
+    Route::post('/assignOrderToDeliveryBoy', [ApiController::class, 'assignOrderToDeliveryBoy']);
+    Route::post('/orderStatusChange', [ApiController::class, 'orderStatusChange']);
+    Route::post('/getShiftTimings', [ApiController::class, 'getShiftTimings']);
+    Route::post('/saveDeliveryPartnersDetail', [ApiController::class, 'saveDeliveryPartnersDetail']);
+    Route::post('/saveDeliveryPartnersBankDetail', [ApiController::class, 'saveDeliveryPartnersBankDetail']);
+    Route::post('/currentWorkStatusUpdate', [ApiController::class, 'currentWorkStatusUpdate']);
 
 
     //customers
@@ -151,9 +164,6 @@ Route::group(
     //Tutorial
     Route::post('/get-Tutorial', [ApiController::class, 'getTutorial']);
 
-    Route::post('/testApi', [ApiController::class, 'testApi']);
-
-
     //ApiUpdateController
     Route::post('/add-ProductByVariant', [ApiUpdateController::class, 'addProductByVariant']);
     Route::post('/edit-ProductByVariant', [ApiUpdateController::class, 'editProductByVariant']);
@@ -202,16 +212,29 @@ Route::group(
         Route::post('/Order-List', [CustomerAppController::class, 'orderList']);
         Route::get('/Get-OrderStatus', [CustomerAppController::class, 'getOrderStatus']);
     //Close Customer Support
+
+    Route::post('/Get-HomeDelivery', [ApiController::class, 'getHomeDelivery']);
+    Route::post('/Store-OnlineStatus', [ApiController::class, 'storeOnlineStatus']);
+    Route::post('/Merchant-OrderHistory', [ApiController::class, 'MerchantOrderHistory']);
+    Route::post('/Withrawal-Amount', [ApiController::class, 'WithrawalAmount']);
+    
+
+    // Delivery Partner Merchant
+    Route::post('/get-my-delivery-boys', [ApiController::class, 'getMyDeliveryBoys']);
+
+    // Delivery Partner App
+    Route::group(['prefix' => 'delivery-partner', 'as' => 'deliveryPartner.'], function () {
+        Route::post('get-home-detail', [ApiDeliveryPartnerController::class, 'getHomePageDetail']);
+        Route::post('save-lat-long', [ApiDeliveryPartnerController::class, 'saveLateLong']);
+    });
+    
 });
 
 Route::post('/get-ModuleByStoreType', [ApiUpdateController::class, 'getModuleByStoreType']);
 Route::post('/verify-ReferralCode', [ApiController::class, 'verifyReferralCode']);
-Route::post('/Get-HomeDelivery', [ApiController::class, 'getHomeDelivery']);
-Route::post('/Store-OnlineStatus', [ApiController::class, 'storeOnlineStatus']);
-Route::post('/Merchant-OrderHistory', [ApiController::class, 'MerchantOrderHistory']);
-
 
 Route::get('/get-CFID', [ApiController::class, 'CFID']);
+Route::post('/testApi', [ApiController::class, 'testApi']);
 
 //customer
 Route::post('/verify-tokenWithRole', [CustomerAppController::class, 'verifyTokenWithRole']);
@@ -219,9 +242,3 @@ Route::post('/add-customerAddress', [CustomerAppController::class, 'addCustomerA
 Route::post('/send-OTPCustomer', [CustomerAppController::class, 'sendOTP']);
 Route::post('/verify-OTPCustomer', [CustomerAppController::class, 'verifyOTP']);
 //close customer
-
-
-
-
-
-

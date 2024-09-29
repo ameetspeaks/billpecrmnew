@@ -83,6 +83,47 @@ class AuthController extends Controller
         }
     }
 
+    public function sendMsg91Otp(Request $request) {
+        $rules = array(
+            'phone'     => 'required|numeric|digits:10',
+            );
+
+        $validatorMesssages = array(
+            'phone.required'=>'Please Enter Phone.',
+            );
+
+        $validator = Validator::make($request->all(), $rules, $validatorMesssages);
+
+        if ($validator->fails()) {
+
+            $error=json_decode($validator->errors());
+            return response()->json(['status' => 401,'error1' => $error]);
+        }
+        // VALIDATION END
+
+        if($request->phone == '9634188285' || $request->phone == '9670006261'){
+            $randNo = '123456';
+        }else{
+            $randNo = rand(100000, 999999);
+            $sendOtpResponse = CommonController::sendMsg91WhatsappOtp($request->phone,$randNo);
+        }
+
+        
+        $checkPhone = Otp::where('phone_number',$request->phone)->first();
+        if($checkPhone){
+            $otp = Otp::where('phone_number',$request->phone)->update(['otp' => $randNo]);
+        }else{
+            $otp = Otp::create([
+                'phone_number'     => $request->phone,
+                'otp'              => $randNo,
+            ]);
+        }
+        DB::commit();
+        
+        return response()->json(['status' => 1, 'msg'=> 'Send OTP to your number'.' '. $request->phone]);
+
+    }
+
     public function sendOtp(Request $request)
     {
         // VALIDATION START
@@ -145,24 +186,27 @@ class AuthController extends Controller
         // VALIDATION END
 
         $checkOtp = Otp::where("phone_number",$request->phone)->where('otp',$request->otp)->first();
-        if($checkOtp){
+        if(!empty($checkOtp)){
             $user = User::where('whatsapp_no',$request->phone)->first();
-            if($user){
+            if(!empty($user)){
                 $store = Store::where('user_id', $user->id)->first();
                 // $redirect = url('store/storeDashboard/'.$store->id.'/'.$user->unique_id);
                 Session::put('store_id', $store->id);
                 $redirect = url('store/dashboard/');
                 Auth::login($user);
                 return response()->json(['status' => 1,'data' => "", 'redirect' => $redirect]);
-            }else{
+            }else{            
+                Session::put('whatsapp_no', $request->phone);
                 $error = array('otp'=>'User Not exist In this phone number.');
-                return response()->json(['status' => 401,'error1' => $error]);
+                $redirect = url('store/register-store/');
+                return response()->json(['status' => 200,'error1' => $error , 'redirect' => $redirect]);
             }
         }else{
             $error = array('otp'=>'Otp Not Match.');
             return response()->json(['status' => 401,'error1' => $error]);
         }
     }
+    
 
     public function AddNewStore(Request $request)
     {

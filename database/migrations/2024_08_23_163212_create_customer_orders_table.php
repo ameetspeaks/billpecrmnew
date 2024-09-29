@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('combined_id')->nullable();
             $table->string('order_number')->nullable();
             $table->string('deliveryboy_id')->nullable();
+            $table->string('transection_id')->nullable();
             $table->timestamps();
         });
     }

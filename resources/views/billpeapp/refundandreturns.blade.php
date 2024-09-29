@@ -20,42 +20,41 @@
     <!-- ======== 6.2. Refund Eligibility section ========  ========  -->
     <div class="refund-eligibility">
         <h3>Refund Eligibility</h3>
-        <p>Refunds are considered if the request is made within 3 days of TRIAL period of APP/Desktop. Products that are damaged or defective upon receipt are eligible for refunds or replacements, pending verification by our Customer Service team. Non-refundable/non-cancellable products include all kind of printer and scanner.</p>
+        <p>ParcelPe Refunds are considered if the request is made same day of receipt for damaged or defective products. Once an order is dispatched, no refunds or returns will be offered, except in cases where the product is damaged, expired, or in any unforeseen circumstances. Return requests are not applicable once the order is dispatched.</p>
     </div>
     <!-- ======== End of 6.2. Refund Eligibility section ========  -->
     
     <!-- ======== 6.3. Timeframes section ========  -->
     <div class="timeframes mt-4">
         <h3>Refund Timeline</h3>
-        <p>Refund will be issued to the end customer in 14 days (if applicable). </p>
+        <p>Refunds, if applicable, will be issued to the end customer within 14 days of the request.</p>
     </div>
     <!-- ======== End of 6.3. Timeframes section ========  -->
     
     <!-- ======== 6.4. Return/Replace Request Process section ========  -->
     <div class="return-process mt-4">
-        <h3>Cancellation Timeline</h3>
-        <p>You are eligible to cancel your subscription within 3 days (only if it is applicable).  </p>
+        <h3>Return and Replacement Request Process</h3>
+        <p>As return requests are not applicable once an order is dispatched, please ensure that you check the product upon receipt. If the product is damaged, expired, or if there are unforeseen circumstances, contact our Customer Service team immediately.</p>
     </div>
     <!-- ======== End of 6.4. Return/Replace Request Process section ========  -->
     
-    <-- ======== 6.5. Cancellation Procedures section ========  -->
+    <!-- ======== 6.5. Cancellation Procedures section ========  -->
     <div class="cancellation-procedures mt-4">
         <h3>Cancellation Procedures</h3>
-        <p>Cancellations are accepted if requested immediately after placing the order. Cancellations may not be accepted if the order has been processed and shipped. To cancel an order, contact our Customer Service team as soon as possible.</p>
+        <p>Orders can be canceled if the request is made before the order is dispatched. Once the order is dispatched, cancellations will not be accepted. To cancel an order, contact our Customer Service team as soon as possible.</p>
     </div>
     <!-- ======== End of 6.5. Cancellation Procedures section ========  -->
     
-    <!-- ======== 6.6. Cancellation Fees and Requirements section ========   -->
+    <!-- ======== 6.6. Cancellation Fees and Requirements section ========  -->
     <div class="fees-requirements mt-4">
-        <h3>Cancellation Fees and Requirements</h3>
-        <p>No fees for cancellations requested immediately after placing the order, provided the order has not been processed and shipped. Once processed and shipped, cancellation requests will not be entertained. In case of return of device standard deduction 40% upto ₹2000 or (which is higher) is applicable 
-        For any issues regarding products with manufacturer warranties, please contact the manufacturer directly.</p>
+        <h3>Cancellation Fees and Requirements for ParcelPe </h3>
+        <p>No fees are applied for cancellations made before the order is dispatched. Once the order is dispatched, cancellations are not possible. For returns of devices, a standard deduction of 40% or up to ₹2000 (whichever is higher) is applicable. For any issues with products under manufacturer warranties, please contact the manufacturer directly.</p>
     </div>
     <!-- ======== End of 6.6. Cancellation Fees and Requirements section ========  -->
 </div>
 
 <div class="container mt-5 text-white">
-    <!-- ======== 6.7. Contact Information section ========  ========  -->
+    <!-- ======== 6.7. Contact Information section ========  -->
     <div class="contact-information">
         <h3>Contact Information</h3>
         <p>If you have any questions or need further assistance, please reach out to our Customer Service team.</p>

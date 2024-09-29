@@ -36,7 +36,10 @@ use App\Http\Controllers\Admin\LoyaltyPointController;
 use App\Http\Controllers\Admin\CustomerCoupanController;
 use App\Http\Controllers\Admin\ChargesController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\DeliveryPartnerController;
+use App\Http\Controllers\Admin\ShiftTimingsController;
 
+use App\Http\Controllers\Admin\CustomerBannerController;
 
 
 /*
@@ -112,6 +115,8 @@ Route::group(['as' => 'admin.'], function () {
         Route::post('add-manualPayment', [StoreController::class, 'addManualPayment'])->name('store.addManualPayment');
         Route::post('getCoupanByCode', [StoreController::class, 'getCoupanByCode'])->name('store.getCoupanByCode');
         Route::get('Bill-History', [StoreController::class, 'billHistory'])->name('store.billHistory')->middleware('adminLogin');
+
+        Route::get('Withdrawal', [StoreController::class, 'withdrawal'])->name('store.withdrawal')->middleware('adminLogin');
 
         //Subscription
         Route::get('subscription', [SubscriptionController::class, 'index'])->name('subscription.index')->middleware('adminLogin');
@@ -307,6 +312,8 @@ Route::group(['as' => 'admin.'], function () {
                 Route::get('editZone/{id}', [ZoneController::class, 'edit'])->name('zone.edit')->middleware('adminLogin');
                 Route::post('Update-Zone', [ZoneController::class, 'update'])->name('zone.update');
 
+                Route::get('Assign', [ZoneController::class, 'assignZone'])->name('zone.assignZone');
+                Route::post('Assign-Update', [ZoneController::class, 'assignstoreupdate'])->name('zone.assignstoreupdate');
                 Route::get('SubZone', [SubZoneController::class, 'index'])->name('subzone.index')->middleware('adminLogin');
                 Route::get('SubZone-Add', [SubZoneController::class, 'add'])->name('subzone.add')->middleware('adminLogin');
                 Route::post('Store-SubZone', [SubZoneController::class, 'store'])->name('subzone.store');
@@ -351,8 +358,36 @@ Route::group(['as' => 'admin.'], function () {
 
         //Customer order
                 Route::get('All-Order', [OrderController::class, 'allOrder'])->name('order.allOrder')->middleware('adminLogin');
+                Route::get('Order-Tracking', [OrderController::class, 'orderTracking'])->name('order.tracking')->middleware('adminLogin');
+                Route::post('/order/update-status', [OrderController::class, 'updateOrderStatus'])->name('updateOrderStatus')->middleware('adminLogin');
+
                 Route::get('ViewOrder/{id}', [OrderController::class, 'viewOrder'])->name('order.viewOrder')->middleware('adminLogin');
                 Route::post('OrderStatusChange', [OrderController::class, 'orderStatusChange'])->name('order.orderStatusChange');
                 Route::post('AssignTo-DeliveryBoy', [OrderController::class, 'assignOrderToDeliveryBoy'])->name('order.assignOrderToDeliveryBoy');
         //
+
+        //customerbanner
+                Route::get('Customer-Banner', [CustomerBannerController::class, 'index'])->name('customerbanner.index')->middleware('adminLogin');
+                Route::get('Add-Customerbanner', [CustomerBannerController::class, 'add'])->name('customerbanner.add')->middleware('adminLogin');
+                Route::post('Store-customerbanner', [CustomerBannerController::class, 'store'])->name('customerbanner.store');
+                Route::get('editCustomerBanner/{id}', [CustomerBannerController::class, 'edit'])->name('customerbanner.edit')->middleware('adminLogin');
+                Route::post('update-customerbanner', [CustomerBannerController::class, 'update'])->name('customerbanner.update');
+                Route::get('Delete-customerbanner/{id}', [CustomerBannerController::class, 'delete'])->name('customerbanner.delete')->middleware('adminLogin');
+        //
+
+        //shiftTimings
+                Route::get('shift-timings', [ShiftTimingsController::class, 'index'])->name('shiftTimings.index')->middleware('adminLogin');
+                Route::get('shift-timings/edit/{id}', [ShiftTimingsController::class, 'edit'])->name('shiftTimings.edit')->middleware('adminLogin');
+                Route::get('shift-timings/delete/{id}', [ShiftTimingsController::class, 'delete'])->name('shiftTimings.delete')->middleware('adminLogin');
+                Route::get('shift-timings/add', [ShiftTimingsController::class, 'add'])->name('shiftTimings.add')->middleware('adminLogin');
+                Route::post('shift-timings/insert', [ShiftTimingsController::class, 'insert'])->name('shiftTimings.insert')->middleware('adminLogin');
+                Route::post('shift-timings/update', [ShiftTimingsController::class, 'update'])->name('shiftTimings.update')->middleware('adminLogin');
+        //
+
+        //deliveryPartner
+                Route::get('delivery-partner', [DeliveryPartnerController::class, 'index'])->name('deliveryPartner.index')->middleware('adminLogin');
+                Route::get('viewDeliveryPartner/{id}', [DeliveryPartnerController::class, 'view'])->name('deliveryPartner.view')->middleware('adminLogin');
+                Route::post('accountStatusChange', [DeliveryPartnerController::class, 'accountStatusChange'])->name('deliveryPartner.accountStatusChange')->middleware('adminLogin');
+        //
+
 });

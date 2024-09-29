@@ -13,7 +13,7 @@ use App\Http\Controllers\Store\QRCodeController;
 Route::group(['as' => 'store.'], function () {
 
     Route::get('login', [AuthController::class, 'loginOtpless'])->name('login');
-    Route::post('login', [AuthController::class, 'verifyotpless'])->name('verifyotpless');
+    Route::post('login', [AuthController::class, 'verifyotpless'])->name('login.post');
 
     Route::get('register-store', [AuthController::class, 'registerStore'])->name('registerStore');
     Route::post('AddNewStore', [AuthController::class, 'AddNewStore'])->name('AddNewStore');
@@ -22,6 +22,7 @@ Route::group(['as' => 'store.'], function () {
 
     // Route::get('login', [AuthController::class, 'login'])->name('login');
     Route::post('send-otp', [AuthController::class, 'sendOtp'])->name('login.sendotp');
+    Route::post('send-msg91-otp', [AuthController::class, 'sendMsg91Otp'])->name('login.sendotpnew');
     Route::post('verify-otp', [AuthController::class, 'verifyotp'])->name('login.verifyotp');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     
@@ -107,4 +108,3 @@ Route::group(['as' => 'store.'], function () {
     
     Route::get('qrcode', [QRCodeController::class, 'qrcode'])->name('qrcode');
 });
-

@@ -12,6 +12,7 @@ class Store extends Model
     protected $table = 'stores';
 
     protected $fillable = [
+        'zone_id',
         'user_id',
         'store_type',
         'module_id',
@@ -39,6 +40,7 @@ class Store extends Model
         'description',
         'rating',
         'online_status',
+        'store_wallet',
     ];
 
     public function user()

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('user_id')->nullable();
             $table->string('name');
             $table->string('status')->nullable();
-            $table->string('map_details')->nullable();
+            $table->text('map_details')->nullable();
             $table->timestamps();
         });
     }

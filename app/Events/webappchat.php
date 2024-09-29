@@ -34,4 +34,14 @@ class webappchat implements ShouldBroadcast
             new Channel('webchat'),
         ];
     }
+
+    public function broadcastWith()
+    {
+        return ['chat' => $this->data];
+    }
+
+    public function broadcastAs()
+    {
+        return 'chat';  // This should match the event name in your Pusher listener
+    }
 }

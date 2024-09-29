@@ -27,7 +27,8 @@ class CustomerOrder extends Model
         'unique_id',
         'combined_id',
         'order_number',
-        'deliveryboy_id'
+        'deliveryboy_id',
+        'transection_id',
     ];
 
     public function customer()

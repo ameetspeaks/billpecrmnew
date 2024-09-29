@@ -49,6 +49,8 @@
 </div>
 @endslot
 @slot('script')
+<script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 <script>
 
     $(function () {
@@ -60,40 +62,66 @@
 
             "columns": [
                 {
-                    "data": "order_number",
+                    "data": "id",
+                    "name":"id"
                 },
                 {
                     "data": "date",
+                    "name":"date"
                 },
                 {
-                    "data": "customer.name",
+                    "data": "customer_name",
+                    "name":"customer_name"
                 },
                 {
-                    "data": "store.shop_name",
+                    "data": "shop_name",
+                    "name":"shop_name"
                 },
                 {
                     "data": "total_amount",
+                    "name":"total_amount"
                 },
                 {
                     "data": "order_status",
-                    "render": function(data, type, row) {
-                        console.log(row)
-                        return ' <button class="btn btn-primary btn-sm">'+row.order_status.name+'<button> ';
-                    },
+                    "name":"order_status"
+                    // "render": function(data, type, row) {
+                    //     console.log(row)
+                    //     return ' <button class="btn btn-primary btn-sm">'+row.order_status.name+'<button> ';
+                    // },
                 },
                 {
-                    "data": "id",
-                    "render": function(data, type, row) {
-                        console.log(row)
-
-                        // return ' <ul>  <li ><a href=" {{ url('admin/editProduct') }}/' + data +'" " ><button class="btn btn-success btn-sm">Edit<button></a></li>  <li><a href="#" > </ul>';
-                        return ' <ul>  <li ><a href=" {{ url('admin/ViewOrder') }}/' + data +'" " ><button class="btn btn-success btn-sm">View<button></a></li>  <li><a href="#" > </ul>';
-
-                    },
+                    "data": "action",
+                    "name":"action"
                 },
 
             ],
         });
+
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+            cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
+            forceTLS: true
+        });
+
+        var channel = pusher.subscribe('order-tracking');
+        
+        channel.bind('order-tracker', function(data) {
+            console.log('Event Data - ',data);
+            table.ajax.reload(null, false);
+        });
+
+        // // Bind to the event for order tracking updates
+        // channel.bind('App\\Events\\OrderTrackingUpdated', function(data) {
+        //     // Assuming you want to update the order list with the new status or some table
+        //     // Clear the existing table data and add the new data from the event
+        //     table.clear().rows.add(data['order']).draw(); 
+
+        //     // Log the received data (for debugging purposes)
+        //     console.log(JSON.stringify(data['order']));
+        // });
+
     });
 
 

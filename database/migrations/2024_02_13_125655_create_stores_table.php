@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
+            $table->string('zone_id')->nullable();
             $table->string('user_id')->nullable();
             $table->string('store_type')->nullable();
             $table->string('module_id')->nullable();
@@ -40,6 +41,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('rating')->nullable();
             $table->string('online_status')->nullable();
+            $table->string('store_wallet')->nullable();
             $table->timestamps();
         });
     }

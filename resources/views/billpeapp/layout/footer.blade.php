@@ -1,19 +1,9 @@
 <footer class="position-relative">
-    <div class="container">
-        <h4 class="text-center">SUBSCRIBE OUR NEWSLETTER</h4>
-        <P class="text-center pt-2 pb-3">Get latest News and Updates</P>
-        <form class="d-flex align-items-center justify-content-center" id="footer-sub2">
-            <!-- form Subscribe massage -->
-            <div id="Succes-box2"></div>
-            <div class="d-flex footer-search ">
-                <input type="email" name="search" placeholder="Enter your Email" required>
-                <button type="submit" class="btn-hover1">Subscribe</button>
-            </div>
-        </form>
+    
         <div class="footer-logo text-center pb-lg-4 pb-md-3 pb-sm-2 pb-4">
             <!-- footer logo  -->
             <a href="{{route('index')}}">
-                <figure><img src="{{url('public/billpeapp/assets/images/Logo.png')}}" alt="img"></figure>
+                <figure><img src="{{url('public/billpeapp/assets/images/pp.png')}}" alt="img"></figure>
             </a>
         </div>
         <ul class="d-flex align-items-center justify-content-center">
@@ -27,7 +17,7 @@
                 <a href="faq">FAQs</a>
             </li>
             <li>
-                <a href="https://play.google.com/store/apps/details?id=com.arjhtechlabs.billpe">Download The APP</a>
+                <a href="https://play.google.com/store/apps/details?id=com.arjhtechlabs.parcelpe">Download The APP</a>
             </li>
         </ul>
         <hr>
@@ -52,15 +42,15 @@
             <!-- footer logo slider  -->
             <div class="col-lg-3 col-md-3">
                 <div class="footer_ispsum_slider">
-                    <figure><a href="#"><img src="{{url('public/billpeapp/assets/images/favicon.png')}}" alt="qr-code"></a>
+                    <figure><a href="#"><img src="{{url('public/billpeapp/assets/images/parcelpe.png')}}" alt="qr-code"></a>
                     </figure>
                     <figure><a href="#"><img src="{{url('public/billpeapp/assets/images/favicon.png')}}" alt="qr-code"></a>
                     </figure>
-                    <figure><a href="#"><img src="{{url('public/billpeapp/assets/images/favicon.png')}}" alt="qr-code"></a>
+                    <figure><a href="#"><img src="{{url('public/billpeapp/assets/images/parcelpe.png')}}" alt="qr-code"></a>
                     </figure>
                     <figure><a href="#"><img src="{{url('public/billpeapp/assets/images/favicon.png')}}" alt="qr-code"></a>
                     </figure>
-                    <figure><a href="#"><img src="{{url('public/billpeapp/assets/images/favicon.png')}}" alt="qr-code"></a>
+                    <figure><a href="#"><img src="{{url('public/billpeapp/assets/images/parcelpe.png')}}" alt="qr-code"></a>
                     </figure>
                     <figure><a href="#"><img src="{{url('public/billpeapp/assets/images/favicon.png')}}" alt="qr-code"></a>
                     </figure>

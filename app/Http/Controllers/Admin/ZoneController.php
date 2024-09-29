@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Zone;
+use App\Models\Store;
+
 use DataTables;
 
 class ZoneController extends Controller
@@ -105,4 +107,32 @@ class ZoneController extends Controller
         }
     }
 
+    public function assignZone(Request $request)
+    {
+        $zones = Zone::where('status',1)->get();
+        $stores = Store::whereNull('zone_id')->get();
+        // print_r($zone->toarray()); die;
+        return view('admin.zone.assignzone', compact('zones','stores'));
+    }
+
+    public function assignstoreupdate(Request $request)
+    {
+        DB::beginTransaction();
+
+        $rules = [
+            'zone_id' => 'required',
+            'store_id' => 'required',
+        ];
+
+        $requestData = $request->all();
+        $validator = Validator::make($requestData, $rules);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', $validator->errors()->first());
+        } else {
+            $stores = Store::whereIn('id',$request->store_id)->update(['zone_id' => $request->zone_id]);
+            DB::commit();
+            return redirect()->back()->with('message', 'Zone Assign successfully');
+        }
+    }
 }

@@ -18,8 +18,8 @@
 <div class="container mt-5 text-white">
     <div class="privacy-policy">
         <h3>Privacy Policy</h3>
-        <p class="pt-3">Last updated on 18-05-2024 10:00:00</p>
-        <p class="pt-3">This privacy policy (“Policy”) relates to the manner ARJH TECH LABS PRIVATE LIMITED (“we”, “us”, “our”) in which we use, handle and process the data that you provide us in connection with using the products or services we offer. By using this website or by availing goods or services offered by us, you agree to the terms and conditions of this Policy, and consent to our use, storage, disclosure, and transfer of your information or data in the manner described in this Policy. We are committed to ensuring that your privacy is protected in accordance with applicable laws and regulations. We urge you to acquaint yourself with this Policy to familiarize yourself with the manner in which your data is being handled by us. ARJH TECH LABS PRIVATE LIMITED may change this Policy periodically and we urge you to check this page for the latest version of the Policy in order to keep yourself updated.</p>
+        <p class="pt-3">Last updated on 10-09-2024 10:00:00</p>
+        <p class="pt-3">This privacy policy (“Policy”) relates to the manner ARJH TECH LABS PRIVATE LIMITED (brands ParcelPe and BillPe) (“we”, “us”, “our”) in which we use, handle and process the data that you provide us in connection with using the products or services we offer. By using this website or by availing goods or services offered by us, you agree to the terms and conditions of this Policy, and consent to our use, storage, disclosure, and transfer of your information or data in the manner described in this Policy. We are committed to ensuring that your privacy is protected in accordance with applicable laws and regulations. We urge you to acquaint yourself with this Policy to familiarize yourself with the manner in which your data is being handled by us. ARJH TECH LABS PRIVATE LIMITED may change this Policy periodically and we urge you to check this page for the latest version of the Policy in order to keep yourself updated.</p>
         <p class="pt-3"><strong>What data is being collected</strong><br>We may collect the following information from you:</p>
         <ul class="pt-3">
             <li>Name</li>
@@ -36,6 +36,9 @@
             <li>To communicate information to you</li>
             <li>For internal training and quality assurance purposes</li>
         </ul>
+        <p class="pt-3"><strong>ParcelPe - Delivery Service Details</strong><br>As part of our delivery service, ParcelPe facilitates the timely delivery of your orders. We collect and use your delivery address, contact information, and order details to ensure accurate and efficient delivery. The information collected is used solely for the purpose of delivering your orders and for improving our delivery services.</p>
+        <p class="pt-3">For the ParcelPe service, we may share your delivery information with our trusted delivery partners to fulfill your orders. These partners are bound by confidentiality agreements and are only permitted to use your data for the purpose of completing your delivery.</p>
+        <p class="pt-3">ParcelPe ensures that your data is handled with the utmost care and in compliance with applicable data protection laws. We take appropriate measures to safeguard your information during the delivery process.</p>
         <p class="pt-3"><strong>Who do we share your data with</strong><br>We may share your information or data with:</p>
         <ul class="pt-3">
             <li>Third parties including our service providers in order to facilitate the provisions of goods or services to you, carry out your requests, respond to your queries, fulfill your orders or for other operational and business reasons.</li>

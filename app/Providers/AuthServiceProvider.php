@@ -23,7 +23,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-      
+      require base_path('routes/api.php');
     }
 
 

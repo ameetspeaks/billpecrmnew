@@ -120,13 +120,13 @@
         color: #555;
     }
 
-    .dropdown {
+    /* .dropdown {
         width: 100%;
         padding: 10px;
         font-size: 14px;
         border: 1px solid #ddd;
         border-radius: 5px;
-    }
+    } */
 
     .section .assign-hero {
         display: flex;
@@ -177,7 +177,7 @@
     <div class="column-a">
         <!-- Order Header -->
         <div class="order-header">
-            <div class="order-number">Order #{{$order->order_number}}</div>
+            <div class="order-number">Order #{{$order->id}}</div>
             <button>Print Invoice</button>
         </div>
 

@@ -36,6 +36,8 @@ use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Permission;
 use App\Models\CentralLibrary;
 use Illuminate\Support\Facades\Auth;
+use App\Events\OrderStatusUpdated;
+use App\Events\NotificationToMerchant;
 
 use PDF;
 use Carbon\Carbon;
@@ -59,7 +61,12 @@ class CustomerAppController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                $randNo = '123456';
+                if($request->phone == '9634188285' || $request->phone == '9670006261'){
+                    $randNo = '123456';
+                }else{
+                    $randNo = rand(100000, 999999);
+                    $sendOtpResponse = CommonController::sendMsg91WhatsappOtp($request->phone,$randNo);
+                }
                 $checkPhone = Otp::where('phone_number',$request->phone)->first();
                 if($checkPhone){
                     $otp = Otp::where('phone_number',$request->phone)->update(['otp' => $randNo]);
@@ -600,12 +607,15 @@ class CustomerAppController extends Controller
 
                 AddtoCart::where('user_id',$request->user_id)->delete();
 
+                $msg = Auth::user()->name.' Customer Created New Order';
                 $activity = AppActivity::create([
                     'action'  => 'Customer Order',
-                    'message' => Auth::user()->name.' Customer Created New Order',
+                    'message' => $msg,
                 ]);
                 $activity->save();
                 DB::commit();
+
+                event(new NotificationToMerchant($newOrder, "new_order_by_customer", $msg));
 
                 $response = ['success' => true, 'message' => 'Customer Order created successfully', 'data' => $newOrder];
             }

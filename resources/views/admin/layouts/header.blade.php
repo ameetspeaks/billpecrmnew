@@ -20,8 +20,7 @@
         <li class="nav-item dropdown d-flex">
                 <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
                     <i style="color:rgb(127, 147, 163);font-size: 16px;" class="fa fa-folder-open" aria-hidden="true"></i>&nbsp;
-                    <span style="color:rgb(127, 147, 163);font-weight:bold"> Customer</span>
-
+                    <span style="color:rgb(127, 147, 163);font-weight:bold"> Online</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
                     @can('View Order')
@@ -38,6 +37,18 @@
 
                     @can('View Charges')
                     <a class="dropdown-item preview-item" href="{{ route('admin.charges.index') }}">Charges</a>
+                    @endcan
+
+                    @can('Customer Banner')
+                    <a class="dropdown-item preview-item" href="{{ route('admin.customerbanner.index') }}">Customer Banner</a>
+                    @endcan
+
+                    @can('View Shift Timings')
+                    <a class="dropdown-item preview-item" href="{{ route('admin.shiftTimings.index') }}">Shift Timings</a>
+                    @endcan
+
+                    @can('View Delivery Partner')
+                    <a class="dropdown-item preview-item" href="{{ route('admin.deliveryPartner.index') }}">Delivery Partner</a>
                     @endcan
                 </div>
             </li>

@@ -180,6 +180,7 @@
     <script src="{{ asset('public/admin/js/template.js') }}"></script>
     <script src="{{ asset('public/admin/js/settings.js') }}"></script>
     <script src="{{ asset('public/admin/js/todolist.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
 
 
 
