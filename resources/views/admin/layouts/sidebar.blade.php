@@ -181,7 +181,7 @@
             </li>
             @endcan
 
-            @canany(['View All Product'])
+            @canany(['View All Product','View Template','View Blog'])
             <p class="sidebar-menu-title capitalize">Product management</p>
             @endcanany
 
@@ -227,6 +227,21 @@
                 </div>
             </li>
             @endcan
+            @can('View Delivery Partner')
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#delivery_partner" aria-expanded="false">
+                    <i class="fa fa-truck menu-icon"></i>
+                    <span class="menu-title">Delivery Partner</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="delivery_partner">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('admin.shiftTimings.index') }}">Shift Timings</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('admin.deliveryPartner.index') }}">Delivery Partner List</a></li>
+                    </ul>
+                </div>
+            </li>
+            @endcan
 
             @canany(['View Banner','Homepage Video'])
             <p class="sidebar-menu-title capitalize">Home Page</p>
@@ -265,3 +280,18 @@
             </li>
             @endcan
      </nav>
+<script>
+$(document).ready(function(){
+    setTimeout(() => {
+        // Check if there's an active class in the sidebar
+        var activeElement = $('.sidebar .nav-item.active');
+        
+        // If the active element exists, scroll to it
+        if(activeElement.length){
+            $('.sidebar').animate({
+                scrollTop: activeElement.offset().top - $('.sidebar').offset().top + $('.sidebar').scrollTop() - 104
+            }, 500);  // Adjust the speed (500ms) as needed
+        }
+    }, 300);
+});
+</script>

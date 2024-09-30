@@ -27,6 +27,7 @@
 @slot('script')
 
 <script type="text/javascript">
+    $.fn.dataTable.ext.errMode = 'none';//throw
     $(function () {
           var table = $('#myTable').DataTable({
               processing: true,
@@ -36,7 +37,10 @@
 
             "columns": [
                 {
-                    "data": "user.name",
+                    // "data": "user.name",
+                    "data": function(row) {
+                        return row.user?.name || '';
+                    },
                 },
                 {
                     "data": "user.whatsapp_no",
@@ -65,7 +69,7 @@
                     "data": "id",
                     "render": function(data, type, row) {
                      console.log(row)
-                        return ' <ul>  <li ><a href=" {{ url('admin/editStore') }}/' + data +'" " ><button class="btn btn-success btn-sm">Edit<button></a></li>  <li><a href="#" ><button class="btn btn-primary btn-sm" id="remove" data-id="' + data +'">Delete<button></a></li>   <li ><a href=" {{ url('store/directStoreLogin') }}/' + row.id + '/' +row.user.unique_id+'" "  target="_blank"><button class="btn btn-danger btn-sm">Login<button></a></li> </ul>';
+                        return ' <ul>  <li ><a href=" {{ url('admin/editStore') }}/' + data +'" " ><button class="btn btn-success btn-sm">Edit<button></a></li>  <li><a href="#" ><button class="btn btn-primary btn-sm" id="remove" data-id="' + data +'">Delete<button></a></li>   <li ><a href=" {{ url('store/directStoreLogin') }}/' + row.id + '/' +row?.user?.unique_id+'" "  target="_blank"><button class="btn btn-danger btn-sm">Login<button></a></li> </ul>';
 
                     },
                 },

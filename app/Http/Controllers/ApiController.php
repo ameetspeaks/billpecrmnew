@@ -4032,12 +4032,14 @@ class ApiController extends Controller
                 // Update the order status
                 $order->order_status = $request->order_status_id;
                 $order->save();
-                if($request->order_status_id == 3){
-                    $homeDelivery = HomeDeliveryDetail::where('store_id',$order->store_id)->where('delivery_mode', 0)->first();
-                    if(@$homeDelivery){
-                        UpdateOrderStatus::dispatch($order)->delay(now()->addMinutes($homeDelivery->processing_time));
-                    }
-                }
+
+                //if status id 3 and delivery_mode = 0 (delivery partner) than run below code
+                // if($request->order_status_id == 3){
+                //     $homeDelivery = HomeDeliveryDetail::where('store_id',$order->store_id)->where('delivery_mode', 0)->first();
+                //     if(@$homeDelivery){
+                //         UpdateOrderStatus::dispatch($order)->delay(now()->addMinutes(1));
+                //     }
+                // }
 
                 $orderStatus = OrderStatus::where('id',$request->order_status_id)->first();
                 $statusLabel = (isset($orderStatus))?$orderStatus->name:'';

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 // Models
 use App\Models\DeliveryPartnerEarnings;
 use App\Models\DeliveryPartners;
+use App\Models\CustomerOrder;
 
 use Response;
 use Carbon\Carbon;
@@ -90,6 +91,48 @@ class ApiDeliveryPartnerController extends Controller
                 $response = [
                     'success' => true,
                     'message' => 'Lat-Long saved Successfully.' ,
+                    'data' => [
+                        "deliveryPartners" => $deliveryPartners,
+                    ]
+                ];
+            }
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
+    public function orderConfirmCancel(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'order_id' => 'required|numeric|exists:customer_orders,id',
+                'status' => 'required|in:0,1',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                if($request->status == 1) {
+                    $user = $this->getAuthUser();
+                    
+                    $data = ["deliveryboy_id" => 0];
+                    CustomerOrder::where('id', $request->order_id)->where('user_id', $user->id)->update($data);
+
+                    DB::commit();
+
+                    $message = "Order Confirmed Successfully.";
+                } else {
+                    $message = "Order Cancelled Successfully.";
+                }
+
+                $response = [
+                    'success' => true,
+                    'message' => $message,
                     'data' => [
                         "deliveryPartners" => $deliveryPartners,
                     ]

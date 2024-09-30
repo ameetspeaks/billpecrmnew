@@ -226,6 +226,7 @@ Route::group(
     Route::group(['prefix' => 'delivery-partner', 'as' => 'deliveryPartner.'], function () {
         Route::post('get-home-detail', [ApiDeliveryPartnerController::class, 'getHomePageDetail']);
         Route::post('save-lat-long', [ApiDeliveryPartnerController::class, 'saveLateLong']);
+        Route::post('order-confirm-cancel', [ApiDeliveryPartnerController::class, 'orderConfirmCancel']);
     });
     
 });

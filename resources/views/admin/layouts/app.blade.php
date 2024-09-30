@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="{{asset("public\admin\select2\select2.css")}}">
    
     <!-- jQuery -->
-    <script src="{{ URL::asset('public/build/js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('public/build/js/jquery-3.7.1.min.js') }}"></script>
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 

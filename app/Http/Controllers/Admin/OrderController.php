@@ -29,6 +29,7 @@ use App\Models\CustomerOrder;
 use App\Models\OrderStatus;
 use App\Models\User;
 use App\Events\OrderStatusUpdated;
+use App\Events\NotificationToDP;
 
 
 use DataTables;
@@ -175,14 +176,53 @@ class OrderController extends Controller
     }
 
     public function orderStatusChange(Request $request)
-    {
-        $orderchange = CustomerOrder::where('id',$request->id)->update(['order_status' => $request->order_id]);
+    {   
+        // Find the order by ID
+        $order = CustomerOrder::find($request->id);
+                
+        // Update the order status
+        $order->order_status = $request->order_id;
+        $order->save();
+
+        $orderStatus = OrderStatus::where('id',$request->order_id)->first();
+        $statusLabel = (isset($orderStatus))?$orderStatus->name:'';
+
+        event(new OrderStatusUpdated($order,$statusLabel));
+
         return response()->json('success');
     }
 
     public function assignOrderToDeliveryBoy(Request $request)
     {
-        CustomerOrder::where('id',$request->order_id)->update(['deliveryboy_id' => $request->agent_id]);
-        return redirect()->back()->with('message', 'Order Assign Successfully.');
+        $rules = [
+            'order_id' => 'required|numeric|exists:customer_orders,id',
+            'agent_id' => 'required|numeric',
+        ];
+
+        $requestData = $request->all();
+        $validator = Validator::make($requestData, $rules);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', $validator->errors()->all()[0]);
+        } else {
+
+            $update = CustomerOrder::where('id',$request->order_id)->update(['deliveryboy_id' => $request->agent_id]);
+
+            if($update) {
+                $newOrderData = [
+                    "expected_earning" => 22,
+                    "pickup" => 0.40,
+                    "drop" => 1,
+                    "countdown" => 30,
+                    "order_id" => $request->order_id,
+                ];
+                event(new NotificationToDP($newOrderData)); // send popup notification to delivery partner
+
+                return redirect()->back()->with('message', 'Order Assign Successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Order Assign Failed.');
+            }
+
+        }
     }
 }
