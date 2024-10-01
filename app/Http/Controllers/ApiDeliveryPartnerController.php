@@ -153,31 +153,35 @@ class ApiDeliveryPartnerController extends Controller
                 'status' => 'required|in:0,1',
             ];
 
+            $messages = [
+                'status.in' => 'The status must be either 1 (Confirm) or 0 (Cancel).',
+            ];
+
             $requestData = $request->all();
-            $validator = Validator::make($requestData, $rules);
+            $validator = Validator::make($requestData, $rules, $messages);
 
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                if($request->status == 1) {
+                if($request->status == 0) {
                     $user = $this->getAuthUser();
                     
                     $data = ["deliveryboy_id" => 0];
-                    CustomerOrder::where('id', $request->order_id)->where('user_id', $user->id)->update($data);
+
+                    CustomerOrder::where('id', $request->order_id)
+                    ->where('deliveryboy_id', $user->id)
+                    ->update($data);
 
                     DB::commit();
 
-                    $message = "Order Confirmed Successfully.";
-                } else {
                     $message = "Order Cancelled Successfully.";
+                } else {
+                    $message = "Order Confirmed Successfully.";
                 }
 
                 $response = [
                     'success' => true,
-                    'message' => $message,
-                    'data' => [
-                        "deliveryPartners" => $deliveryPartners,
-                    ]
+                    'message' => $message
                 ];
             }
             return Response::json($response, 200);
