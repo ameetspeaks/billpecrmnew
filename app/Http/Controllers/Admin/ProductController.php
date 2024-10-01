@@ -320,7 +320,7 @@ class ProductController extends Controller
     public function getDatatable()
     {
         if(\request()->ajax()){
-            $data = Product::with('store','module','category')->get();
+            $data = Product::with('store','module','category');
             return DataTables::of($data)
                 ->make(true);
         }

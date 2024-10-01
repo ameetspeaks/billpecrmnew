@@ -238,6 +238,7 @@
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="{{ route('admin.shiftTimings.index') }}">Shift Timings</a></li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('admin.deliveryPartner.index') }}">Delivery Partner List</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('admin.perKmRateByZone.index') }}">Per KM Rate By Zone</a></li>
                     </ul>
                 </div>
             </li>

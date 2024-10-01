@@ -36,8 +36,9 @@ use App\Http\Controllers\Admin\LoyaltyPointController;
 use App\Http\Controllers\Admin\CustomerCoupanController;
 use App\Http\Controllers\Admin\ChargesController;
 use App\Http\Controllers\Admin\OrderController;
-use App\Http\Controllers\Admin\DeliveryPartnerController;
 use App\Http\Controllers\Admin\ShiftTimingsController;
+use App\Http\Controllers\Admin\DeliveryPartnerController;
+use App\Http\Controllers\Admin\PerKmRateByZoneController;
 
 use App\Http\Controllers\Admin\CustomerBannerController;
 
@@ -374,20 +375,27 @@ Route::group(['as' => 'admin.'], function () {
                 Route::post('update-customerbanner', [CustomerBannerController::class, 'update'])->name('customerbanner.update');
                 Route::get('Delete-customerbanner/{id}', [CustomerBannerController::class, 'delete'])->name('customerbanner.delete')->middleware('adminLogin');
         //
+        
+        Route::middleware('adminLogin')->group(function () {
+                
+                // shiftTimings
+                Route::get('shift-timings', [ShiftTimingsController::class, 'index'])->name('shiftTimings.index');
+                Route::get('shift-timings/edit/{id}', [ShiftTimingsController::class, 'edit'])->name('shiftTimings.edit');
+                Route::get('shift-timings/delete/{id}', [ShiftTimingsController::class, 'delete'])->name('shiftTimings.delete');
+                Route::get('shift-timings/add', [ShiftTimingsController::class, 'add'])->name('shiftTimings.add');
+                Route::post('shift-timings/insert', [ShiftTimingsController::class, 'insert'])->name('shiftTimings.insert');
+                Route::post('shift-timings/update', [ShiftTimingsController::class, 'update'])->name('shiftTimings.update');
 
-        //shiftTimings
-                Route::get('shift-timings', [ShiftTimingsController::class, 'index'])->name('shiftTimings.index')->middleware('adminLogin');
-                Route::get('shift-timings/edit/{id}', [ShiftTimingsController::class, 'edit'])->name('shiftTimings.edit')->middleware('adminLogin');
-                Route::get('shift-timings/delete/{id}', [ShiftTimingsController::class, 'delete'])->name('shiftTimings.delete')->middleware('adminLogin');
-                Route::get('shift-timings/add', [ShiftTimingsController::class, 'add'])->name('shiftTimings.add')->middleware('adminLogin');
-                Route::post('shift-timings/insert', [ShiftTimingsController::class, 'insert'])->name('shiftTimings.insert')->middleware('adminLogin');
-                Route::post('shift-timings/update', [ShiftTimingsController::class, 'update'])->name('shiftTimings.update')->middleware('adminLogin');
-        //
+                // deliveryPartner
+                Route::get('delivery-partner', [DeliveryPartnerController::class, 'index'])->name('deliveryPartner.index');
+                Route::get('viewDeliveryPartner/{id}', [DeliveryPartnerController::class, 'view'])->name('deliveryPartner.view');
+                Route::post('accountStatusChange', [DeliveryPartnerController::class, 'accountStatusChange'])->name('deliveryPartner.accountStatusChange');
 
-        //deliveryPartner
-                Route::get('delivery-partner', [DeliveryPartnerController::class, 'index'])->name('deliveryPartner.index')->middleware('adminLogin');
-                Route::get('viewDeliveryPartner/{id}', [DeliveryPartnerController::class, 'view'])->name('deliveryPartner.view')->middleware('adminLogin');
-                Route::post('accountStatusChange', [DeliveryPartnerController::class, 'accountStatusChange'])->name('deliveryPartner.accountStatusChange')->middleware('adminLogin');
-        //
-
+                // perKmRateByZone
+                Route::group(['prefix' => 'per-km-rate-by-zone', 'as' => 'perKmRateByZone.'], function () {
+                        Route::get('/', [PerKmRateByZoneController::class, 'index'])->name('index');
+                        Route::get('/edit/{id}', [PerKmRateByZoneController::class, 'edit'])->name('edit');
+                        Route::post('/update', [PerKmRateByZoneController::class, 'update'])->name('update');
+                });
+        });
 });
