@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NotificationToMerchant  implements ShouldBroadcast
+class NotificationToMerchant implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $order;
@@ -33,14 +33,13 @@ class NotificationToMerchant  implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('order-tracking');
+        return [new Channel('merchant-store-'.$this->order['store_id'])];
     }
 
     public function broadcastAs()
     {
         return 'notify-to-merchant';  // This should match the event name in your Pusher listener
     }
-
 
     public function broadcastWith()
     {

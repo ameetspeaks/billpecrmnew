@@ -215,6 +215,7 @@ class OrderController extends Controller
                     "drop" => 1,
                     "countdown" => 30,
                     "order_id" => $request->order_id,
+                    "deliveryboy_id" => $request->agent_id,
                 ];
                 event(new NotificationToDP($newOrderData)); // send popup notification to delivery partner
 

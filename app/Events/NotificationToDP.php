@@ -31,7 +31,7 @@ class NotificationToDP implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-        return new Channel('order-tracking');
+        return [new Channel('delivery-partner-'.$this->newOrderData['deliveryboy_id'])];
     }
 
     public function broadcastAs()
