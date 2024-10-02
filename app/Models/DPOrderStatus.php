@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Zone extends Model
+class DPOrderStatus extends Model
 {
     use HasFactory;
 
-    protected $table = 'zones';
+    protected $table = 'd_p_order_statuses';
 
-    protected $fillable = [
-        'user_id',
+    protected $fillable= [
         'name',
-        'status',
-        'map_details',
-        'per_km_rate'
+        'created_at',
+        'updated_at'
     ];
 }

@@ -99,7 +99,6 @@ Route::group(
     Route::post('/orderStatusChange', [ApiController::class, 'orderStatusChange']);
     Route::post('/getShiftTimings', [ApiController::class, 'getShiftTimings']);
     Route::post('/saveDeliveryPartnersDetail', [ApiController::class, 'saveDeliveryPartnersDetail']);
-    Route::post('/saveDeliveryPartnersBankDetail', [ApiController::class, 'saveDeliveryPartnersBankDetail']);
     Route::post('/currentWorkStatusUpdate', [ApiController::class, 'currentWorkStatusUpdate']);
 
 
@@ -229,6 +228,8 @@ Route::group(
         Route::post('save-lat-long', [ApiDeliveryPartnerController::class, 'saveLateLong']);
         Route::post('order-confirm-cancel', [ApiDeliveryPartnerController::class, 'orderConfirmCancel']);
         Route::post('current-order-detail', [ApiDeliveryPartnerController::class, 'currentOrderDetail']);
+        Route::post('/save-profile-detail', [ApiDeliveryPartnerController::class, 'saveProfileDetail']);
+        Route::post('/order-detail-by-date', [ApiDeliveryPartnerController::class, 'orderDetailByDate']);
     });
     
 });

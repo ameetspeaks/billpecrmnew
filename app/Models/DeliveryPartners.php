@@ -28,6 +28,8 @@ class DeliveryPartners extends Model
         'account_holder_name',
         'account_number',
         'ifsc',
+        'latitude',
+        'longitude',
         'current_work_status',
         'account_status',
         'created_at',

@@ -24,6 +24,8 @@ class CustomerOrder extends Model
         'payment_mode',
         'instruction',
         'order_status',
+        'merchant_order_status',
+        'd_p_order_status',
         'unique_id',
         'combined_id',
         'order_number',
@@ -49,6 +51,16 @@ class CustomerOrder extends Model
     public function orderStatus()
     {
         return $this->belongsTo(OrderStatus::class, 'order_status');
+    }
+
+    public function merchantOrderStatus()
+    {
+        return $this->belongsTo(MerchantOrderStatus::class, 'merchant_order_status');
+    }
+
+    public function DPOrderStatus()
+    {
+        return $this->belongsTo(DPOrderStatus::class, 'd_p_order_status');
     }
 
     public function delivery_boy()

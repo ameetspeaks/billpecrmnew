@@ -225,4 +225,88 @@ class ApiDeliveryPartnerController extends Controller
             return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
         }
     }
+    public function saveProfileDetail(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'bank_name' => 'required|string',
+                'account_holder_name' => 'required|string',
+                'account_number' => 'required|numeric',
+                'ifsc' => 'required|string',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $user = $this->getAuthUser();
+
+                $conditions = [
+                    "user_id" => $user->id,
+                ];
+                $data = [
+                    'bank_name' => $request->bank_name,
+                    'account_holder_name' => $request->account_holder_name,
+                    'account_number' => $request->account_number,
+                    'ifsc' => $request->ifsc,
+                ];
+                $save = DeliveryPartners::updateOrCreate($conditions, $data);
+
+                DB::commit();
+
+                $user['delivery_boy_detail'] = $save;
+                
+                $response = ['success' => true, 'message' => 'Bank Detail Saved Successfully.', 'user' => $user];
+            }
+
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
+    public function orderDetailByDate(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'date' => 'required|date_format:Y-m-d',
+            ];
+
+            $messages = [
+                'date.date_format' => 'The date must be in the format Y-m-d (e.g., '.date('Y-m-d').').',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules, $messages);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $user = $this->getAuthUser();
+                
+                $orderDetail = CustomerOrder::with(["address", "store"])
+                ->where('deliveryboy_id', $user->id)
+                ->whereDate('created_at', Carbon::parse($request->date))
+                ->get();
+
+                DB::commit();
+
+                $response = [
+                    'success' => true,
+                    'message' => "Order Detail...",
+                    'data' => [
+                        "orderDetail" => $orderDetail,
+                    ]
+                ];
+            }
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
 }
