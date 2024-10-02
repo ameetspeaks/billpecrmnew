@@ -16,14 +16,16 @@ class NotificationToMerchant implements ShouldBroadcast
     public $order;
     public $type;
     public $message;
+    public $otherDetail;
     /**
      * Create a new event instance.
      */
-    public function __construct($order, $type, $message)
+    public function __construct($order, $type, $message, $otherDetail)
     {
         $this->order = $order;
         $this->type = $type;
         $this->message = $message;
+        $this->otherDetail = $otherDetail;
     }
 
     /**
@@ -45,8 +47,13 @@ class NotificationToMerchant implements ShouldBroadcast
     {
         return [
             'order_id' => $this->order->id,
-            'type' => $this->type,
+            'tracking_code' => $this->order->unique_id,
             'message' => $this->message,
+            'current_status_id' => $this->order->order_status,
+            'delivery_km' => $this->otherDetail['delivery_km'],
+            'delivery_mode' => $this->otherDetail['delivery_mode'],
+            'amount' => $this->order->amount,
+            'total_amount' => $this->order->total_amount,
         ];
     }
 }

@@ -244,46 +244,6 @@ $(document).ready(function () {
     });
 });
 
-
-    //change order status
-    $(document).on('change', '.orderStatusChange', function(){
-        var id = $('#order_id').val();
-        var order_id = $('.orderStatusChange').val();
-
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You want to change order status!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Yes, status updated!"
-            }).then(function(result) {
-            if(result.value){
-
-                $.ajax({
-                    url: "{{ route('admin.order.orderStatusChange') }}",
-                    method: 'post',
-                    data: { "_token" : "{{csrf_token()}}", 'id': id , 'order_id': order_id},
-                    success: function(data)
-                    {
-                        if(data.status == false){
-                            Swal.fire(data.title,data.message,data.type);
-                        }
-                        Swal.fire(
-                            "Status!",
-                            "Status updated successfully.",
-                            "success"
-                        ).then(function() {
-                            location.reload();
-                        });
-                    }
-                });
-
-            }else{
-                location.reload();
-            }
-        });
-    })
-
 </script>
 @endslot
 @endcomponent

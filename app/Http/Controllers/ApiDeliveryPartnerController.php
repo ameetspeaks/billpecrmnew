@@ -145,7 +145,6 @@ class ApiDeliveryPartnerController extends Controller
     }
     public function orderConfirmCancel(Request $request)
     {
-        // LEFT TO WORK AND CHECK
         DB::beginTransaction();
         try {
             $rules = [

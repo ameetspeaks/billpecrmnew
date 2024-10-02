@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\User;
+
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +15,21 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 use Spatie\Permission\Models\Permission;
+
+// Models
+use App\Models\User;
 use App\Models\OrderDetail;
+use App\Models\CustomerOrder;
+use App\Models\OrderStatus;
+use App\Models\HomeDeliveryDetail;
+use App\Models\Zone;
+
+// Events
+use App\Events\OrderStatusUpdated;
+use App\Events\NotificationToDP;
+
+// Jobs
+use App\Jobs\UpdateOrderStatus;
 
 class CommonController extends Controller
 {
@@ -296,7 +310,7 @@ class CommonController extends Controller
         }
     //END CF Signature
     
-     public static function sendMsg91WhatsappOtp($phone, $otp) {
+    public static function sendMsg91WhatsappOtp($phone, $otp) {
         $curl = curl_init();
         try {
         curl_setopt_array($curl, array(
@@ -366,5 +380,75 @@ class CommonController extends Controller
             return $e->getMessage();
         }
         
-     }
+    }
+    public static function orderStatusChangeCommon($order_id, $order_status_id)
+    {
+        try {
+            $order = CustomerOrder::find($order_id);
+            
+            // Update the order status
+            $order->order_status = $order_status_id;
+            $order->save();
+
+            //if status id 3 and delivery_mode = 0 (delivery partner) than run below code
+            // if($order_status_id == 3){
+            //     $homeDelivery = HomeDeliveryDetail::where('store_id',$order->store_id)->where('delivery_mode', 0)->first();
+            //     if(@$homeDelivery){
+                    // UpdateOrderStatus::dispatch($order)->delay(now()->addMinutes(1));
+            //     }
+            // }
+
+            $orderStatus = OrderStatus::where('id',$order_status_id)->first();
+            $statusLabel = (isset($orderStatus)) ? $orderStatus->name : '';
+
+            event(new OrderStatusUpdated($order, $statusLabel));
+            
+            $response = [
+                'success' => true,
+                'message' => 'Order Status Update Successfully.',
+                "order" => $order,
+                "statusLabel" => $statusLabel
+            ];
+        } catch (Exception $e) {
+            $response = ['success' => false, 'message' => $e->getMessage() || 'Order Status Update failed.'];
+        }
+        return $response;
+    }
+    public static function assignOrderToDeliveryBoyCommon($order_id, $agent_id)
+    {
+        $order = CustomerOrder::with(["address", "store"])->find($order_id);
+        
+        $deliveryBoyDetail = User::find($agent_id);
+
+        $order->deliveryboy_id = $agent_id;
+        $order->save();
+
+        $pickup = haversineGreatCircleDistance($deliveryBoyDetail->latitude, $deliveryBoyDetail->longitude, $order->store->latitude, $order->store->longitude);
+
+        $drop = haversineGreatCircleDistance($order->store->latitude, $order->store->longitude, $order->address->latitude, $order->address->longitude);
+
+        $storeLocation = ['lat' => $order->store->latitude, 'lng' => $order->store->longitude];
+
+        $zones = Zone::find($order->store->zone_id);
+        $zones = null;
+        $homeDelivery = HomeDeliveryDetail::where('store_id',$order->store_id)->first();
+
+        $expected_earning = $drop * ($zones->per_km_rate ?? 0);
+        $countdown = $homeDelivery->processing_time ?? 0;
+        
+        $newOrderData = [
+            "expected_earning" => $expected_earning,
+            "pickup" => $pickup,
+            "drop" => $drop,
+            "countdown" => $countdown,
+            "order_id" => $order_id,
+            "deliveryboy_id" => $agent_id,
+        ];
+
+        event(new NotificationToDP($newOrderData)); // send popup notification to delivery partner
+
+        $response = ["success" => true, 'message' => 'Order Assign Successfully.'];
+        
+        return $response;
+    }
 }

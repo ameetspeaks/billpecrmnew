@@ -66,8 +66,18 @@
                     "name":"id"
                 },
                 {
-                    "data": "date",
-                    "name":"date"
+                    "data": "created_at",
+                    "name":"created_at",
+                    "render": function(data, type, row) {
+                        const date = new Date(data);
+
+                        // Function to pad single-digit numbers with a leading zero
+                        const padZero = num => (num < 10 ? '0' + num : num);
+
+                        const formattedDate = `${date.getUTCFullYear()}-${padZero(date.getUTCMonth() + 1)}-${padZero(date.getUTCDate())} ${padZero(date.getUTCHours())}:${padZero(date.getUTCMinutes())}:${padZero(date.getUTCSeconds())}`;
+
+                        return formattedDate;
+                    },
                 },
                 {
                     "data": "customer_name",

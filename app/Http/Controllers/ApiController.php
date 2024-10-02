@@ -4004,7 +4004,7 @@ class ApiController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                CustomerOrder::where('id',$request->order_id)->update(['deliveryboy_id' => $request->agent_id]);
+                CommonController::assignOrderToDeliveryBoyCommon($request->order_id, $request->agent_id);
                 $response = ['success' => true, 'message' => 'Order Assign Successfully.'];
             }
         
@@ -4027,26 +4027,12 @@ class ApiController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                $order = CustomerOrder::find($request->order_id);
-                
-                // Update the order status
-                $order->order_status = $request->order_status_id;
-                $order->save();
-
-                //if status id 3 and delivery_mode = 0 (delivery partner) than run below code
-                // if($request->order_status_id == 3){
-                //     $homeDelivery = HomeDeliveryDetail::where('store_id',$order->store_id)->where('delivery_mode', 0)->first();
-                //     if(@$homeDelivery){
-                //         UpdateOrderStatus::dispatch($order)->delay(now()->addMinutes(1));
-                //     }
-                // }
-
-                $orderStatus = OrderStatus::where('id',$request->order_status_id)->first();
-                $statusLabel = (isset($orderStatus))?$orderStatus->name:'';
-
-                event(new OrderStatusUpdated($order,$statusLabel));
-                
-                $response = ['success' => true, 'message' => 'Order Status Update Successfully.'];
+                $updateStatus = CommonController::orderStatusChangeCommon($request->order_id, $request->order_status_id);
+                if ($updateStatus['success']) {
+                    $response = ['success' => true, 'message' => 'Order Status Update Successfully.'];
+                } else {
+                    $response = $updateStatus;
+                }
             }
             return Response::json($response, 200);
         } catch (Exception $e) {

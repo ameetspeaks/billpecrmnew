@@ -614,8 +614,17 @@ class CustomerAppController extends Controller
                 ]);
                 $activity->save();
                 DB::commit();
+                
+                $order = CustomerOrder::with(["address", "store"])->find($newOrder->id);
 
-                event(new NotificationToMerchant($newOrder, "new_order_by_customer", $msg));
+                $distance = haversineGreatCircleDistance($order->store->latitude, $order->store->longitude, $order->address->latitude, $order->address->longitude);
+                
+                $otherDetail = [
+                    "delivery_km" => $distance,
+                    "delivery_mode" => $deliveryDetail->delivery_mode == 1 ? "fullfill" : 'self_delivery',
+                ];
+
+                event(new NotificationToMerchant($newOrder, "new_order_by_customer", $msg, $otherDetail));
 
                 $response = ['success' => true, 'message' => 'Customer Order created successfully', 'data' => $newOrder];
             }

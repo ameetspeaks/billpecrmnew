@@ -18,7 +18,7 @@ class OrderStatusUpdated  implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct($order,$statusLabel)
+    public function __construct($order, $statusLabel)
     {
         $this->order = $order;
         $this->statusLabel = $statusLabel;
@@ -39,18 +39,16 @@ class OrderStatusUpdated  implements ShouldBroadcast
         return 'order-tracker';  // This should match the event name in your Pusher listener
     }
 
-
     public function broadcastWith()
     {
         return [
             'order_id' => $this->order->id,
             'tracking_code' => $this->order->unique_id,
             'current_status' => $this->statusLabel,
+            'current_status_id' => $this->order->order_status,
             'message' => $this->getMessageForStatus($this->statusLabel),
-           // 'tracking_steps' => $this->getTrackingSteps($this->order),
         ];
     }
-
 
     private function getMessageForStatus($statusLabel)
     {
@@ -73,7 +71,4 @@ class OrderStatusUpdated  implements ShouldBroadcast
                 return 'Status update is unavailable.';
         }
     }
-
-
-      
 }
