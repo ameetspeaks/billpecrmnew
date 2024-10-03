@@ -45,6 +45,9 @@ use Carbon\Carbon;
 use App\Exports\BillExport;
 use Excel;
 
+// Helpers
+use App\Helpers\LocationHelper;
+
 class CustomerAppController extends Controller
 {
     public function sendOTP(Request $request)
@@ -617,7 +620,7 @@ class CustomerAppController extends Controller
                 
                 $order = CustomerOrder::with(["address", "store"])->find($newOrder->id);
 
-                $distance = haversineGreatCircleDistance($order->store->latitude, $order->store->longitude, $order->address->latitude, $order->address->longitude);
+                $distance = LocationHelper::haversineGreatCircleDistance($order->store->latitude, $order->store->longitude, $order->address->latitude, $order->address->longitude);
                 
                 $otherDetail = [
                     "delivery_km" => $distance,

@@ -31,6 +31,9 @@ use App\Events\NotificationToDP;
 // Jobs
 use App\Jobs\UpdateOrderStatus;
 
+// Helpers
+use App\Helpers\LocationHelper;
+
 class CommonController extends Controller
 {
 
@@ -423,9 +426,9 @@ class CommonController extends Controller
         $order->deliveryboy_id = $agent_id;
         $order->save();
 
-        $pickup = haversineGreatCircleDistance($deliveryBoyDetail->latitude, $deliveryBoyDetail->longitude, $order->store->latitude, $order->store->longitude);
+        $pickup = LocationHelper::haversineGreatCircleDistance($deliveryBoyDetail->latitude, $deliveryBoyDetail->longitude, $order->store->latitude, $order->store->longitude);
 
-        $drop = haversineGreatCircleDistance($order->store->latitude, $order->store->longitude, $order->address->latitude, $order->address->longitude);
+        $drop = LocationHelper::haversineGreatCircleDistance($order->store->latitude, $order->store->longitude, $order->address->latitude, $order->address->longitude);
 
         $storeLocation = ['lat' => $order->store->latitude, 'lng' => $order->store->longitude];
 
