@@ -30,6 +30,7 @@ class DeliveryPartners extends Model
         'ifsc',
         'latitude',
         'longitude',
+        'on_going_order',
         'current_work_status',
         'account_status',
         'created_at',

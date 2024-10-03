@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('minimum_order_amount')->nullable();
-            $table->string('delivery_charge')->nullable();
+            $table->string('delivery_charge')->nullable()->comment('0 = delivery partner && 1 = self delivery');
             $table->string('packaging_charge')->nullable();
             $table->string('processing_time')->nullable();
             $table->string('delivery_mode')->nullable();

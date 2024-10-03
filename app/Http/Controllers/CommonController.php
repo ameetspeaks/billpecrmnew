@@ -23,10 +23,12 @@ use App\Models\CustomerOrder;
 use App\Models\OrderStatus;
 use App\Models\HomeDeliveryDetail;
 use App\Models\Zone;
+use App\Models\DeliveryPartners;
 
 // Events
 use App\Events\OrderStatusUpdated;
 use App\Events\NotificationToDP;
+use App\Events\DPDetailToCustomerEvent;
 
 // Jobs
 use App\Jobs\UpdateOrderStatus;
@@ -387,7 +389,10 @@ class CommonController extends Controller
     public static function orderStatusChangeCommon($order_id, $order_status_id, $field_name)
     {
         try {
-            $order = CustomerOrder::find($order_id);
+            $order = CustomerOrder::with("store")->find($order_id);
+            $homeDelivery = HomeDeliveryDetail::where('store_id', $order->store_id)->first();
+            
+            $isModeDeliveryPartner = $homeDelivery->delivery_mode == 0;
             
             // Update the order status
             if($field_name == 'merchant_order_status'){
@@ -395,15 +400,42 @@ class CommonController extends Controller
                     case 2:
                         $order->order_status = 2;
                         $order->merchant_order_status = 2;
-                        // assign to near DP
+
+                        if($isModeDeliveryPartner){
+                            // assign to near DP
+                            $DPID = LocationHelper::assignNearestDP($order_id, $order->store->latitude, $order->store->longitude);
+    
+                            self::assignOrderToDeliveryBoyCommon($order_id, $DPID);
+                        }
+                        
                         break;
                     case 3:
                         $order->order_status = 3;
                         $order->merchant_order_status = 3;
                         break;
+                    case 5:
+                        $order->merchant_order_status = 5;
+
+                        if($isModeDeliveryPartner && $order->d_p_order_status != 3){
+                            return ['success' => false, 'message' => 'Unable to change status. the delivery partner has not yet reached your location.'];
+                        }
+
+                        break;
+                    case 6:
+                        $order->order_status = 5;
+                        $order->merchant_order_status = 6;
+                        break;
+                    case 7:
+                        $order->order_status = 6;
+                        $order->merchant_order_status = 7;
+                        break;
                     case 8:
                         $order->order_status = 7;
                         $order->merchant_order_status = 8;
+                        break;
+                    case 9:
+                        $order->order_status = 8;
+                        $order->merchant_order_status = 9;
                         break;
                     default:
                         $order->merchant_order_status = $order_status_id;
@@ -411,7 +443,17 @@ class CommonController extends Controller
                 }
             } elseif($field_name == 'd_p_order_status') {
                 switch ($order_status_id) {
+                    case 2:
+                        $order->d_p_order_status = 2;
+                        if($isModeDeliveryPartner){
+                            $DPDetail = User::find($order->deliveryboy_id);
+                            event(new DPDetailToCustomerEvent($order, $DPDetail));
+                        }
+                        break;
                     case 4:
+                        if($isModeDeliveryPartner && $order->merchant_order_status != 5){
+                            return ['success' => false, 'message' => 'Unable to change status. The merchant is not yet ready to handover.'];
+                        }
                         $order->order_status = 5;
                         $order->merchant_order_status = 6;
                         $order->d_p_order_status = 4;
@@ -424,10 +466,20 @@ class CommonController extends Controller
                         $order->order_status = 6;
                         $order->merchant_order_status = 7;
                         $order->d_p_order_status = 6;
+
+                        DeliveryPartners::where("user_id", $order->deliveryboy_id)->update(['on_going_order' => 0]);
+
                         break;
                     case 7:
-                        $order->d_p_order_status = 7;
+                        $order->d_p_order_status = 1;
+                        DeliveryPartners::where("user_id", $order->deliveryboy_id)->update(['on_going_order' => 0]);
+                        
                         // assign to other near DP
+                        $notUserId = $order->deliveryboy_id;
+                        $DPID = LocationHelper::assignNearestDP($order_id, $order->store->latitude, $order->store->longitude, $notUserId);
+
+                        self::assignOrderToDeliveryBoyCommon($order_id, $DPID);
+
                         break;
                     default:
                         $order->d_p_order_status = $order_status_id;
@@ -483,6 +535,8 @@ class CommonController extends Controller
         $order->dp_to_store_distance = $pickup;
         $order->save();
 
+        DeliveryPartners::where("user_id", $order->deliveryboy_id)->update(['on_going_order' => 1]);
+
         $drop = LocationHelper::haversineGreatCircleDistance($order->store->latitude, $order->store->longitude, $order->address->latitude, $order->address->longitude);
 
         $zones = Zone::find($order->store->zone_id);
@@ -495,7 +549,7 @@ class CommonController extends Controller
             "expected_earning" => $expected_earning,
             "pickup" => $pickup,
             "drop" => $drop,
-            "countdown" => $countdown,
+            "countdown" => 30,
             "order_id" => $order_id,
             "deliveryboy_id" => $agent_id,
         ];
