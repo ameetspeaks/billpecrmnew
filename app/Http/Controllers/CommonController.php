@@ -384,14 +384,70 @@ class CommonController extends Controller
         }
         
     }
-    public static function orderStatusChangeCommon($order_id, $order_status_id)
+    public static function orderStatusChangeCommon($order_id, $order_status_id, $field_name)
     {
         try {
             $order = CustomerOrder::find($order_id);
             
             // Update the order status
-            $order->order_status = $order_status_id;
+            if($field_name == 'merchant_order_status'){
+                switch ($order_status_id) {
+                    case 2:
+                        $order->order_status = 2;
+                        $order->merchant_order_status = 2;
+                        // assign to near DP
+                        break;
+                    case 3:
+                        $order->order_status = 3;
+                        $order->merchant_order_status = 3;
+                        break;
+                    case 8:
+                        $order->order_status = 7;
+                        $order->merchant_order_status = 8;
+                        break;
+                    default:
+                        $order->merchant_order_status = $order_status_id;
+                        break;
+                }
+            } elseif($field_name == 'd_p_order_status') {
+                switch ($order_status_id) {
+                    case 4:
+                        $order->order_status = 5;
+                        $order->merchant_order_status = 6;
+                        $order->d_p_order_status = 4;
+                        break;
+                    case 5:
+                        $order->order_status = 8;
+                        $order->d_p_order_status = 5;
+                        break;
+                    case 6:
+                        $order->order_status = 6;
+                        $order->merchant_order_status = 7;
+                        $order->d_p_order_status = 6;
+                        break;
+                    case 7:
+                        $order->d_p_order_status = 7;
+                        // assign to other near DP
+                        break;
+                    default:
+                        $order->d_p_order_status = $order_status_id;
+                        break;
+                }
+            } else {
+                switch ($order_status_id) {
+                    case 1:
+                        $order->order_status = 1;
+                        $order->merchant_order_status = 1;
+                        $order->d_p_order_status = 1;
+                        break;
+                    default:
+                        $order->order_status = $order_status_id;
+                        break;
+                }
+            }
             $order->save();
+
+            $order = CustomerOrder::with(["orderStatus", "merchantOrderStatus", "DPOrderStatus"])->find($order_id);
 
             //if status id 3 and delivery_mode = 0 (delivery partner) than run below code
             // if($order_status_id == 3){
@@ -401,16 +457,13 @@ class CommonController extends Controller
             //     }
             // }
 
-            $orderStatus = OrderStatus::where('id',$order_status_id)->first();
-            $statusLabel = (isset($orderStatus)) ? $orderStatus->name : '';
-
-            event(new OrderStatusUpdated($order, $statusLabel));
+            event(new OrderStatusUpdated($order));
             
             $response = [
                 'success' => true,
                 'message' => 'Order Status Update Successfully.',
                 "order" => $order,
-                "statusLabel" => $statusLabel
+                "statusLabel" => $order->orderStatus->name
             ];
         } catch (Exception $e) {
             $response = ['success' => false, 'message' => $e->getMessage() || 'Order Status Update failed.'];
@@ -424,16 +477,15 @@ class CommonController extends Controller
         $deliveryBoyDetail = User::find($agent_id);
 
         $order->deliveryboy_id = $agent_id;
-        $order->save();
-
+        
         $pickup = LocationHelper::haversineGreatCircleDistance($deliveryBoyDetail->latitude, $deliveryBoyDetail->longitude, $order->store->latitude, $order->store->longitude);
+        
+        $order->dp_to_store_distance = $pickup;
+        $order->save();
 
         $drop = LocationHelper::haversineGreatCircleDistance($order->store->latitude, $order->store->longitude, $order->address->latitude, $order->address->longitude);
 
-        $storeLocation = ['lat' => $order->store->latitude, 'lng' => $order->store->longitude];
-
         $zones = Zone::find($order->store->zone_id);
-        $zones = null;
         $homeDelivery = HomeDeliveryDetail::where('store_id',$order->store_id)->first();
 
         $expected_earning = $drop * ($zones->per_km_rate ?? 0);

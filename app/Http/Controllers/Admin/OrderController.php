@@ -99,7 +99,7 @@ class OrderController extends Controller
             'order_status_id' => 'required|exists:order_statuses,id',
         ]);
 
-        $updateStatus = CommonController::orderStatusChangeCommon($request->order_id, $request->order_status_id);
+        $updateStatus = CommonController::orderStatusChangeCommon($request->order_id, $request->order_status_id, "order_status");
         if ($updateStatus['success']) {
             $response = ['success' => true, 'message' => 'Order Status Update Successfully.'];
         } else {
@@ -112,7 +112,7 @@ class OrderController extends Controller
 
     public function orderStatusChange(Request $request)
     {
-        $updateStatus = CommonController::orderStatusChangeCommon($request->id, $request->order_id);
+        $updateStatus = CommonController::orderStatusChangeCommon($request->id, $request->order_id, "order_status");
 
         return response()->json('success');
     }

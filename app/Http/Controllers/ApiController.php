@@ -40,6 +40,8 @@ use App\Models\WholesellerBillcreate;
 use App\Models\ShiftTimings;
 use App\Models\DeliveryPartners;
 use App\Models\DeliveryPartnerEarnings;
+use App\Models\DPOrderStatus;
+use App\Models\MerchantOrderStatus;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -4015,29 +4017,8 @@ class ApiController extends Controller
     }
     public function orderStatusChange(Request $request)
     {
-        try {
-            $rules = [
-                'order_id' => 'required|numeric',
-                'order_status_id' => 'required|numeric',
-            ];
-
-            $requestData = $request->all();
-            $validator = Validator::make($requestData, $rules);
-
-            if ($validator->fails()) {
-                $response = ['success' => false, 'message' => $validator->errors()->all()];
-            } else {
-                $updateStatus = CommonController::orderStatusChangeCommon($request->order_id, $request->order_status_id);
-                if ($updateStatus['success']) {
-                    $response = ['success' => true, 'message' => 'Order Status Update Successfully.'];
-                } else {
-                    $response = $updateStatus;
-                }
-            }
-            return Response::json($response, 200);
-        } catch (Exception $e) {
-            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
-        }
+        $response = ['success' => false, 'message' => 'This API Removed.'];
+        return Response::json($response, 200);
     }
 
     public function verifyDPOTP(Request $request)
@@ -4364,5 +4345,21 @@ class ApiController extends Controller
             DB::rollBack();
             return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
         }
+    }
+    public function getAllDPOrderStatus(Request $request)
+    {    
+        $DPOrderStatus = DPOrderStatus::all();
+        
+        $response = ['success' => true, 'message' => 'Delivery Boys Detail' , 'DPOrderStatus' => $DPOrderStatus];
+        
+        return Response::json($response, 200);
+    }
+    public function getAllMerchantOrderStatus(Request $request)
+    {    
+        $MerchantOrderStatus = MerchantOrderStatus::all();
+        
+        $response = ['success' => true, 'message' => 'Delivery Boys Detail' , 'MerchantOrderStatus' => $MerchantOrderStatus];
+        
+        return Response::json($response, 200);
     }
 }

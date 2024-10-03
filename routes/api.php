@@ -7,6 +7,7 @@ use App\Http\Controllers\ApiUpdateController;
 use App\Http\Controllers\WarehouseApiController;
 use App\Http\Controllers\CustomerAppController;
 use App\Http\Controllers\ApiDeliveryPartnerController;
+use App\Http\Controllers\ApiMerchantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -230,8 +231,11 @@ Route::group(
         Route::post('current-order-detail', [ApiDeliveryPartnerController::class, 'currentOrderDetail']);
         Route::post('/save-profile-detail', [ApiDeliveryPartnerController::class, 'saveProfileDetail']);
         Route::post('/order-detail-by-date', [ApiDeliveryPartnerController::class, 'orderDetailByDate']);
+        Route::post('/order-status-change', [ApiDeliveryPartnerController::class, 'orderStatusChange']);
     });
-    
+    Route::group(['prefix' => 'merchant', 'as' => 'merchant.'], function () {
+        Route::post('/order-status-change', [ApiMerchantController::class, 'orderStatusChange']);
+    });
 });
 
 Route::post('/get-ModuleByStoreType', [ApiUpdateController::class, 'getModuleByStoreType']);
@@ -246,3 +250,6 @@ Route::post('/add-customerAddress', [CustomerAppController::class, 'addCustomerA
 Route::post('/send-OTPCustomer', [CustomerAppController::class, 'sendOTP']);
 Route::post('/verify-OTPCustomer', [CustomerAppController::class, 'verifyOTP']);
 //close customer
+
+Route::post('/get-all-d-p-order-status', [ApiController::class, 'getAllDPOrderStatus']);
+Route::post('/get-all-merchant-order-status', [ApiController::class, 'getAllMerchantOrderStatus']);

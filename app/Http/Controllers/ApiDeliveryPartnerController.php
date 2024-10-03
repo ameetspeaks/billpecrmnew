@@ -145,49 +145,8 @@ class ApiDeliveryPartnerController extends Controller
     }
     public function orderConfirmCancel(Request $request)
     {
-        DB::beginTransaction();
-        try {
-            $rules = [
-                'order_id' => 'required|numeric|exists:customer_orders,id',
-                'status' => 'required|in:0,1',
-            ];
-
-            $messages = [
-                'status.in' => 'The status must be either 1 (Confirm) or 0 (Cancel).',
-            ];
-
-            $requestData = $request->all();
-            $validator = Validator::make($requestData, $rules, $messages);
-
-            if ($validator->fails()) {
-                $response = ['success' => false, 'message' => $validator->errors()->all()];
-            } else {
-                if($request->status == 0) {
-                    $user = $this->getAuthUser();
-                    
-                    $data = ["deliveryboy_id" => 0];
-
-                    CustomerOrder::where('id', $request->order_id)
-                    ->where('deliveryboy_id', $user->id)
-                    ->update($data);
-
-                    DB::commit();
-
-                    $message = "Order Cancelled Successfully.";
-                } else {
-                    $message = "Order Confirmed Successfully.";
-                }
-
-                $response = [
-                    'success' => true,
-                    'message' => $message
-                ];
-            }
-            return Response::json($response, 200);
-        } catch (Exception $e) {
-            DB::rollBack();
-            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
-        }
+        $response = ['success' => false, 'message' => 'This API Removed.'];
+        return Response::json($response, 200);
     }
     public function currentOrderDetail(Request $request)
     {
@@ -205,7 +164,7 @@ class ApiDeliveryPartnerController extends Controller
             } else {
                 $user = $this->getAuthUser();
                 
-                $orderDetail = CustomerOrder::with("address")->where('id', $request->order_id)
+                $orderDetail = CustomerOrder::with("customer", "address", "store")->where('id', $request->order_id)
                 ->where('deliveryboy_id', $user->id)
                 ->first();
 
@@ -213,7 +172,7 @@ class ApiDeliveryPartnerController extends Controller
 
                 $response = [
                     'success' => true,
-                    'message' => "Order Detail...",
+                    'message' => "Current Order Detail...",
                     'data' => [
                         "orderDetail" => $orderDetail,
                     ]
@@ -288,7 +247,7 @@ class ApiDeliveryPartnerController extends Controller
             } else {
                 $user = $this->getAuthUser();
                 
-                $orderDetail = CustomerOrder::with(["address", "store"])
+                $orderDetail = CustomerOrder::with(["customer", "address", "store"])
                 ->where('deliveryboy_id', $user->id)
                 ->whereDate('created_at', Carbon::parse($request->date))
                 ->get();
@@ -306,6 +265,32 @@ class ApiDeliveryPartnerController extends Controller
             return Response::json($response, 200);
         } catch (Exception $e) {
             DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
+    public function orderStatusChange(Request $request)
+    {
+        try {
+            $rules = [
+                'order_id' => 'required|numeric',
+                'order_status_id' => 'required|numeric',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $updateStatus = CommonController::orderStatusChangeCommon($request->order_id, $request->order_status_id, "d_p_order_status");
+                if ($updateStatus['success']) {
+                    $response = ['success' => true, 'message' => 'Order Status Update Successfully.'];
+                } else {
+                    $response = $updateStatus;
+                }
+            }
+            return Response::json($response, 200);
+        } catch (Exception $e) {
             return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
         }
     }

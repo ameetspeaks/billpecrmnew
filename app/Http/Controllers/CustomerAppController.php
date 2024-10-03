@@ -619,8 +619,11 @@ class CustomerAppController extends Controller
                 DB::commit();
                 
                 $order = CustomerOrder::with(["address", "store"])->find($newOrder->id);
-
+                
                 $distance = LocationHelper::haversineGreatCircleDistance($order->store->latitude, $order->store->longitude, $order->address->latitude, $order->address->longitude);
+                
+                $order->store_to_customer_distance = $distance;
+                $order->save();
                 
                 $otherDetail = [
                     "delivery_km" => $distance,
@@ -629,7 +632,7 @@ class CustomerAppController extends Controller
 
                 event(new NotificationToMerchant($newOrder, "new_order_by_customer", $msg, $otherDetail));
 
-                $response = ['success' => true, 'message' => 'Customer Order created successfully', 'data' => $newOrder];
+                $response = ['success' => true, 'message' => 'Customer Order created successfully', 'data' => $order];
             }
 
             return Response::json($response, 200);

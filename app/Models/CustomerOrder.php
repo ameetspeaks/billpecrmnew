@@ -31,6 +31,8 @@ class CustomerOrder extends Model
         'order_number',
         'deliveryboy_id',
         'transection_id',
+        'store_to_customer_distance',
+        'dp_to_store_distance',
     ];
 
     public function customer()

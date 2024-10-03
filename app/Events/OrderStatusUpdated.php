@@ -14,14 +14,12 @@ class OrderStatusUpdated  implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $order;
-    public $statusLabel;
     /**
      * Create a new event instance.
      */
-    public function __construct($order, $statusLabel)
+    public function __construct($order)
     {
         $this->order = $order;
-        $this->statusLabel = $statusLabel;
     }
 
     /**
@@ -44,9 +42,11 @@ class OrderStatusUpdated  implements ShouldBroadcast
         return [
             'order_id' => $this->order->id,
             'tracking_code' => $this->order->unique_id,
-            'current_status' => $this->statusLabel,
-            'current_status_id' => $this->order->order_status,
-            'message' => $this->getMessageForStatus($this->statusLabel),
+            'current_status' => $this->order->orderStatus->name,
+            'current_status_id' => $this->order->orderStatus->id,
+            'merchant_order_status_id' => $this->order->merchantOrderStatus->id,
+            'd_p_order_status_id' => $this->order->DPOrderStatus->id,
+            'message' => $this->getMessageForStatus($this->order->orderStatus->name),
         ];
     }
 
