@@ -44,7 +44,7 @@ class UserController extends Controller
     public function index()
     {
         if(\request()->ajax()){
-            $data = User::with('role')->get();
+            $data = User::with('role');
             return DataTables::of($data)
                 ->make(true);
         }

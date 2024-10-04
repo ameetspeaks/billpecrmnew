@@ -19,6 +19,9 @@ class LocationHelper
     }
     public static function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371)
     {
+        // if value null or undefined not available
+        if ($latitudeFrom == null || $longitudeFrom == null || $latitudeTo == null || $longitudeTo == null) return 0.00;
+
         // Convert degrees to radians
         $latFrom = deg2rad($latitudeFrom);
         $lonFrom = deg2rad($longitudeFrom);

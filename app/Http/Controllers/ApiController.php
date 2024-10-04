@@ -411,7 +411,11 @@ class ApiController extends Controller
                     $package = SubscriptionPackage::where('id',1)->first();
                     $validdate = date('Y-m-d',strtotime(''.$package->validity_days.' days'));
 
-                    $storeAdd = Store::where('user_id', $checkUserformultiple->id)->first();
+                    if(@$checkUserformultiple->id) {
+                        $storeAdd = Store::where('user_id', $checkUserformultiple->id)->first();
+                    } else {
+                        $storeAdd = null;
+                    }
                     if(empty($storeAdd)){
                         $storeAdd = Store::create([
                             'user_id'               => $userAdd->id,
