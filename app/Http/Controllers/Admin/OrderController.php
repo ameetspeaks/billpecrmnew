@@ -76,7 +76,7 @@ class OrderController extends Controller
 
     public function viewOrder($id)
     {
-        $order  = CustomerOrder::with('customer','store','address','orderStatus','delivery_boy')->where('id',$id)->first();
+        $order = CustomerOrder::with('customer','store','address','orderStatus','delivery_boy')->where('id',$id)->first();
         $orderStatus = OrderStatus::where('id' , '>=', $order->order_status)->get();
 
         $deliveryAgents = User::where('role_type',5)->get();
@@ -93,28 +93,19 @@ class OrderController extends Controller
 
     public function updateOrderStatus(Request $request)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'order_id' => 'required|exists:customer_orders,id',
-            'order_status_id' => 'required|exists:order_statuses,id',
-        ]);
+        return response()->json('API Removed');
+    }
 
-        $updateStatus = CommonController::orderStatusChangeCommon($request->order_id, $request->order_status_id, "order_status");
+    public function orderStatusChange(Request $request)
+    {
+        $updateStatus = CommonController::orderStatusChangeCommon($request->order_id, $request->order_status_id, "merchant_order_status");
+
         if ($updateStatus['success']) {
             $response = ['success' => true, 'message' => 'Order Status Update Successfully.'];
         } else {
             $response = $updateStatus;
         }
-        
-        // Return success response for AJAX
         return response()->json($response, 200);
-    }
-
-    public function orderStatusChange(Request $request)
-    {
-        $updateStatus = CommonController::orderStatusChangeCommon($request->id, $request->order_id, "order_status");
-
-        return response()->json('success');
     }
 
     public function assignOrderToDeliveryBoy(Request $request)

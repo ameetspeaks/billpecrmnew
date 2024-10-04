@@ -105,7 +105,7 @@ class ApiDeliveryPartnerController extends Controller
             return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
         }
     }
-    public function saveLateLong(Request $request)
+    public function saveLatLong(Request $request)
     {
         DB::beginTransaction();
         try {

@@ -257,9 +257,31 @@
         <div class="section">
             <h3>Order Status</h3>
             <select class="dropdown form-control orderStatusChange">
-                @foreach($orderStatus as $orderStatu)
-                <option value="{{$orderStatu->id}}" {{$order->order_status == $orderStatu->id ? 'selected' : ''}}>{{$orderStatu->name}}</option>
+                @php
+                    $orderStatus = [
+                        "1" => 'Order placed',
+                        "2" => 'Confirmed',
+                        "3" => 'Processing',
+                        "4" => 'Order is ready',
+                        "5" => 'Ready to handover',
+                        "6" => 'On the way',
+                        "7" => 'Reached at location',
+                        "8" => 'Delivered',
+                        // "9" => 'Cancelled',
+                    ];
+                    $iPlus = 1;
+                @endphp
+                @foreach($orderStatus as $key => $orderStatu)
+                    @if ($order->merchant_order_status <= $key && $iPlus <= 2)
+                        <option value="{{ $key }}" @selected($order->merchant_order_status == $key)>{{$orderStatu}}</option>
+                        @php
+                            $iPlus++;
+                        @endphp
+                    @endif
                 @endforeach
+                @if ($order->merchant_order_status != 8)
+                    <option value="9" @selected($order->merchant_order_status == 9)>Cancelled</option>
+                @endif
             </select>
         </div>
         
@@ -345,8 +367,8 @@
 
     //change order status
     $(document).on('change', '.orderStatusChange', function(){
-        var id = $('#order_id').val();
-        var order_id = $('.orderStatusChange').val();
+        var order_id = $('#order_id').val();
+        var order_status_id = $('.orderStatusChange').val();
 
         Swal.fire({
             title: "Are you sure?",
@@ -360,19 +382,26 @@
                 $.ajax({
                     url: "{{ route('admin.order.orderStatusChange') }}",
                     method: 'post',
-                    data: { "_token" : "{{csrf_token()}}", 'id': id , 'order_id': order_id},
+                    data: { 
+                        _token: "{{csrf_token()}}",
+                        order_id: order_id,
+                        order_status_id: order_status_id
+                    },
                     success: function(data)
                     {
-                        if(data.status == false){
-                            Swal.fire(data.title,data.message,data.type);
+                        if(data.success){
+                            Swal.fire(
+                                "Status!",
+                                "Status updated successfully.",
+                                "success"
+                            ).then(function() {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire("Error",data.message,"error").then(function() {
+                                location.reload();
+                            });
                         }
-                        Swal.fire(
-                            "Status!",
-                            "Status updated successfully.",
-                            "success"
-                        ).then(function() {
-                            location.reload();
-                        });
                     }
                 });
 

@@ -395,6 +395,7 @@ class CommonController extends Controller
             $isModeDeliveryPartner = $homeDelivery->delivery_mode == 0;
             
             // Update the order status
+            $assignDP = ["success" => true, 'message' => 'Order Assign Successfully.'];
             if($field_name == 'merchant_order_status'){
                 switch ($order_status_id) {
                     case 2:
@@ -405,7 +406,7 @@ class CommonController extends Controller
                             // assign to near DP
                             $DPID = LocationHelper::assignNearestDP($order_id, $order->store->latitude, $order->store->longitude);
     
-                            self::assignOrderToDeliveryBoyCommon($order_id, $DPID);
+                            $assignDP = self::assignOrderToDeliveryBoyCommon($order_id, $DPID);
                         }
                         
                         break;
@@ -426,15 +427,15 @@ class CommonController extends Controller
                         $order->merchant_order_status = 6;
                         break;
                     case 7:
-                        $order->order_status = 6;
+                        $order->order_status = 8;
                         $order->merchant_order_status = 7;
                         break;
                     case 8:
-                        $order->order_status = 7;
+                        $order->order_status = 6;
                         $order->merchant_order_status = 8;
                         break;
                     case 9:
-                        $order->order_status = 8;
+                        $order->order_status = 7;
                         $order->merchant_order_status = 9;
                         break;
                     default:
@@ -464,7 +465,7 @@ class CommonController extends Controller
                         break;
                     case 6:
                         $order->order_status = 6;
-                        $order->merchant_order_status = 7;
+                        $order->merchant_order_status = 8;
                         $order->d_p_order_status = 6;
 
                         DeliveryPartners::where("user_id", $order->deliveryboy_id)->update(['on_going_order' => 0]);
@@ -478,7 +479,7 @@ class CommonController extends Controller
                         $notUserId = $order->deliveryboy_id;
                         $DPID = LocationHelper::assignNearestDP($order_id, $order->store->latitude, $order->store->longitude, $notUserId);
 
-                        self::assignOrderToDeliveryBoyCommon($order_id, $DPID);
+                        $assignDP = self::assignOrderToDeliveryBoyCommon($order_id, $DPID);
 
                         break;
                     default:
@@ -511,9 +512,14 @@ class CommonController extends Controller
 
             event(new OrderStatusUpdated($order));
             
+            if(!$assignDP['success']){
+                $message = 'Order status updated, but no delivery partner is available. Please try assigning again later.';
+            } else {
+                $message = 'Order Status Updated Successfully.';
+            }
             $response = [
                 'success' => true,
-                'message' => 'Order Status Update Successfully.',
+                'message' => $message,
                 "order" => $order,
                 "statusLabel" => $order->orderStatus->name
             ];
@@ -526,11 +532,14 @@ class CommonController extends Controller
     {
         $order = CustomerOrder::with(["address", "store"])->find($order_id);
         
-        $deliveryBoyDetail = User::find($agent_id);
+        $deliveryBoyDetail = DeliveryPartners::where("user_id", $agent_id)->first();
+        if(empty($deliveryBoyDetail)){
+            return ["success" => false, 'message' => 'No delivery partner available.'];
+        }
 
         $order->deliveryboy_id = $agent_id;
         
-        $pickup = LocationHelper::haversineGreatCircleDistance($deliveryBoyDetail->latitude, $deliveryBoyDetail->longitude, $order->store->latitude, $order->store->longitude);
+        $pickup = LocationHelper::haversineGreatCircleDistance(@$deliveryBoyDetail->latitude, @$deliveryBoyDetail->longitude, $order->store->latitude, $order->store->longitude);
         
         $order->dp_to_store_distance = $pickup;
         $order->save();
