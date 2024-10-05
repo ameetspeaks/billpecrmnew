@@ -18,11 +18,6 @@ class DeliveryPartnerEarnings extends Model
         'created_at',
         'updated_at'
     ];
-
-    public function user_detail()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
     public function customer_orders_detail()
     {
         return $this->belongsTo(CustomerOrder::class, 'order_id');

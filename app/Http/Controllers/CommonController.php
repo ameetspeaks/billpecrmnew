@@ -467,11 +467,20 @@ class CommonController extends Controller
                         $order->d_p_order_status = 5;
                         break;
                     case 6:
+                        // Delivered
                         $order->order_status = 6;
                         $order->merchant_order_status = 8;
                         $order->d_p_order_status = 6;
 
                         DeliveryPartners::where("user_id", $order->deliveryboy_id)->update(['on_going_order' => 0]);
+                        
+                        $expected_earning = self::calculateExpectedEarning($order);
+                        $dataEarn = [
+                            "user_id" => $order->deliveryboy_id,
+                            "order_id" => $order_id,
+                            "amount" => $expected_earning,
+                        ];
+                        DeliveryPartnerEarnings::create($dataEarn);
 
                         break;
                     case 7:
@@ -523,6 +532,13 @@ class CommonController extends Controller
         }
         return $response;
     }
+    public static function calculateExpectedEarning($order)
+    {
+        $drop = $order->store_to_customer_distance;
+        $zones = Zone::select("per_km_rate")->find($order->store->zone_id);
+        
+        $expected_earning = $drop * ($zones->per_km_rate ?? 0);
+    }
     public static function assignOrderToDeliveryBoyCommon($order_id, $agent_id)
     {
         $order = CustomerOrder::with(["address", "store"])->find($order_id);
@@ -541,12 +557,11 @@ class CommonController extends Controller
 
         DeliveryPartners::where("user_id", $order->deliveryboy_id)->update(['on_going_order' => 1]);
 
-        $drop = LocationHelper::haversineGreatCircleDistance($order->store->latitude, $order->store->longitude, $order->address->latitude, $order->address->longitude);
+        $drop = $order->store_to_customer_distance;
 
-        $zones = Zone::find($order->store->zone_id);
         $homeDelivery = HomeDeliveryDetail::where('store_id',$order->store_id)->first();
 
-        $expected_earning = $drop * ($zones->per_km_rate ?? 0);
+        $expected_earning = self::calculateExpectedEarning($order);
         $countdown = $homeDelivery->processing_time ?? 0;
         
         $newOrderData = [

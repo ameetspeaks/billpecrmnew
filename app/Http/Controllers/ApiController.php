@@ -3966,7 +3966,9 @@ class ApiController extends Controller
                 }
                 $orders = $orders->get();
 
-                $response = ['success' => true, 'message' => 'Order History.', 'orders' => $orders,];
+                $homeDelivery = HomeDeliveryDetail::where('store_id',$request->store_id)->first();
+
+                $response = ['success' => true, 'message' => 'Order History.', 'orders' => $orders, "homeDelivery" => $homeDelivery];
             }
             return Response::json($response, 200);
 
