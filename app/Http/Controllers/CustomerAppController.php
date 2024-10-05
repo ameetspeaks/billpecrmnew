@@ -534,7 +534,7 @@ class CustomerAppController extends Controller
         }
     }
 
-      public function customerOrder(Request $request)
+    public function customerOrder(Request $request)
     {
         DB::beginTransaction();
         try {
@@ -627,7 +627,8 @@ class CustomerAppController extends Controller
                 
                 $otherDetail = [
                     "delivery_km" => $distance,
-                    "delivery_mode" => $deliveryDetail->delivery_mode == 1 ? "fullfill" : 'self_delivery',
+                    "delivery_mode" => @$deliveryDetail->delivery_mode == 0 ? "fullfill" : 'self_delivery',
+                    "processing_time" => $deliveryDetail->processing_time ?? 0,
                 ];
 
                 event(new NotificationToMerchant($newOrder, "new_order_by_customer", $msg, $otherDetail));

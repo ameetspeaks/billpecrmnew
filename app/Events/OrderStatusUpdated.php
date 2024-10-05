@@ -63,6 +63,8 @@ class OrderStatusUpdated  implements ShouldBroadcast
                 return 'Your order has been handed over for delivery.';
             case 'Out for delivery':
                 return 'Your order is out for delivery.';
+            case 'Reached at your location':
+                return 'Your order has been reached at your location.';
             case 'Delivered':
                 return 'Your order has been delivered successfully.';
             case 'Canceled':

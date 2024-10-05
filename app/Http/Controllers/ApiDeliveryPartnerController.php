@@ -98,6 +98,13 @@ class ApiDeliveryPartnerController extends Controller
                     'message' => 'User Profile Detail',
                     'data' => $deliveryPartners
                 ];
+                // [
+                //     'success' => true,
+                //     'message' => 'User Profile Detail',
+                //     // 'account_status' => $DeliveryPartnersSave->account_status,
+                //     // 'token' => $token,
+                //     'data' => $deliveryPartners
+                // ];
             }
             return Response::json($response, 200);
         } catch (Exception $e) {

@@ -77,11 +77,9 @@ class OrderController extends Controller
     public function viewOrder($id)
     {
         $order = CustomerOrder::with('customer','store','address','orderStatus','delivery_boy')->where('id',$id)->first();
-        $orderStatus = OrderStatus::where('id' , '>=', $order->order_status)->get();
 
         $deliveryAgents = User::where('role_type',5)->get();
-        // print_r($orderStatus->toarray()); die;
-        return view('admin.order.viewOrder', compact('order','orderStatus','deliveryAgents'));
+        return view('admin.order.viewOrder', compact('order','deliveryAgents'));
     }
 
     public function orderTracking()

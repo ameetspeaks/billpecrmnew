@@ -420,6 +420,9 @@ class CommonController extends Controller
                         if($isModeDeliveryPartner && $order->d_p_order_status != 3){
                             return ['success' => false, 'message' => 'Unable to change status. the delivery partner has not yet reached your location.'];
                         }
+                        if(empty($order->deliveryboy_id)){
+                            return ['success' => false, 'message' => 'Unable to change the status. Please assign a delivery person to this order.'];
+                        }
 
                         break;
                     case 6:
@@ -502,14 +505,6 @@ class CommonController extends Controller
 
             $order = CustomerOrder::with(["orderStatus", "merchantOrderStatus", "DPOrderStatus"])->find($order_id);
 
-            //if status id 3 and delivery_mode = 0 (delivery partner) than run below code
-            // if($order_status_id == 3){
-            //     $homeDelivery = HomeDeliveryDetail::where('store_id',$order->store_id)->where('delivery_mode', 0)->first();
-            //     if(@$homeDelivery){
-                    // UpdateOrderStatus::dispatch($order)->delay(now()->addMinutes(1));
-            //     }
-            // }
-
             event(new OrderStatusUpdated($order));
             
             if(!$assignDP['success']){
@@ -539,7 +534,7 @@ class CommonController extends Controller
 
         $order->deliveryboy_id = $agent_id;
         
-        $pickup = LocationHelper::haversineGreatCircleDistance(@$deliveryBoyDetail->latitude, @$deliveryBoyDetail->longitude, $order->store->latitude, $order->store->longitude);
+        $pickup = LocationHelper::haversineGreatCircleDistance($deliveryBoyDetail->latitude, $deliveryBoyDetail->longitude, $order->store->latitude, $order->store->longitude);
         
         $order->dp_to_store_distance = $pickup;
         $order->save();

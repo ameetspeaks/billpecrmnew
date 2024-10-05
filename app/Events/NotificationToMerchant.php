@@ -51,6 +51,7 @@ class NotificationToMerchant implements ShouldBroadcast
             'message' => $this->message,
             'current_status_id' => $this->order->order_status,
             'delivery_km' => $this->otherDetail['delivery_km'],
+            'processing_time' => $this->otherDetail['processing_time'],
             'delivery_mode' => $this->otherDetail['delivery_mode'],
             'amount' => $this->order->amount,
             'total_amount' => $this->order->total_amount,
