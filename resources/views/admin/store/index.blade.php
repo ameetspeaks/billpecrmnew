@@ -57,7 +57,6 @@
                 {
                     "data": "featured",
                     "render": function(data, type, row) {
-                        console.log(row)
                         if(row.featured == 1){
                             return ' <label class="switch"> <input type="checkbox" class="changeFeatured" data-id=" ' + row.id + ' " data-changeFeatured="store" checked> <span class="slider round"></span> </label> ' ;
                         }else{
@@ -68,7 +67,6 @@
                 {
                     "data": "id",
                     "render": function(data, type, row) {
-                     console.log(row)
                         return ' <ul>  <li ><a href=" {{ url('admin/editStore') }}/' + data +'" " ><button class="btn btn-success btn-sm">Edit<button></a></li>  <li><a href="#" ><button class="btn btn-primary btn-sm" id="remove" data-id="' + data +'">Delete<button></a></li>   <li ><a href=" {{ url('store/directStoreLogin') }}/' + row.id + '/' +row?.user?.unique_id+'" "  target="_blank"><button class="btn btn-danger btn-sm">Login<button></a></li> </ul>';
 
                     },

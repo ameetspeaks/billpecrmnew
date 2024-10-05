@@ -4010,7 +4010,10 @@ class ApiController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                CommonController::assignOrderToDeliveryBoyCommon($request->order_id, $request->agent_id);
+                $order = CustomerOrder::find($request->order_id);
+                $order->deliveryboy_id = $request->agent_id;
+                $order->save();
+
                 $response = ['success' => true, 'message' => 'Order Assign Successfully.'];
             }
         
@@ -4172,25 +4175,30 @@ class ApiController extends Controller
     }
     public function saveDeliveryPartnersDetail(Request $request)
     {
+        // UPDATE
         DB::beginTransaction();
         try {
             $rules = [
-                'name' => 'required|string',
-                'email' => 'required|string',
-                'aadhar_number' => 'required|numeric',
-                // 'driving_licence' => 'required|string',
-                'work_shift_id' => 'required|numeric',
-                'aadhar_front_img' => 'required|image|mimes:jpg,png,jpeg',
-                'aadhar_back_img' => 'required|image|mimes:jpg,png,jpeg',
-                'pan_number' => 'required|string',
-                'pan_front_img' => 'required|image|mimes:jpg,png,jpeg',
-                // 'dl_front_img' => 'required|image|mimes:jpg,png,jpeg',
-                // 'dl_back_img' => 'required|image|mimes:jpg,png,jpeg',
-                // 'rc_number' => 'required|string',
-                // 'rc_front_img' => 'required|image|mimes:jpg,png,jpeg',
-                // 'rc_back_img' => 'required|image|mimes:jpg,png,jpeg',
-                'image' => 'required|image|mimes:jpg,png,jpeg',
+                'name' => 'string',
+                'email' => 'string',
+                'aadhar_number' => 'numeric',
+                'driving_licence' => 'string',
+                'work_shift_id' => 'numeric',
+                'aadhar_front_img' => 'image|mimes:jpg,png,jpeg',
+                'aadhar_back_img' => 'image|mimes:jpg,png,jpeg',
+                'pan_number' => 'string',
+                'pan_front_img' => 'image|mimes:jpg,png,jpeg',
+                'dl_front_img' => 'image|mimes:jpg,png,jpeg',
+                'dl_back_img' => 'image|mimes:jpg,png,jpeg',
+                'rc_number' => 'string',
+                'rc_front_img' => 'image|mimes:jpg,png,jpeg',
+                'rc_back_img' => 'image|mimes:jpg,png,jpeg',
+                'image' => 'image|mimes:jpg,png,jpeg',
                 'referral_code' => 'string',
+                'bank_name' => 'string',
+                'account_holder_name' => 'string',
+                'account_number' => 'numeric',
+                'ifsc' => 'string',
             ];
 
             $requestData = $request->all();
@@ -4217,19 +4225,22 @@ class ApiController extends Controller
                     $image = null;
                 }
 
-                // 'dl_front_img' => 'required|image|mimes:jpg,png,jpeg',
-                // 'dl_back_img' => 'required|image|mimes:jpg,png,jpeg',
-                // 'rc_number' => 'required|string',
-                // 'rc_front_img' => 'required|image|mimes:jpg,png,jpeg',
-                // 'rc_back_img' => 'required|image|mimes:jpg,png,jpeg',
+                $data = [];
                 $data = [
                     'name' => $request->name,
                     'email' => $request->email,
                     'aadhar_number' => $request->aadhar_number,
-                    // 'driving_licence' => $request->driving_licence,
+                    'driving_licence' => $request->driving_licence,
                     'image' => $image,
                 ];
-                User::where('id',$user->id)->update($data);
+                foreach ($data as $key => $value) {
+                    if(!array_key_exists($key, $requestData)) {
+                        unset($data[$key]);
+                    }
+                }
+                if($data){
+                    User::where('id',$user->id)->update($data);
+                }
                 $user = User::where('id',$user->id)->first();
 
                 #save image
@@ -4237,10 +4248,10 @@ class ApiController extends Controller
                     'aadhar_front_img',
                     'aadhar_back_img',
                     'pan_front_img',
-                    // 'dl_front_img',
-                    // 'dl_back_img',
-                    // 'rc_front_img',
-                    // 'rc_back_img',
+                    'dl_front_img',
+                    'dl_back_img',
+                    'rc_front_img',
+                    'rc_back_img',
                 ];
                 $imgDataArr = [];
                 foreach ($arr as $key => $value) {
@@ -4248,19 +4259,27 @@ class ApiController extends Controller
                     if ($imgUpload) {
                         $path  = config('image.profile_image_path_view');
                         $imgUpload = CommonController::saveImage($imgUpload, $path , 'store');
-                    } else {
-                        $imgUpload = null;
+
+                        $imgDataArr[$value] = $imgUpload;
                     }
-                    $imgDataArr[$value] = $imgUpload;
                 }
 
                 $conditions = [
                     "user_id" => $user->id,
                 ];
+                $requestData['user_id'] = $user->id;
+                $requestData['created_at'] = "";
+                $requestData['updated_at'] = "";
+                $requestData['refer_id'] = "";
                 $data = [
+                    'user_id' => $user->id,
+                    'bank_name' => $request->bank_name,
+                    'account_holder_name' => $request->account_holder_name,
+                    'account_number' => $request->account_number,
+                    'ifsc' => $request->ifsc,
                     'work_shift_id' => $request->work_shift_id,
                     'pan_number' => $request->pan_number,
-                    // 'rc_number' => $request->rc_number,
+                    'rc_number' => $request->rc_number,
                     "created_at" => now(),
                     "updated_at" => now(),
                 ];
@@ -4270,7 +4289,16 @@ class ApiController extends Controller
                 foreach ($imgDataArr as $key => $value) {
                     $data[$key] = $value;
                 }
-                $save = DeliveryPartners::updateOrCreate($conditions, $data);
+                foreach ($data as $key => $value) {
+                    if(!array_key_exists($key, $requestData)) {
+                        unset($data[$key]);
+                    }
+                }
+                if($data){
+                    $save = DeliveryPartners::updateOrCreate($conditions, $data);
+                } else {
+                    $save = DeliveryPartners::where("user_id", $user->id)->first();
+                }
 
                 DB::commit();
 

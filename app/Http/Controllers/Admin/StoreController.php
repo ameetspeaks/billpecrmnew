@@ -273,7 +273,7 @@ class StoreController extends Controller
     public function getDatatable()
     {
         if(\request()->ajax()){
-            $data = Store::with('user','module')->orderby('created_at', 'DESC');
+            $data = Store::with('user','module')->orderby('created_at', 'DESC')->get();
             return DataTables::of($data)
                 ->make(true);
         }

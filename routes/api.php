@@ -229,7 +229,6 @@ Route::group(
         Route::post('save-lat-long', [ApiDeliveryPartnerController::class, 'saveLatLong']);
         Route::post('order-confirm-cancel', [ApiDeliveryPartnerController::class, 'orderConfirmCancel']);
         Route::post('current-order-detail', [ApiDeliveryPartnerController::class, 'currentOrderDetail']);
-        Route::post('/save-profile-detail', [ApiDeliveryPartnerController::class, 'saveProfileDetail']);
         Route::post('/order-detail-by-date', [ApiDeliveryPartnerController::class, 'orderDetailByDate']);
         Route::post('/order-status-change', [ApiDeliveryPartnerController::class, 'orderStatusChange']);
     });

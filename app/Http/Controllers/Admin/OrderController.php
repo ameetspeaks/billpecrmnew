@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
+// Models
 use App\Models\SubscriptionPackage;
 use App\Models\Store;
 use App\Models\Module;
@@ -28,6 +29,9 @@ use App\Models\Attribute;
 use App\Models\CustomerOrder;
 use App\Models\OrderStatus;
 use App\Models\User;
+use App\Models\HomeDeliveryDetail;
+
+// Event
 use App\Events\OrderStatusUpdated;
 use App\Events\NotificationToDP;
 
@@ -39,7 +43,7 @@ class OrderController extends Controller
     public function allOrder()
     {
         if(\request()->ajax()){
-            $data = CustomerOrder::with('customer','store','address','orderStatus','delivery_boy')->orderBy('created_at', 'DESC');
+            $data = CustomerOrder::with('customer','store','address','orderStatus','delivery_boy')->orderBy('created_at', 'DESC')->get();
             // foreach($data as $datas){
             //     $datas->date = date('Y-m-d H:i:s', strtotime($datas->created_at));
             //     // print_r($data); die;
@@ -78,7 +82,18 @@ class OrderController extends Controller
     {
         $order = CustomerOrder::with('customer','store','address','orderStatus','delivery_boy')->where('id',$id)->first();
 
-        $deliveryAgents = User::where('role_type',5)->get();
+        $homeDelivery = HomeDeliveryDetail::where('store_id', $order->store_id)->first();
+        $isModeDeliveryPartner = $homeDelivery->delivery_mode == 0;
+
+        if($isModeDeliveryPartner){
+            $deliveryAgents = User::where(function($query) {
+                $query->whereNull('store_id')
+                      ->orWhere('store_id', 0);
+            })->where('role_type', 5)->get();
+        } else {
+            $deliveryAgents = User::where('store_id',$order->store_id)->where('role_type', 5)->get();
+        }
+
         return view('admin.order.viewOrder', compact('order','deliveryAgents'));
     }
 

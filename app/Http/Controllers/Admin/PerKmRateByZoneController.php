@@ -24,7 +24,7 @@ class PerKmRateByZoneController extends Controller
     public function index()
     {
         if(\request()->ajax()){
-            $data = Zone::orderBy("id", "DESC");
+            $data = Zone::orderBy("id", "DESC")->get();
             return DataTables::of($data)
                 ->make(true);
         }

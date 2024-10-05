@@ -26,7 +26,7 @@ class DeliveryPartnerController extends Controller
     public function index()
     {
         if(\request()->ajax()){
-            $data = DeliveryPartners::with(["delivery_boy_detail", "shift_detail"]);
+            $data = DeliveryPartners::with(["delivery_boy_detail", "shift_detail"])->get();
             return DataTables::of($data)
                 ->make(true);
         }
