@@ -10,16 +10,16 @@
         billpe - admin
      </title>
 
-    <link rel="stylesheet" href="{{ asset('public/admin/vendors/typicons.font/font/typicons.css') }}">
-    <link rel="stylesheet" href="{{ asset('public/admin/vendors/css/vendor.bundle.base.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/vendors/typicons.font/font/typicons.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/vendors/css/vendor.bundle.base.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('public/admin/css/vertical-layout-light/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/vertical-layout-light/style.css') }}">
 
-    <link rel="shortcut icon" href="{{ asset('public/admin/upload/'.\App\Models\Setting::where('type','company_fav_icon')->first()->value) }}" />
+    <link rel="shortcut icon" href="{{ asset('admin/upload/'.\App\Models\Setting::where('type','company_fav_icon')->first()->value) }}" />
 </head>
 
 <body>
-  
+
     <div class="container-scroller">
         <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-center auth px-0">
@@ -27,7 +27,7 @@
                     <div class="col-lg-4 mx-auto">
                         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                             <div class="brand-logo text-center">
-                                <img src="{{ asset('public/admin/upload/'.\App\Models\Setting::where('type','company_logo')->first()->value) }}" alt="logo" class="object-contain" />
+                                <img src="{{ asset('admin/upload/'.\App\Models\Setting::where('type','company_logo')->first()->value) }}" alt="logo" class="object-contain" />
                             </div>
                             <h4 class="text-center">Login</h4>
                             <form class="pt-3" name="login_form" onsubmit="return false;" method="POST">
@@ -53,14 +53,14 @@
     </div>
     <!-- container-scroller -->
     <!-- base:js -->
-    <script src="{{ asset('public/admin/vendors/js/vendor.bundle.base.js') }}"></script>
+    <script src="{{ asset('admin/vendors/js/vendor.bundle.base.js') }}"></script>
     <!-- endinject -->
     <!-- inject:js -->
-    <script src="{{ asset('public/admin/js/off-canvas.js') }}"></script>
-    <script src="{{ asset('public/admin/js/hoverable-collapse.js') }}"></script>
-    <script src="{{ asset('public/admin/js/template.js') }}"></script>
-    <script src="{{ asset('public/admin/js/settings.js') }}"></script>
-    <script src="{{ asset('public/admin/js/todolist.js') }}"></script>
+    <script src="{{ asset('admin/js/off-canvas.js') }}"></script>
+    <script src="{{ asset('admin/js/hoverable-collapse.js') }}"></script>
+    <script src="{{ asset('admin/js/template.js') }}"></script>
+    <script src="{{ asset('admin/js/settings.js') }}"></script>
+    <script src="{{ asset('admin/js/todolist.js') }}"></script>
     <!-- endinject -->
 
 <script>

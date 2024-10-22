@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AdminNewOrder;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Store;
@@ -617,14 +618,14 @@ class CustomerAppController extends Controller
                 ]);
                 $activity->save();
                 DB::commit();
-                
+
                 $order = CustomerOrder::with(["address", "store"])->find($newOrder->id);
-                
+
                 $distance = LocationHelper::haversineGreatCircleDistance($order->store->latitude, $order->store->longitude, $order->address->latitude, $order->address->longitude);
-                
+
                 $order->store_to_customer_distance = $distance;
                 $order->save();
-                
+
                 $otherDetail = [
                     "delivery_km" => $distance,
                     "delivery_mode" => @$deliveryDetail->delivery_mode == 0 ? "fullfill" : 'self_delivery',
@@ -632,6 +633,16 @@ class CustomerAppController extends Controller
                 ];
 
                 event(new NotificationToMerchant($newOrder, "new_order_by_customer", $msg, $otherDetail));
+
+//                New Order notification to CRM admin
+                // Check if `id` exists and is not null
+                if (!is_null($newOrder->id)) {
+                    $msg = $newOrder->id . "; ";
+                }
+                $msg .= "New Order Received! ";
+                
+                event(new AdminNewOrder($msg));
+
 
                 $response = ['success' => true, 'message' => 'Customer Order created successfully', 'data' => $order];
             }
@@ -1354,7 +1365,7 @@ class CustomerAppController extends Controller
             return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
         }
     }
-    
+
     public function nearestRange($latitude, $longitude)
     {
         $customer = Auth::user();

@@ -47,19 +47,6 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 
     <style>
-        .no-border {
-            border: 0 !important;
-        }
-
-        body.swal2-toast-shown .swal2-container{
-            width: 450px !important;
-        }
-        .swal-width-auto {
-            width: auto !important;
-
-            white-space: nowrap;
-        }
-
         ::after, ::before {
             border-color: red !important;
         }
@@ -144,7 +131,7 @@
         });
 
         var channel = pusher.subscribe('admin-order-alert');
-        channel.bind('new-order', function (data) {
+        channel.bind('new-order', function(data) {
             //     play audio
             var audio = new Audio('{{ asset('sounds/new_order.mp3') }}');
             audio.play();
@@ -152,81 +139,22 @@
             Swal.fire({
                 title: data.data,
                 // icon: 'in', icon information
-                iconHtml: '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path fill="#4caf50" d="M448 232.148c-11.777 0-21.332-9.554-21.332-21.332 0-59.84-23.297-116.074-65.602-158.402-8.34-8.34-8.34-21.82 0-30.164 8.34-8.34 21.825-8.34 30.164 0 50.372 50.367 78.102 117.336 78.102 188.566 0 11.778-9.555 21.332-21.332 21.332zM21.332 232.148C9.559 232.148 0 222.594 0 210.816 0 139.586 27.734 72.617 78.102 22.25c8.34-8.34 21.824-8.34 30.164 0 8.343 8.344 8.343 21.824 0 30.164C65.96 94.72 42.668 150.977 42.668 210.816c0 11.778-9.559 21.332-21.336 21.332zm0 0" opacity="1" data-original="#4caf50" class=""></path><path fill="#ffa000" d="M320 426.668C320 473.797 281.797 512 234.668 512c-47.129 0-85.336-38.203-85.336-85.332 0-47.129 38.207-85.336 85.336-85.336S320 379.539 320 426.668zM234.668 85.332c-11.777 0-21.336-9.555-21.336-21.332V21.332C213.332 9.559 222.891 0 234.668 0 246.441 0 256 9.559 256 21.332V64c0 11.777-9.559 21.332-21.332 21.332zm0 0" opacity="1" data-original="#ffa000" class=""></path><path fill="#ffc107" d="M434.754 360.79C402.496 333.522 384 293.694 384 251.476V192c0-82.348-67.008-149.332-149.332-149.332-82.328 0-149.336 66.984-149.336 149.332v59.477c0 42.218-18.496 82.07-50.941 109.503a37.226 37.226 0 0 0-13.059 28.352c0 20.59 16.746 37.336 37.336 37.336h352c20.586 0 37.332-16.746 37.332-37.336 0-10.922-4.758-21.27-13.246-28.543zm0 0" opacity="1" data-original="#ffc107" class=""></path></g></svg>',
+                icon: 'info',
                 toast: true,
                 position: 'bottom-end',
                 showConfirmButton: false,
                 timer: 6000,
                 timerProgressBar: true,
-                customClass: {
-
-                    icon: 'no-border',
-                    popup: 'swal-width-auto',
-
-                },
                 didOpen: (toast) => {
                     toast.addEventListener('mouseenter', Swal.stopTimer)
                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                 }
-            })
-            ;
+            });
         });
     </script>
 
 </head>
 <body>
-<div class="container-scroller">
-    <!-- partial:partials/_navbar.html -->
-    @include('admin/layouts/header')
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
-        <!-- partial:partials/_settings-panel.html -->
-        <div class="theme-setting-wrapper">
-            <div id="settings-trigger">
-                <i class="typcn typcn-cog-outline"></i>
-            </div>
-            <div id="theme-settings" class="settings-panel">
-                <i class="settings-close typcn typcn-delete-outline"></i>
-                <p class="settings-heading">SIDEBAR SKINS</p>
-                <div class="sidebar-bg-options" id="sidebar-light-theme">
-                    <div class="img-ss rounded-circle bg-light border mr-3"></div>
-                    Light
-                </div>
-                <div class="sidebar-bg-options selected" id="sidebar-dark-theme">
-                    <div class="img-ss rounded-circle bg-dark border mr-3"></div>
-                    Dark
-                </div>
-                <p class="settings-heading mt-2">HEADER SKINS</p>
-                <div class="color-tiles mx-0 px-4">
-                    <div class="tiles success"></div>
-                    <div class="tiles warning"></div>
-                    <div class="tiles danger"></div>
-                    <div class="tiles primary"></div>
-                    <div class="tiles info"></div>
-                    <div class="tiles dark"></div>
-                    <div class="tiles default border"></div>
-                </div>
-            </div>
-        </div>
-        <!-- partial -->
-        <!-- partial:partials/_sidebar.html -->
-        @include('admin.layouts.sidebar')
-        <!-- partial -->
-        <div class="main-panel">
-            <div class="content-wrapper">
-                @yield('content')
-            </div>
-            <!-- content-wrapper ends -->
-            <!-- partial:partials/_footer.html -->
-            @include('admin.layouts.footer')
-            <!-- partial -->
-        </div>
-        <!-- main-panel ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-</div>
-<!-- container-scroller -->
-<!-- base:js -->
 
 
 <script src="https://cdn.tailwindcss.com"></script>
