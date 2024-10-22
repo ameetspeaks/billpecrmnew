@@ -29,7 +29,7 @@
                             <div class="d-flex align-items-center">
                                 <a class="btn btn-filter" id="filter_search">
                                     <i data-feather="filter" class="filter-icon"></i>
-                                    <span><img src="{{ URL::asset('/public/build/img/icons/closes.svg') }}" alt="img"></span>
+                                    <span><img src="{{ asset('build/img/icons/closes.svg') }}" alt="img"></span>
                                 </a>
                                 <div class="layout-hide-box">
                                     <a href="javascript:void(0);" class="me-3 layout-box"><i data-feather="layout"
@@ -215,7 +215,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img stock-img">
-                                                <img src="{{ URL::asset('/build/img/products/stock-img-02.png') }}"
+                                                <img src="{{ asset('/build/img/products/stock-img-02.png') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Nike Jordan</a>
@@ -225,7 +225,7 @@
                                     <td>
                                         <div class="userimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/users/user-08.jpg') }}"
+                                                <img src="{{ asset('build/img/users/user-08.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Steven</a>
@@ -258,7 +258,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img stock-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/stock-img-03.png') }}"
+                                                <img src="{{ asset('build/img/products/stock-img-03.png') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Apple Series 5 Watch</a>
@@ -268,7 +268,7 @@
                                     <td>
                                         <div class="userimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/users/user-04.jpg') }}"
+                                                <img src="{{ asset('build/img/users/user-04.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Gravely</a>
@@ -301,7 +301,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img stock-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/stock-img-04.png') }}"
+                                                <img src="{{ asset('build/img/products/stock-img-04.png') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Amazon Echo Dot</a>
@@ -311,7 +311,7 @@
                                     <td>
                                         <div class="userimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/users/user-09.jpg') }}"
+                                                <img src="{{ asset('build/img/users/user-09.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Kevin</a>
@@ -344,7 +344,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img stock-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/stock-img-05.png') }}"
+                                                <img src="{{ asset('build/img/products/stock-img-05.png') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Lobar Handy</a>
@@ -354,7 +354,7 @@
                                     <td>
                                         <div class="userimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/users/user-10.jpg') }}"
+                                                <img src="{{ asset('build/img/users/user-10.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Grillo</a>

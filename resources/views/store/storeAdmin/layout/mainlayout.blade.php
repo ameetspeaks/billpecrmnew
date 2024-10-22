@@ -12,7 +12,7 @@
     <title>billpe - store</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('public/admin/upload/'.\App\Models\Setting::where('type','company_fav_icon')->first()->value) }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('admin/upload/'.\App\Models\Setting::where('type','company_fav_icon')->first()->value) }}">
 
     @include('store.storeAdmin.layout.partials.head')
 </head>

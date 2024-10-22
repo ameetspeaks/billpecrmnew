@@ -15,7 +15,7 @@
             <!-- /product list -->
             <div class="card table-list-card">
                 <div class="card-body">
-                 
+
                     <div class="table-responsive sales-list">
                         <table class="table" id="example">
                             <thead>
@@ -31,7 +31,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              
+
                             </tbody>
                         </table>
                     </div>
@@ -54,7 +54,7 @@
                                     <h4>Sales Detail : SL0101</h4>
                                 </div>
                             </div>
-                           
+
                         </div>
 
                         <div class="card">
@@ -111,7 +111,7 @@
                                                             <div class="productimgname">
                                                                 <a href="javascript:void(0);"
                                                                     class="product-img stock-img">
-                                                                    <img src="{{ URL::asset('/build/img/products/stock-img-02.png')}}"
+                                                                    <img src="{{ asset('/build/img/products/stock-img-02.png')}}"
                                                                         alt="product">
                                                                 </a>
                                                                 <a href="javascript:void(0);">Nike Jordan</a>
@@ -184,7 +184,7 @@
     </div>
     <!-- /details popup -->
 
-    
+
 
     <script>
         $(function () {
@@ -192,9 +192,9 @@
                 processing: true,
                 serverSide: true,
                 order: [],
-            
+
                 ajax: "{{ route('store.sales-list') }}",
-                
+
                 "columns": [
                     {
                         "data": "customer_name",

@@ -51,6 +51,7 @@
 @slot('script')
 <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+
 <script>
 
     $(function () {
@@ -108,18 +109,20 @@
         });
 
         // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
+       Pusher.logToConsole = true;
 
         var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
             cluster: '{{ env('PUSHER_APP_CLUSTER') }}',
             forceTLS: true
-        });
+         });
 
         var channel = pusher.subscribe('order-tracking');
+
         
         channel.bind('order-tracker', function(data) {
             console.log('Event Data - ',data);
             table.ajax.reload(null, false);
+        
         });
 
         // // Bind to the event for order tracking updates

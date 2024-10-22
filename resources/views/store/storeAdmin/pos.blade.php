@@ -11,7 +11,7 @@ input[type=radio] {
 </style>
     <div class="page-wrapper pos-pg-wrapper ms-0">
         <div class="content pos-design p-0">
-            
+
 
             <div class="row align-items-start pos-wrapper">
                 <div class="col-md-12 col-lg-8">
@@ -30,14 +30,14 @@ input[type=radio] {
                             <input class="form-control" type="text" id="searchProductBybarcode" name="searchProductBybarcode" onchange="searchProductBybarcode(this)" placeholder="Product search by barcode">
                         </div>
                         <span class="errorShow" style="color:red;"></span>
-                    </div> 
+                    </div>
                         <h5>Categories</h5>
                         <p>Select From Below Categories</p>
-                           
+
                         <ul class="tabs owl-carousel pos-category">
                             <li class="categoryProduct" data-id="all">
                                 <!-- <a href="javascript:void(0);">
-                                    <img src="{{ URL::asset('/public/build/img/categories/category-01.png') }}" alt="Categories">
+                                    <img src="{{ asset('build/img/categories/category-01.png') }}" alt="Categories">
                                 </a> -->
                                 <h6>All Categories</h6>
                                 <span>{{count($products)}} Items</span>
@@ -89,8 +89,8 @@ input[type=radio] {
                                         @endforeach
                                     </div>
                                 </div>
-                                
-                              
+
+
                             </div>
                         </div>
                     </div>
@@ -137,7 +137,7 @@ input[type=radio] {
                                         class="me-1"><i data-feather="x" class="feather-16"></i></span>Clear all</a>
                             </div>
                             <div class="product-wrap" id="product_addon">
-                               
+
                             </div>
                         </div>
                         <div class="block-section">
@@ -183,7 +183,7 @@ input[type=radio] {
                                 <div class="col-md-6 col-lg-4 item">
                                     <div class="default-cover">
                                         <a href="javascript:void(0);" class="methods">
-                                            <img src="{{ URL::asset('/public/build/img/icons/cash-pay.svg')}}"
+                                            <img src="{{ asset('build/img/icons/cash-pay.svg')}}"
                                                 alt="Payment Method">
                                             <span id="methodsValue">Cash</span>
                                         </a>
@@ -192,7 +192,7 @@ input[type=radio] {
                                 <div class="col-md-6 col-lg-4 item">
                                     <div class="default-cover">
                                         <a href="javascript:void(0);" class="methods">
-                                            <img src="{{ URL::asset('/public/build/img/icons/credit-card.svg')}}"
+                                            <img src="{{ asset('build/img/icons/credit-card.svg')}}"
                                                 alt="Payment Method">
                                             <span id="methodsValue">Debit Card</span>
                                         </a>
@@ -201,7 +201,7 @@ input[type=radio] {
                                 <div class="col-md-6 col-lg-4 item">
                                     <div class="default-cover">
                                         <a href="javascript:void(0);" class="methods">
-                                            <img src="{{ URL::asset('/public/build/img/icons/qr-scan.svg')}}" alt="Payment Method">
+                                            <img src="{{ asset('build/img/icons/qr-scan.svg')}}" alt="Payment Method">
                                             <span id="methodsValue">Scan</span>
                                         </a>
                                     </div>
@@ -319,7 +319,7 @@ input[type=radio] {
                                 <i data-feather="check-circle" class="feather-40"></i>
                             </a>
                         </div>
-                        <input type="hidden"  name="invoiceurl" id="invoiceUrl"> 
+                        <input type="hidden"  name="invoiceurl" id="invoiceUrl">
                         <h4>Payment Completed</h4>
                         <p class="mb-0">Do you want to Print Receipt for the Completed Order</p>
                         <div class="modal-footer d-sm-flex justify-content-between">
@@ -388,7 +388,7 @@ input[type=radio] {
     <script>
         $(document).ready(function() {
             $('.js-example-basic-single').select2();
-            
+
         });
 
         $(document).on('click', '.MyToggle', function(){
@@ -409,7 +409,7 @@ input[type=radio] {
                         $('.addbyseach').empty();
                         if(data.success == true)
                         {
-                            $.each(data.Product, function(index, value){ 
+                            $.each(data.Product, function(index, value){
 
                                 if(togglevalue == 0){
                                     if(value.wholesale_price){
@@ -420,14 +420,14 @@ input[type=radio] {
                                         value.mrp = value.retail_price;
                                     }
                                 }
-                                console.log(value) 
+                                console.log(value)
                                 var firstLetter = value.product_name.slice(0,1);
                                 var image = '<button type="button" class="btn btn-light">'+firstLetter+'</button>';
                                 if(value.product_image)
                                 {
                                     image = '<a href="javascript:void(0);" class="img-sm"><img src="'+value.product_image+'"alt="Products"><span><i data-feather="check" class="feather-16"></i></span></a>';
                                 }
-                                product = 
+                                product =
                                         '<div class="col-sm-2 col-md-6 col-lg-3 col-xl-3">'+
                                             '<div class="product-info default-cover card">'+
                                                 image+
@@ -472,7 +472,7 @@ input[type=radio] {
                         if(data.success == 1 || data.success == 2)
                         {
                             $('.errorShow').text(' ');
-                            $.each(data.Product, function(index, value){  
+                            $.each(data.Product, function(index, value){
                                 if(togglevalue == 0){
                                     if(value.wholesale_price){
                                         value.mrp = value.wholesale_price;
@@ -494,7 +494,7 @@ input[type=radio] {
                                 {
                                     image = '<a href="javascript:void(0);" class="img-sm"><img src="'+value.product_image+'"alt="Products"><span><i data-feather="check" class="feather-16"></i></span></a>';
                                 }
-                                product = 
+                                product =
                                         '<div class="col-sm-2 col-md-6 col-lg-3 col-xl-3">'+
                                             '<div class="product-info default-cover card">'+
                                                 image+
@@ -509,7 +509,7 @@ input[type=radio] {
                                             btn+
                                         '</div>'
                                 $('.addbyseach').append(product);
-                                
+
                             })
                             $('.textChange').text(data.message);
                         }
@@ -535,7 +535,7 @@ input[type=radio] {
                         $('.addbyseach').empty();
                         if(data.success == true)
                         {
-                            $.each(data.Product, function(index, value){ 
+                            $.each(data.Product, function(index, value){
                                 if(togglevalue == 0){
                                     if(value.wholesale_price){
                                         value.mrp = value.wholesale_price;
@@ -545,14 +545,14 @@ input[type=radio] {
                                         value.mrp = value.retail_price;
                                     }
                                 }
-                                console.log(value) 
+                                console.log(value)
                                 var firstLetter = value.product_name.slice(0,1);
                                 var image = '<button type="button" class="btn btn-light">'+firstLetter+'</button>';
                                 if(value.product_image)
                                 {
                                     image = '<a href="javascript:void(0);" class="img-sm"><img src="'+value.product_image+'"alt="Products"><span><i data-feather="check" class="feather-16"></i></span></a>';
                                 }
-                                product = 
+                                product =
                                         '<div class="col-sm-2 col-md-6 col-lg-3 col-xl-3">'+
                                             '<div class="product-info default-cover card">'+
                                                 image+
@@ -618,7 +618,7 @@ input[type=radio] {
                                     if(data.success == 1 || data.success == 2)
                                     {
                                         $('.errorShow').text(' ');
-                                        $.each(data.Product, function(index, value){  
+                                        $.each(data.Product, function(index, value){
                                             if(value.retail_price)
                                             {
                                                 value.mrp = value.retail_price;
@@ -635,7 +635,7 @@ input[type=radio] {
                                             {
                                                 image = '<a href="javascript:void(0);" class="img-sm"><img src="'+value.product_image+'"alt="Products"><span><i data-feather="check" class="feather-16"></i></span></a>';
                                             }
-                                            product = 
+                                            product =
                                                     '<div class="col-sm-2 col-md-6 col-lg-3 col-xl-3">'+
                                                         '<div class="product-info default-cover card">'+
                                                             image+
@@ -650,7 +650,7 @@ input[type=radio] {
                                                         btn+
                                                     '</div>'
                                             $('.addbyseach').append(product);
-                                            
+
                                         })
                                         $('.textChange').text(data.message);
                                     }
@@ -667,7 +667,7 @@ input[type=radio] {
         $(document).on('click', '.customerAdd', function(){
             var name = $('#customer_name').val();
             var whatsapp_no = $('#customer_number').val();
-            
+
             $.ajax({
                 url: "{{ route('store.pos.addCustomer') }}",
                 method: 'post',
@@ -676,7 +676,7 @@ input[type=radio] {
                     console.log(data)
                     $('#error-msgCustomerNumber').text(' ');
                     if(data.success == false){
-                        $.each(data.message, function(index, value){ 
+                        $.each(data.message, function(index, value){
                             console.log(value)
                             $('#error-msgCustomerNumber').text(value);
                         })
@@ -686,13 +686,13 @@ input[type=radio] {
                         $('.showCustomer').empty();
                         var cus = '<option value="">Select</option>';
                         $('.showCustomer').append(cus);
-                        $.each(data.customer, function(index, value){ 
+                        $.each(data.customer, function(index, value){
                             var cus = '<option value="'+value.name+'" data-number="'+value.whatsapp_no+'">'+value.name+'</option>'
                             $('.showCustomer').append(cus);
                         })
                         $('#create').modal('hide');
                     }
-                                
+
                 }
             });
         })
@@ -737,7 +737,7 @@ input[type=radio] {
                             var stock = data.Product.stock;
                             console.log(addproductIDS)
                             if($.inArray(product_id, addproductIDS) != -1)
-                            { 
+                            {
                                 var total = $('#total'+product_id+'').text();
                                 var qtytotal = $('#qty'+product_id+'').val();
 
@@ -755,14 +755,14 @@ input[type=radio] {
                                     $('.total').text(parseInt(alltotal) + parseInt(mrp));
                                     $('.grandtotal').text(parseInt(grandtotal) + parseInt(mrp));
 
-                                    $.each(product_details, function(index, product_detail){ 
+                                    $.each(product_details, function(index, product_detail){
                                         if(product_detail.id == product_id)
                                         {
                                             product_detail.total_amount = parseInt(total) - parseInt(mrp);
                                         }
                                     });
                                 }
-                                
+
                             }else{
                                 var firstLetter = name.slice(0,1);
                                 var imageget = '<button type="button" class="btn btn-light">'+firstLetter+'</button>';
@@ -802,7 +802,7 @@ input[type=radio] {
                                         '<button class="btn btn-sm btn-danger productDiscount" data-id="'+product_id+'" style="margin-left: 10px;"><span id="discountText'+product_id+'">Discount</span></button>'+
                                     '</div>'+
                                 '</div>'
-                                $('#product_addon').append(productAdd); 
+                                $('#product_addon').append(productAdd);
                                 var count = $('.count').text();
                                 $('.count').text(parseInt(count) + parseInt(1));
                                 var subtotal = $('.subtotal').text();
@@ -814,7 +814,7 @@ input[type=radio] {
                                 addproductIDS.push(product_id);
 
                                 var proArr =  {'id'   : product_id, 'product_name' : name, 'qtn'  : qty, 'price'  : mrp, 'discount'  : null, 'total_amount'  : mrp,};
-                                product_details.push(proArr); 
+                                product_details.push(proArr);
                             }
                             $('#searchProductBybarcode').val(' ');
                         }
@@ -828,7 +828,7 @@ input[type=radio] {
             // $("input:radio[name='discount_type']").prop('checked', false);
             $('.discountText').text('(0)');
             $('.discount').text(0);
-            
+
             var product_id = $(this).attr('data-id');
             var name = $(this).attr('data-name');
             var image = $(this).attr('data-image');
@@ -837,7 +837,7 @@ input[type=radio] {
             var stock = $(this).attr('data-stock');
 
             if($.inArray(product_id, addproductIDS) != -1)
-            { 
+            {
                 var total = $('#total'+product_id+'').text();
                 var qtytotal = $('#qty'+product_id+'').val();
 
@@ -855,14 +855,14 @@ input[type=radio] {
                     $('.total').text(parseInt(alltotal) + parseInt(mrp));
                     $('.grandtotal').text(parseInt(grandtotal) + parseInt(mrp));
 
-                    $.each(product_details, function(index, product_detail){ 
+                    $.each(product_details, function(index, product_detail){
                         if(product_detail.id == product_id)
                         {
                             product_detail.total_amount = parseInt(total) - parseInt(mrp);
                         }
                     });
                 }
-                
+
             }else{
                 var firstLetter = name.slice(0,1);
                 var imageget = '<button type="button" class="btn btn-light">'+firstLetter+'</button>';
@@ -902,7 +902,7 @@ input[type=radio] {
                         '<button class="btn btn-sm btn-danger productDiscount" data-id="'+product_id+'" style="margin-left: 10px;"><span id="discountText'+product_id+'">Discount</span></button>'+
                     '</div>'+
                 '</div>'
-                $('#product_addon').append(productAdd); 
+                $('#product_addon').append(productAdd);
                 var count = $('.count').text();
                 $('.count').text(parseInt(count) + parseInt(1));
                 var subtotal = $('.subtotal').text();
@@ -914,7 +914,7 @@ input[type=radio] {
                 addproductIDS.push(product_id);
 
                 var proArr =  {'id'   : product_id, 'product_name' : name, 'qtn'  : qty, 'price'  : mrp, 'discount'  : null, 'total_amount'  : mrp,};
-                product_details.push(proArr); 
+                product_details.push(proArr);
             }
         })
 
@@ -972,7 +972,7 @@ input[type=radio] {
                 var subtotal = $('.subtotal').text();
 
                 $('.discountText').text('('+discountAmount+discount_type+')');
-                
+
                 if (discount_type == '%') {
                     discountAmount = parseInt(subtotal) * discountAmount/100;
                 }
@@ -988,7 +988,7 @@ input[type=radio] {
             var subtotal = $('.subtotal').text();
 
             $('.discountText').text('('+discountAmount+discount_type+')');
-            
+
             if (discount_type == '%') {
                 discountAmount = parseInt(subtotal) * discountAmount/100;
             }
@@ -1005,12 +1005,12 @@ input[type=radio] {
             var qty = $('#qty'+id+'').val();
             var stock = $('#stock'+id+'').val();
             var product_name = $('#product_name'+id+'').text();
-            
+
             var discountTypeAmount = $('#discountTypeAmount'+id+'').val();
             var discountType = $('#discountType'+id+'').val();
             var discountAmount = $('#discountAmount'+id+'').val();
-            
-           
+
+
 
             if(value == '+')
             {
@@ -1029,7 +1029,7 @@ input[type=radio] {
                         totalvalue = parseInt(totalp) - parseInt(discountAmount);
                     }
                     $('#total'+id+'').text(totalvalue);
-                    $.each(product_details, function(index, product_detail){ 
+                    $.each(product_details, function(index, product_detail){
                         if(product_detail.id == id)
                         {
                             product_detail.qtn = parseInt(qty) + parseInt(1);
@@ -1052,7 +1052,7 @@ input[type=radio] {
                 }
                 $('#total'+id+'').text(totalvalue);
 
-                $.each(product_details, function(index, product_detail){ 
+                $.each(product_details, function(index, product_detail){
                     if(product_detail.id == id)
                     {
                         product_detail.qtn = parseInt(qty) - parseInt(1);
@@ -1063,7 +1063,7 @@ input[type=radio] {
             }
 
             totalAmoutAfter = 0;
-            $.each(addproductIDS, function(index, idd){ 
+            $.each(addproductIDS, function(index, idd){
                 total = $('#total'+idd+'').text();
                 totalAmoutAfter = parseInt(totalAmoutAfter) + parseInt(total);
             });
@@ -1077,7 +1077,7 @@ input[type=radio] {
                 var subtotal = $('.subtotal').text();
                 console.log(discount_type, discountAmount, subtotal)
                 $('.discountText').text('('+discount_type+discountAmount+')');
-                
+
                 if (discount_type == '%') {
                     discountAmount = parseInt(subtotal) * discountAmount/100;
                 }
@@ -1094,7 +1094,7 @@ input[type=radio] {
             var value = $('#methodsValue', this).text();
             $('#payment_method').val(value);
         })
-        
+
         $('.payment').click(function(){
             $('#global-loader').show();
             var customerName = $('.showCustomer').val();
@@ -1128,10 +1128,10 @@ input[type=radio] {
 
         $('.reciept').click(function(){
             var invoiceurl = $('#invoiceUrl').val();
-            window.open(invoiceurl, "_blank") 
+            window.open(invoiceurl, "_blank")
         })
 
-        //product discount 
+        //product discount
             $(document).on('click', '.productDiscount', function(){
                 var productid = $(this).attr('data-id');
                 var totalamount = $('#total'+productid+'').text();
@@ -1142,7 +1142,7 @@ input[type=radio] {
 
                 $('#productdiscountAmount').val(' ');
                 $('#productDiscountAmount').text(' ');
-                
+
                 $('#product-discount').modal('show');
             })
 
@@ -1157,7 +1157,7 @@ input[type=radio] {
                     $('#productDiscountAmount').text(''+amount+'');
                 }
             })
-    
+
 
             $(document).on('click', '.product_discount_type', function(){
                 var amount = $('#productdiscountAmount').val();
@@ -1175,13 +1175,13 @@ input[type=radio] {
                 var total = $('#productTotalAmount').text();
                 var amount = $('#productDiscountAmount').text();
                 var amounttypeAmount = $('#productdiscountAmount').val();
-               
+
                 var discountType = $("input:radio[name=product_discount_type]:checked").val();
                 var productid = $('#product_iddiscountmodel').val();
 
                 var discountAmount = $('#discountAmount'+productid+'').val();
 
-                
+
                 $('#total'+productid+'').text(parseInt(total) - parseInt(amount));
 
                 var subtotal = $('.subtotal').text();
@@ -1202,7 +1202,7 @@ input[type=radio] {
                     var subtotal = $('.subtotal').text();
                     console.log(discount_type, discountAmount, subtotal)
                     $('.discountText').text('('+discountAmount+discount_type+')');
-                    
+
                     if (discount_type == '%') {
                         discountAmount = parseInt(subtotal) * discountAmount/100;
                     }
@@ -1211,16 +1211,16 @@ input[type=radio] {
 
                     $('.total').text(parseInt(subtotal) - parseInt(discountAmount));
                     $('.grandtotal').text(parseInt(subtotal) - parseInt(discountAmount));
-                //  
+                //
 
-                $.each(product_details, function(index, product_detail){ 
+                $.each(product_details, function(index, product_detail){
                     if(product_detail.id == productid)
                     {
                         product_detail.discount = amount;
                         product_detail.total_amount = parseInt(total) - parseInt(amount);
                     }
                 });
-                
+
                 console.log(product_details)
                 $('#product-discount').modal('hide');
             })

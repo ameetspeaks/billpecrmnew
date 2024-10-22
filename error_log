@@ -1,0 +1,26 @@
+[03-Oct-2024 00:11:14 America/Chicago] PHP Deprecated:  Return type of Symfony\Component\Console\Helper\HelperSet::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Helper/HelperSet.php on line 112
+[03-Oct-2024 00:13:52 America/Chicago] PHP Deprecated:  Return type of Symfony\Component\Console\Helper\HelperSet::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Helper/HelperSet.php on line 112
+[03-Oct-2024 00:15:21 America/Chicago] PHP Deprecated:  Return type of Symfony\Component\Console\Helper\HelperSet::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Helper/HelperSet.php on line 112
+[03-Oct-2024 00:16:44 America/Chicago] PHP Deprecated:  Return type of Symfony\Component\Console\Helper\HelperSet::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Helper/HelperSet.php on line 112
+[03-Oct-2024 00:17:13 America/Chicago] PHP Fatal error:  Out of memory (allocated 331350016 bytes) (tried to allocate 4096 bytes) in phar:///opt/cpanel/composer/bin/composer/src/Composer/Package/Loader/ArrayLoader.php on line 245
+[13-Oct-2024 13:20:18 America/Chicago] PHP Warning:  Undefined array key "script" in /home4/billp5kj/public_html/adminer.php on line 169
+[13-Oct-2024 13:20:18 America/Chicago] PHP Warning:  Undefined array key "HTTP_X_FORWARDED_PREFIX" in /home4/billp5kj/public_html/adminer.php on line 169
+[13-Oct-2024 13:20:18 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_magic_quotes_gpc() in /home4/billp5kj/public_html/adminer.php:20
+Stack trace:
+#0 /home4/billp5kj/public_html/adminer.php(169): remove_slashes(Array, false)
+#1 {main}
+  thrown in /home4/billp5kj/public_html/adminer.php on line 20
+[13-Oct-2024 13:20:21 America/Chicago] PHP Warning:  Undefined array key "script" in /home4/billp5kj/public_html/adminer.php on line 169
+[13-Oct-2024 13:20:21 America/Chicago] PHP Warning:  Undefined array key "HTTP_X_FORWARDED_PREFIX" in /home4/billp5kj/public_html/adminer.php on line 169
+[13-Oct-2024 13:20:21 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_magic_quotes_gpc() in /home4/billp5kj/public_html/adminer.php:20
+Stack trace:
+#0 /home4/billp5kj/public_html/adminer.php(169): remove_slashes(Array, false)
+#1 {main}
+  thrown in /home4/billp5kj/public_html/adminer.php on line 20
+[13-Oct-2024 13:21:28 America/Chicago] PHP Warning:  Undefined array key "script" in /home4/billp5kj/public_html/adminer.php on line 169
+[13-Oct-2024 13:21:28 America/Chicago] PHP Warning:  Undefined array key "HTTP_X_FORWARDED_PREFIX" in /home4/billp5kj/public_html/adminer.php on line 169
+[13-Oct-2024 13:21:28 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_magic_quotes_gpc() in /home4/billp5kj/public_html/adminer.php:20
+Stack trace:
+#0 /home4/billp5kj/public_html/adminer.php(169): remove_slashes(Array, false)
+#1 {main}
+  thrown in /home4/billp5kj/public_html/adminer.php on line 20

@@ -7,10 +7,10 @@
             <img src="{{ asset('public/admin/upload/'.\App\Models\Setting::where('type','company_logo')->first()->value) }}" style="padding: 20px;" alt="">
         </a>
         <a href="{{ route('store.dashboard') }}" class="logo logo-white">
-            <img src="{{ URL::asset('/public/build/img/logo-white.png') }}" alt="">
+            <img src="{{ asset('build/img/logo-white.png') }}" alt="">
         </a>
         <a href="{{ route('store.dashboard') }}" class="logo-small">
-            <img src="{{ URL::asset('/public/build/img/logo-small.png') }}" alt="">
+            <img src="{{ asset('build/img/logo-small.png') }}" alt="">
         </a>
         <a id="toggle_btn" href="javascript:void(0);">
             <i data-feather="chevrons-left" class="feather-16"></i>
@@ -63,17 +63,17 @@
                             <ul class="customers">
                                 <li>
                                     <a href="javascript:void(0);">Aron Varu<img
-                                            src="{{ URL::asset('/public/build/img/profiles/avator1.jpg') }}" alt=""
+                                            src="{{ asset('build/img/profiles/avator1.jpg') }}" alt=""
                                             class="img-fluid"></a>
                                 </li>
                                 <li>
                                     <a href="javascript:void(0);">Jonita<img
-                                            src="{{ URL::asset('/public/build/img/profiles/avatar-01.jpg') }}" alt=""
+                                            src="{{ asset('build/img/profiles/avatar-01.jpg') }}" alt=""
                                             class="img-fluid"></a>
                                 </li>
                                 <li>
                                     <a href="javascript:void(0);">Aaron<img
-                                            src="{{ URL::asset('/public/build/img/profiles/avatar-10.jpg') }}" alt=""
+                                            src="{{ asset('build/img/profiles/avatar-10.jpg') }}" alt=""
                                             class="img-fluid"></a>
                                 </li>
                             </ul>
@@ -89,10 +89,10 @@
             <li class="nav-item dropdown has-arrow flag-nav nav-item-box">
                 <a href="{{ route('store.pos') }}"><button type="button" class="btn btn-light">POS</button></a>
             </li>
-       
+
             <li class="nav-item dropdown has-arrow flag-nav nav-item-box">
                 <select class="form-control changeStore" style="font-weight: bold;" name="store_id">
-                    <?php  
+                    <?php
                         $stores = DB::table('stores')->where('user_id',Auth::user()->id)->get();
                     ?>
                     <option><b>Select Store</b></option>
@@ -106,20 +106,20 @@
         <!-- Flag -->
         <!-- <li class="nav-item dropdown has-arrow flag-nav nav-item-box">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);" role="button">
-                <img src="{{ URL::asset('/public/build/img/flags/us.png') }}" alt="Language" class="img-fluid">
+                <img src="{{ asset('build/img/flags/us.png') }}" alt="Language" class="img-fluid">
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <a href="javascript:void(0);" class="dropdown-item active">
-                    <img src="{{ URL::asset('/public/build/img/flags/us.png') }}" alt="" height="16"> English
+                    <img src="{{ asset('build/img/flags/us.png') }}" alt="" height="16"> English
                 </a>
                 <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="{{ URL::asset('/public/build/img/flags/fr.png') }}" alt="" height="16"> French
+                    <img src="{{ asset('build/img/flags/fr.png') }}" alt="" height="16"> French
                 </a>
                 <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="{{ URL::asset('/public/build/img/flags/es.png') }}" alt="" height="16"> Spanish
+                    <img src="{{ asset('build/img/flags/es.png') }}" alt="" height="16"> Spanish
                 </a>
                 <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="{{ URL::asset('/public/build/img/flags/de.png') }}" alt="" height="16"> German
+                    <img src="{{ asset('build/img/flags/de.png') }}" alt="" height="16"> German
                 </a>
             </div>
         </li> -->
@@ -153,7 +153,7 @@
                                 <div class="media d-flex">
                                     <span class="avatar flex-shrink-0">
                                         <img alt=""
-                                            src="{{ URL::asset('/public/build/img/profiles/avatar-02.jpg') }}">
+                                            src="{{ asset('build/img/profiles/avatar-02.jpg') }}">
                                     </span>
                                     <div class="media-body flex-grow-1">
                                         <p class="noti-details"><span class="noti-title">John Doe</span> added
@@ -170,7 +170,7 @@
                                 <div class="media d-flex">
                                     <span class="avatar flex-shrink-0">
                                         <img alt=""
-                                            src="{{ URL::asset('/public/build/img/profiles/avatar-03.jpg') }}">
+                                            src="{{ asset('build/img/profiles/avatar-03.jpg') }}">
                                     </span>
                                     <div class="media-body flex-grow-1">
                                         <p class="noti-details"><span class="noti-title">Tarah Shropshire</span>
@@ -188,7 +188,7 @@
                                 <div class="media d-flex">
                                     <span class="avatar flex-shrink-0">
                                         <img alt=""
-                                            src="{{ URL::asset('/public/build/img/profiles/avatar-06.jpg') }}">
+                                            src="{{ asset('build/img/profiles/avatar-06.jpg') }}">
                                     </span>
                                     <div class="media-body flex-grow-1">
                                         <p class="noti-details"><span class="noti-title">Misty Tison</span>
@@ -207,7 +207,7 @@
                                 <div class="media d-flex">
                                     <span class="avatar flex-shrink-0">
                                         <img alt=""
-                                            src="{{ URL::asset('/public/build/img/profiles/avatar-17.jpg') }}">
+                                            src="{{ asset('build/img/profiles/avatar-17.jpg') }}">
                                     </span>
                                     <div class="media-body flex-grow-1">
                                         <p class="noti-details"><span class="noti-title">Rolland Webber</span>
@@ -224,7 +224,7 @@
                                 <div class="media d-flex">
                                     <span class="avatar flex-shrink-0">
                                         <img alt=""
-                                            src="{{ URL::asset('/public/build/img/profiles/avatar-13.jpg') }}">
+                                            src="{{ asset('build/img/profiles/avatar-13.jpg') }}">
                                     </span>
                                     <div class="media-body flex-grow-1">
                                         <p class="noti-details"><span class="noti-title">Bernardo Galaviz</span>
@@ -251,7 +251,7 @@
             <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
                 <span class="user-info">
                     <span class="user-letter">
-                        <img src="{{ URL::asset('/public/build/img/profiles/avator1.jpg') }}" alt=""
+                        <img src="{{ asset('build/img/profiles/avator1.jpg') }}" alt=""
                             class="img-fluid">
                     </span>
                     <span class="user-detail">
@@ -263,7 +263,7 @@
             <div class="dropdown-menu menu-drop-user">
                 <div class="profilename">
                     <div class="profileset">
-                        <span class="user-img"><img src="{{ URL::asset('/public/build/img/profiles/avator1.jpg') }}"
+                        <span class="user-img"><img src="{{ asset('build/img/profiles/avator1.jpg') }}"
                                 alt="">
                             <span class="status online"></span></span>
                         <div class="profilesets">
@@ -278,7 +278,7 @@
                             data-feather="settings"></i>Settings</a> -->
                     <hr class="m-0">
                     <a class="dropdown-item logout pb-0" href="{{ route('store.logout') }}"><img
-                            src="{{ URL::asset('/public/build/img/icons/log-out.svg') }}" class="me-2"
+                            src="{{ asset('build/img/icons/log-out.svg') }}" class="me-2"
                             alt="img">Logout</a>
                 </div>
             </div>

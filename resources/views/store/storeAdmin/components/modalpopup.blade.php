@@ -327,7 +327,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="phone-img">
-                                                                                    <img src="{{ URL::asset('/build/img/products/phone-add-2.png')}}"
+                                                                                    <img src="{{ asset('/build/img/products/phone-add-2.png')}}"
                                                                                         alt="image">
                                                                                     <a href="javascript:void(0);"><i
                                                                                             data-feather="x"
@@ -335,7 +335,7 @@
                                                                                 </div>
 
                                                                                 <div class="phone-img">
-                                                                                    <img src="{{ URL::asset('/build/img/products/phone-add-1.png')}}"
+                                                                                    <img src="{{ asset('/build/img/products/phone-add-1.png')}}"
                                                                                         alt="image">
                                                                                     <a href="javascript:void(0);"><i
                                                                                             data-feather="x"
@@ -707,7 +707,7 @@
                                                             <p>M</p>
                                                         </div>
                                                     </div>
-                                                    <!-- <a class="btn"  id="searchdiv"><img src="{{ URL::asset('/build/img/icons/search.svg')}}" alt="img"></a> -->
+                                                    <!-- <a class="btn"  id="searchdiv"><img src="{{ asset('/build/img/icons/search.svg')}}" alt="img"></a> -->
                                                 </form>
                                             </div>
                                         </li>
@@ -884,7 +884,7 @@
                                         <div class="image-upload download">
                                             <input type="file">
                                             <div class="image-uploads">
-                                                <img src="{{ URL::asset('/build/img/download-img.png')}}" alt="img">
+                                                <img src="{{ asset('/build/img/download-img.png')}}" alt="img">
                                                 <h4>Drag and drop a <span>file to upload</span></h4>
                                             </div>
                                         </div>
@@ -894,13 +894,13 @@
                                             <div class="col-lg-12">
                                                 <div class="add-choosen mb-3">
                                                     <div class="phone-img ms-0">
-                                                        <img src="{{ URL::asset('/build/img/products/phone-add-2.png')}}" alt="image">
+                                                        <img src="{{ asset('/build/img/products/phone-add-2.png')}}" alt="image">
                                                         <a href="javascript:void(0);"><i data-feather="x"
                                                                 class="x-square-add remove-product"></i></a>
                                                     </div>
 
                                                     <div class="phone-img">
-                                                        <img src="{{ URL::asset('/build/img/products/phone-add-1.png')}}" alt="image">
+                                                        <img src="{{ asset('/build/img/products/phone-add-1.png')}}" alt="image">
                                                         <a href="javascript:void(0);"><i data-feather="x"
                                                                 class="x-square-add remove-product"></i></a>
                                                     </div>
@@ -1039,7 +1039,7 @@
                                             <div class="image-upload download">
                                                 <input type="file">
                                                 <div class="image-uploads">
-                                                    <img src="{{ URL::asset('/build/img/download-img.png')}}" alt="img">
+                                                    <img src="{{ asset('/build/img/download-img.png')}}" alt="img">
                                                     <h4>Drag and drop a <span>file to upload</span></h4>
                                                 </div>
                                             </div>
@@ -1310,7 +1310,7 @@
                                         <div class="image-upload download">
                                             <input type="file">
                                             <div class="image-uploads">
-                                                <img src="{{ URL::asset('/build/img/download-img.png')}}" alt="img">
+                                                <img src="{{ asset('/build/img/download-img.png')}}" alt="img">
                                                 <h4>Drag and drop a <span>file to upload</span></h4>
                                             </div>
                                         </div>
@@ -1320,13 +1320,13 @@
                                             <div class="col-lg-12">
                                                 <div class="add-choosen mb-3">
                                                     <div class="phone-img ms-0">
-                                                        <img src="{{ URL::asset('/build/img/products/phone-add-2.png')}}" alt="image">
+                                                        <img src="{{ asset('/build/img/products/phone-add-2.png')}}" alt="image">
                                                         <a href="javascript:void(0);"><i data-feather="x"
                                                                 class="x-square-add remove-product"></i></a>
                                                     </div>
 
                                                     <div class="phone-img">
-                                                        <img src="{{ URL::asset('/build/img/products/phone-add-1.png')}}" alt="image">
+                                                        <img src="{{ asset('/build/img/products/phone-add-1.png')}}" alt="image">
                                                         <a href="javascript:void(0);"><i data-feather="x"
                                                                 class="x-square-add remove-product"></i></a>
                                                     </div>
@@ -1826,7 +1826,7 @@
                                 <label class="form-label">Logo</label>
                                 <div class="profile-pic-upload mb-3">
                                     <div class="profile-pic brand-pic">
-                                        <span><img src="{{ URL::asset('/build/img/brand/brand-icon-02.png')}}" alt=""></span>
+                                        <span><img src="{{ asset('/build/img/brand/brand-icon-02.png')}}" alt=""></span>
                                         <a href="javascript:void(0);" class="remove-photo"><i data-feather="x"
                                                 class="x-square-add"></i></a>
                                     </div>
@@ -2220,7 +2220,7 @@
                                         </p>
                                         <p>Price: $400</p>
                                         <div class="barscaner-img">
-                                            <img src="{{ URL::asset('/build/img/barcode/barcode-01.png')}}" alt="Barcode"
+                                            <img src="{{ asset('/build/img/barcode/barcode-01.png')}}" alt="Barcode"
                                                 class="img-fluid">
                                         </div>
                                     </div>
@@ -2239,7 +2239,7 @@
                                         </p>
                                         <p>Price: $300</p>
                                         <div class="barscaner-img">
-                                            <img src="{{ URL::asset('/build/img/barcode/barcode-02.png')}}" alt="Barcode"
+                                            <img src="{{ asset('/build/img/barcode/barcode-02.png')}}" alt="Barcode"
                                                 class="img-fluid">
                                         </div>
                                     </div>
@@ -2252,7 +2252,7 @@
                                         </p>
                                         <p>Price: $300</p>
                                         <div class="barscaner-img">
-                                            <img src="{{ URL::asset('/build/img/barcode/barcode-02.png')}}" alt="Barcode"
+                                            <img src="{{ asset('/build/img/barcode/barcode-02.png')}}" alt="Barcode"
                                                 class="img-fluid">
                                         </div>
                                     </div>
@@ -2265,7 +2265,7 @@
                                         </p>
                                         <p>Price: $300</p>
                                         <div class="barscaner-img">
-                                            <img src="{{ URL::asset('/build/img/barcode/barcode-02.png')}}" alt="Barcode"
+                                            <img src="{{ asset('/build/img/barcode/barcode-02.png')}}" alt="Barcode"
                                                 class="img-fluid">
                                         </div>
                                     </div>
@@ -2309,7 +2309,7 @@
                                 <div class="col-sm-4">
                                     <div class="barcode-scanner-link text-center">
                                         <div class="barscaner-img">
-                                            <img src="{{ URL::asset('/build/img/barcode/qr-code.png')}}" alt="Barcode"
+                                            <img src="{{ asset('/build/img/barcode/qr-code.png')}}" alt="Barcode"
                                                 class="img-fluid">
                                         </div>
                                         <p>Ref No :32RRR554 </p>
@@ -2559,7 +2559,7 @@
                                         <div class="image-upload download">
                                             <input type="file">
                                             <div class="image-uploads">
-                                                <img src="{{ URL::asset('/build/img/download-img.png')}}" alt="img">
+                                                <img src="{{ asset('/build/img/download-img.png')}}" alt="img">
                                                 <h4>Drag and drop a <span>file to upload</span></h4>
                                             </div>
                                         </div>
@@ -2569,14 +2569,14 @@
                                             <div class="col-lg-12">
                                                 <div class="add-choosen mb-3">
                                                     <div class="phone-img ms-0">
-                                                        <img src="{{ URL::asset('/build/img/products/phone-add-2.png')}}"
+                                                        <img src="{{ asset('/build/img/products/phone-add-2.png')}}"
                                                             alt="image">
                                                         <a href="javascript:void(0);"><i data-feather="x"
                                                                 class="x-square-add remove-product"></i></a>
                                                     </div>
 
                                                     <div class="phone-img">
-                                                        <img src="{{ URL::asset('/build/img/products/phone-add-1.png')}}"
+                                                        <img src="{{ asset('/build/img/products/phone-add-1.png')}}"
                                                             alt="image">
                                                         <a href="javascript:void(0);"><i data-feather="x"
                                                                 class="x-square-add remove-product"></i></a>
@@ -2659,7 +2659,7 @@
                     <div class="content">
                         <div class="text-center right-sidebar-profile mb-3">
                             <figure class="avatar">
-                                <img src="{{ URL::asset('/build/img/users/user-23.jpg')}}" alt="image">
+                                <img src="{{ asset('/build/img/users/user-23.jpg')}}" alt="image">
                             </figure>
                             <div class="chat-options chat-option-profile">
                                 <ul class="list-inline">
@@ -2935,7 +2935,7 @@
                     <div class="content">
                         <div class="delete-popup">
                             <div class="delete-image text-center mx-auto">
-                                <img src="{{ URL::asset('/build/img/icons/close-circle.png')}}" alt="Img" class="img-fluid">
+                                <img src="{{ asset('/build/img/icons/close-circle.png')}}" alt="Img" class="img-fluid">
                             </div>
                             <div class="delete-heads">
                                 <h4>Are You Sure?</h4>
@@ -3196,7 +3196,7 @@
                     <div class="content">
                         <div class="delete-popup">
                             <div class="delete-image text-center mx-auto">
-                                <img src="{{ URL::asset('/build/img/icons/close-circle.png')}}" alt="Img" class="img-fluid">
+                                <img src="{{ asset('/build/img/icons/close-circle.png')}}" alt="Img" class="img-fluid">
                             </div>
                             <div class="delete-heads">
                                 <h4>Are You Sure?</h4>
@@ -3291,7 +3291,7 @@
             </div>
         </div>
         <div class="text-center">
-            <a href="javascript:void(0);"><img src="{{ URL::asset('/build/img/file-manager/folder-lg.png')}}" alt="Folder"></a>
+            <a href="javascript:void(0);"><img src="{{ asset('/build/img/file-manager/folder-lg.png')}}" alt="Folder"></a>
             <h5>Website Backup for the Design team</h5>
             <p>File Size : 616 MB</p>
         </div>
@@ -3362,22 +3362,22 @@
                         <span>
                             <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right"
                                 aria-label="Member 1" data-bs-original-title="Member 1"><img
-                                    src="{{ URL::asset('/build/img/avatar/avatar-1.jpg')}}" alt="Avatar" class="avatar-md"></a>
+                                    src="{{ asset('/build/img/avatar/avatar-1.jpg')}}" alt="Avatar" class="avatar-md"></a>
                         </span>
                         <span>
                             <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right"
                                 aria-label="Member 2" data-bs-original-title="Member 2"><img
-                                    src="{{ URL::asset('/build/img/avatar/avatar-2.jpg')}}" alt="Avatar" class="avatar-md"></a>
+                                    src="{{ asset('/build/img/avatar/avatar-2.jpg')}}" alt="Avatar" class="avatar-md"></a>
                         </span>
                         <span>
                             <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right"
                                 aria-label="Member 3" data-bs-original-title="Member 3"><img
-                                    src="{{ URL::asset('/build/img/avatar/avatar-3.jpg')}}" alt="Avatar" class="avatar-md"></a>
+                                    src="{{ asset('/build/img/avatar/avatar-3.jpg')}}" alt="Avatar" class="avatar-md"></a>
                         </span>
                         <span>
                             <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right"
                                 aria-label="Member 4" data-bs-original-title="Member 4"><img
-                                    src="{{ URL::asset('/build/img/avatar/avatar-4.jpg')}}" alt="Avatar" class="avatar-md"></a>
+                                    src="{{ asset('/build/img/avatar/avatar-4.jpg')}}" alt="Avatar" class="avatar-md"></a>
                         </span>
                         <span>
                             <a href="javascript:void(0);"
@@ -3394,27 +3394,27 @@
                 <ul class="mb-4">
                     <li class="mb-4">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-1.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-1.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <p>Andrew commented on 1 items <br>3:39 PM Jul 19</p>
                         </div>
                         <p class="d-flex align-items-center location border-0"><img
-                                src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
+                                src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
                             the Design team</p>
                     </li>
                     <li class="mb-4">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-2.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-2.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <p>Drake shared an item<br>3:39 PM Jul 19</p>
                         </div>
                         <p class="d-flex align-items-center location border-0"><img
-                                src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
+                                src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
                             the Design team</p>
                     </li>
                     <li class="mb-2">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-3.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-3.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <div>
                                 <p class="mb-0 text-secondary">Melvin</p>
@@ -3424,7 +3424,7 @@
                     </li>
                     <li class="mb-2">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-4.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-4.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <div>
                                 <p class="mb-0 text-secondary">Drake</p>
@@ -3438,27 +3438,27 @@
                 <ul class="mb-4">
                     <li class="mb-4">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-1.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-1.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <p>Andrew commented on 1 items <br>3:39 PM Jul 19</p>
                         </div>
                         <p class="d-flex align-items-center location border-0"><img
-                                src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
+                                src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
                             the Design team</p>
                     </li>
                     <li class="mb-4">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-2.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-2.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <p>Drake shared an item<br>3:39 PM Jul 19</p>
                         </div>
                         <p class="d-flex align-items-center location border-0"><img
-                                src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
+                                src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
                             the Design team</p>
                     </li>
                     <li class="mb-2">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-3.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-3.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <div>
                                 <p class="mb-0 text-secondary">Melvin</p>
@@ -3468,7 +3468,7 @@
                     </li>
                     <li class="mb-2">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-4.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-4.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <div>
                                 <p class="mb-0 text-secondary">Drake</p>
@@ -3498,7 +3498,7 @@
                 <div class="modal-body p-4">
                     <div class="drag-drop text-center mb-4">
                         <div class="upload">
-                            <a href="#"><img src="{{ URL::asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
+                            <a href="#"><img src="{{ asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
                             <p>Drag and drop a <a href="#">file to upload</a></p>
                         </div>
                         <input type="file" multiple="">
@@ -3516,7 +3516,7 @@
                     <ul>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">latest-version.zip<i
                                                 data-feather="check-circle" class="ms-2 feather-16"></i></a></h6>
@@ -3528,7 +3528,7 @@
                         </li>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">Update work history.xls</a></h6>
                                     <span>616 MB</span>
@@ -3547,7 +3547,7 @@
                         </li>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">Updated Project.zip</a></h6>
                                     <span>616 MB</span>
@@ -3586,7 +3586,7 @@
                 <div class="modal-body p-4">
                     <div class="drag-drop text-center mb-4">
                         <div class="upload">
-                            <a href="#"><img src="{{ URL::asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
+                            <a href="#"><img src="{{ asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
                             <p>Drag and drop a <a href="#">file to upload</a></p>
                         </div>
                         <input type="file" multiple="">
@@ -3604,7 +3604,7 @@
                     <ul>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">latest-version<i data-feather="check-circle"
                                                 class="ms-2 feather-16"></i></a></h6>
@@ -3616,7 +3616,7 @@
                         </li>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">Update work history.xls<i
                                                 data-feather="trash-2" class="feather-16"></i></a></h6>
@@ -3632,7 +3632,7 @@
                         </li>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">updated project.zip<i data-feather="trash-2"
                                                 class="feather-16"></i></a></h6>
@@ -3733,7 +3733,7 @@
             </div>
         </div>
         <div class="text-center">
-            <a href="javascript:void(0);"><img src="{{ URL::asset('/build/img/file-manager/folder-lg.png')}}" alt="Folder"></a>
+            <a href="javascript:void(0);"><img src="{{ asset('/build/img/file-manager/folder-lg.png')}}" alt="Folder"></a>
             <h5>Website Backup for the Design team</h5>
             <p>File Size : 616 MB</p>
         </div>
@@ -3804,22 +3804,22 @@
                         <span>
                             <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right"
                                 aria-label="Member 1" data-bs-original-title="Member 1"><img
-                                    src="{{ URL::asset('/build/img/avatar/avatar-1.jpg')}}" alt="Avatar" class="avatar-md"></a>
+                                    src="{{ asset('/build/img/avatar/avatar-1.jpg')}}" alt="Avatar" class="avatar-md"></a>
                         </span>
                         <span>
                             <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right"
                                 aria-label="Member 2" data-bs-original-title="Member 2"><img
-                                    src="{{ URL::asset('/build/img/avatar/avatar-2.jpg')}}" alt="Avatar" class="avatar-md"></a>
+                                    src="{{ asset('/build/img/avatar/avatar-2.jpg')}}" alt="Avatar" class="avatar-md"></a>
                         </span>
                         <span>
                             <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right"
                                 aria-label="Member 3" data-bs-original-title="Member 3"><img
-                                    src="{{ URL::asset('/build/img/avatar/avatar-3.jpg')}}" alt="Avatar" class="avatar-md"></a>
+                                    src="{{ asset('/build/img/avatar/avatar-3.jpg')}}" alt="Avatar" class="avatar-md"></a>
                         </span>
                         <span>
                             <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right"
                                 aria-label="Member 4" data-bs-original-title="Member 4"><img
-                                    src="{{ URL::asset('/build/img/avatar/avatar-4.jpg')}}" alt="Avatar" class="avatar-md"></a>
+                                    src="{{ asset('/build/img/avatar/avatar-4.jpg')}}" alt="Avatar" class="avatar-md"></a>
                         </span>
                         <span>
                             <a href="javascript:void(0);"
@@ -3836,27 +3836,27 @@
                 <ul class="mb-4">
                     <li class="mb-4">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-1.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-1.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <p>Andrew commented on 1 items <br>3:39 PM Jul 19</p>
                         </div>
                         <p class="d-flex align-items-center location border-0"><img
-                                src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
+                                src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
                             the Design team</p>
                     </li>
                     <li class="mb-4">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-2.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-2.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <p>Drake shared an item<br>3:39 PM Jul 19</p>
                         </div>
                         <p class="d-flex align-items-center location border-0"><img
-                                src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
+                                src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
                             the Design team</p>
                     </li>
                     <li class="mb-2">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-3.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-3.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <div>
                                 <p class="mb-0 text-secondary">Melvin</p>
@@ -3866,7 +3866,7 @@
                     </li>
                     <li class="mb-2">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-4.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-4.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <div>
                                 <p class="mb-0 text-secondary">Drake</p>
@@ -3880,27 +3880,27 @@
                 <ul class="mb-4">
                     <li class="mb-4">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-1.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-1.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <p>Andrew commented on 1 items <br>3:39 PM Jul 19</p>
                         </div>
                         <p class="d-flex align-items-center location border-0"><img
-                                src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
+                                src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
                             the Design team</p>
                     </li>
                     <li class="mb-4">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-2.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-2.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <p>Drake shared an item<br>3:39 PM Jul 19</p>
                         </div>
                         <p class="d-flex align-items-center location border-0"><img
-                                src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
+                                src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
                             the Design team</p>
                     </li>
                     <li class="mb-2">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-3.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-3.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <div>
                                 <p class="mb-0 text-secondary">Melvin</p>
@@ -3910,7 +3910,7 @@
                     </li>
                     <li class="mb-2">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-4.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-4.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <div>
                                 <p class="mb-0 text-secondary">Drake</p>
@@ -3940,7 +3940,7 @@
                 <div class="modal-body p-4">
                     <div class="drag-drop text-center mb-4">
                         <div class="upload">
-                            <a href="#"><img src="{{ URL::asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
+                            <a href="#"><img src="{{ asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
                             <p>Drag and drop a <a href="#">file to upload</a></p>
                         </div>
                         <input type="file" multiple="">
@@ -3958,7 +3958,7 @@
                     <ul>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">latest-version.zip<i
                                                 data-feather="check-circle" class="ms-2 feather-16"></i></a></h6>
@@ -3970,7 +3970,7 @@
                         </li>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">Update work history.xls</a></h6>
                                     <span>616 MB</span>
@@ -3989,7 +3989,7 @@
                         </li>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">Updated Project.zip</a></h6>
                                     <span>616 MB</span>
@@ -4028,7 +4028,7 @@
                 <div class="modal-body p-4">
                     <div class="drag-drop text-center mb-4">
                         <div class="upload">
-                            <a href="#"><img src="{{ URL::asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
+                            <a href="#"><img src="{{ asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
                             <p>Drag and drop a <a href="#">file to upload</a></p>
                         </div>
                         <input type="file" multiple="">
@@ -4046,7 +4046,7 @@
                     <ul>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">latest-version<i data-feather="check-circle"
                                                 class="ms-2 feather-16"></i></a></h6>
@@ -4058,7 +4058,7 @@
                         </li>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">Update work history.xls<i
                                                 data-feather="trash-2" class="feather-16"></i></a></h6>
@@ -4074,7 +4074,7 @@
                         </li>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">updated project.zip<i data-feather="trash-2"
                                                 class="feather-16"></i></a></h6>
@@ -4175,7 +4175,7 @@
             </div>
         </div>
         <div class="text-center">
-            <a href="javascript:void(0);"><img src="{{ URL::asset('/build/img/file-manager/folder-lg.png')}}" alt="Folder"></a>
+            <a href="javascript:void(0);"><img src="{{ asset('/build/img/file-manager/folder-lg.png')}}" alt="Folder"></a>
             <h5>Website Backup for the Design team</h5>
             <p>File Size : 616 MB</p>
         </div>
@@ -4246,22 +4246,22 @@
                         <span>
                             <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right"
                                 aria-label="Member 1" data-bs-original-title="Member 1"><img
-                                    src="{{ URL::asset('/build/img/avatar/avatar-1.jpg')}}" alt="Avatar" class="avatar-md"></a>
+                                    src="{{ asset('/build/img/avatar/avatar-1.jpg')}}" alt="Avatar" class="avatar-md"></a>
                         </span>
                         <span>
                             <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right"
                                 aria-label="Member 2" data-bs-original-title="Member 2"><img
-                                    src="{{ URL::asset('/build/img/avatar/avatar-2.jpg')}}" alt="Avatar" class="avatar-md"></a>
+                                    src="{{ asset('/build/img/avatar/avatar-2.jpg')}}" alt="Avatar" class="avatar-md"></a>
                         </span>
                         <span>
                             <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right"
                                 aria-label="Member 3" data-bs-original-title="Member 3"><img
-                                    src="{{ URL::asset('/build/img/avatar/avatar-3.jpg')}}" alt="Avatar" class="avatar-md"></a>
+                                    src="{{ asset('/build/img/avatar/avatar-3.jpg')}}" alt="Avatar" class="avatar-md"></a>
                         </span>
                         <span>
                             <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right"
                                 aria-label="Member 4" data-bs-original-title="Member 4"><img
-                                    src="{{ URL::asset('/build/img/avatar/avatar-4.jpg')}}" alt="Avatar" class="avatar-md"></a>
+                                    src="{{ asset('/build/img/avatar/avatar-4.jpg')}}" alt="Avatar" class="avatar-md"></a>
                         </span>
                         <span>
                             <a href="javascript:void(0);"
@@ -4278,27 +4278,27 @@
                 <ul class="mb-4">
                     <li class="mb-4">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-1.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-1.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <p>Andrew commented on 1 items <br>3:39 PM Jul 19</p>
                         </div>
                         <p class="d-flex align-items-center location border-0"><img
-                                src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
+                                src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
                             the Design team</p>
                     </li>
                     <li class="mb-4">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-2.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-2.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <p>Drake shared an item<br>3:39 PM Jul 19</p>
                         </div>
                         <p class="d-flex align-items-center location border-0"><img
-                                src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
+                                src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
                             the Design team</p>
                     </li>
                     <li class="mb-2">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-3.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-3.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <div>
                                 <p class="mb-0 text-secondary">Melvin</p>
@@ -4308,7 +4308,7 @@
                     </li>
                     <li class="mb-2">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-4.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-4.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <div>
                                 <p class="mb-0 text-secondary">Drake</p>
@@ -4322,27 +4322,27 @@
                 <ul class="mb-4">
                     <li class="mb-4">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-1.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-1.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <p>Andrew commented on 1 items <br>3:39 PM Jul 19</p>
                         </div>
                         <p class="d-flex align-items-center location border-0"><img
-                                src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
+                                src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
                             the Design team</p>
                     </li>
                     <li class="mb-4">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-2.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-2.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <p>Drake shared an item<br>3:39 PM Jul 19</p>
                         </div>
                         <p class="d-flex align-items-center location border-0"><img
-                                src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
+                                src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for
                             the Design team</p>
                     </li>
                     <li class="mb-2">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-3.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-3.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <div>
                                 <p class="mb-0 text-secondary">Melvin</p>
@@ -4352,7 +4352,7 @@
                     </li>
                     <li class="mb-2">
                         <div class="d-flex align-items-center mb-2">
-                            <a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-4.jpg')}}"
+                            <a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-4.jpg')}}"
                                     alt="Avatar" class="avatar-md"></a>
                             <div>
                                 <p class="mb-0 text-secondary">Drake</p>
@@ -4382,7 +4382,7 @@
                 <div class="modal-body p-4">
                     <div class="drag-drop text-center mb-4">
                         <div class="upload">
-                            <a href="#"><img src="{{ URL::asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
+                            <a href="#"><img src="{{ asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
                             <p>Drag and drop a <a href="#">file to upload</a></p>
                         </div>
                         <input type="file" multiple="">
@@ -4400,7 +4400,7 @@
                     <ul>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">latest-version.zip<i
                                                 data-feather="check-circle" class="ms-2 feather-16"></i></a></h6>
@@ -4412,7 +4412,7 @@
                         </li>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">Update work history.xls</a></h6>
                                     <span>616 MB</span>
@@ -4431,7 +4431,7 @@
                         </li>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">Updated Project.zip</a></h6>
                                     <span>616 MB</span>
@@ -4470,7 +4470,7 @@
                 <div class="modal-body p-4">
                     <div class="drag-drop text-center mb-4">
                         <div class="upload">
-                            <a href="#"><img src="{{ URL::asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
+                            <a href="#"><img src="{{ asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
                             <p>Drag and drop a <a href="#">file to upload</a></p>
                         </div>
                         <input type="file" multiple="">
@@ -4488,7 +4488,7 @@
                     <ul>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">latest-version<i data-feather="check-circle"
                                                 class="ms-2 feather-16"></i></a></h6>
@@ -4500,7 +4500,7 @@
                         </li>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">Update work history.xls<i
                                                 data-feather="trash-2" class="feather-16"></i></a></h6>
@@ -4516,7 +4516,7 @@
                         </li>
                         <li class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center w-85">
-                                <img src="{{ URL::asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
+                                <img src="{{ asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
                                 <div class="flex-fill">
                                     <h6><a href="javascript:void(0);">updated project.zip<i data-feather="trash-2"
                                                 class="feather-16"></i></a></h6>
@@ -4796,7 +4796,7 @@
                                                     <input type="text"
                                                         placeholder="Scan/Search Product by code and select...">
                                                     <div class="addonset">
-                                                        <img src="{{ URL::asset('/build/img/icons/scanners.svg')}}" alt="img">
+                                                        <img src="{{ asset('/build/img/icons/scanners.svg')}}" alt="img">
                                                     </div>
                                                 </div>
                                             </div>
@@ -4826,7 +4826,7 @@
                                                                     <div class="productimgname">
                                                                         <a href="javascript:void(0);"
                                                                             class="product-img stock-img">
-                                                                            <img src="{{ URL::asset('/build/img/products/stock-img-02.png')}}"
+                                                                            <img src="{{ asset('/build/img/products/stock-img-02.png')}}"
                                                                                 alt="product">
                                                                         </a>
                                                                         <a href="javascript:void(0);">Nike Jordan</a>
@@ -4852,7 +4852,7 @@
                                                                 <td class="text-end">1500</td>
                                                                 <td>
                                                                     <a class="delete-set"><img
-                                                                            src="{{ URL::asset('/build/img/icons/delete.svg')}}"
+                                                                            src="{{ asset('/build/img/icons/delete.svg')}}"
                                                                             alt="svg')}}"></a>
                                                                 </td>
                                                             </tr>
@@ -5004,7 +5004,7 @@
                                         <div class="image-upload download">
                                             <input type="file">
                                             <div class="image-uploads">
-                                                <img src="{{ URL::asset('/build/img/download-img.png')}}" alt="img">
+                                                <img src="{{ asset('/build/img/download-img.png')}}" alt="img">
                                                 <h4>Drag and drop a <span>file to upload</span></h4>
                                             </div>
                                         </div>
@@ -5106,7 +5106,7 @@
                                                     <input type="text"
                                                         placeholder="Please type product code and select">
                                                     <div class="addonset">
-                                                        <img src="{{ URL::asset('/build/img/icons/qrcode-scan.svg')}}" alt="img">
+                                                        <img src="{{ asset('/build/img/icons/qrcode-scan.svg')}}" alt="img">
                                                     </div>
                                                 </div>
                                             </div>
@@ -5241,11 +5241,11 @@
                                 </li>
                                 <li>
                                     <a data-bs-toggle="tooltip" data-bs-placement="top" title="Pdf"><img
-                                            src="{{ URL::asset('/build/img/icons/pdf.svg')}}" alt="img"></a>
+                                            src="{{ asset('/build/img/icons/pdf.svg')}}" alt="img"></a>
                                 </li>
                                 <li>
                                     <a data-bs-toggle="tooltip" data-bs-placement="top" title="Excel"><img
-                                            src="{{ URL::asset('/build/img/icons/excel.svg')}}" alt="img"></a>
+                                            src="{{ asset('/build/img/icons/excel.svg')}}" alt="img"></a>
                                 </li>
                                 <li>
                                     <a data-bs-toggle="tooltip" data-bs-placement="top" title="Print"><i
@@ -5308,7 +5308,7 @@
                                                             <div class="productimgname">
                                                                 <a href="javascript:void(0);"
                                                                     class="product-img stock-img">
-                                                                    <img src="{{ URL::asset('/build/img/products/stock-img-02.png')}}"
+                                                                    <img src="{{ asset('/build/img/products/stock-img-02.png')}}"
                                                                         alt="product">
                                                                 </a>
                                                                 <a href="javascript:void(0);">Nike Jordan</a>
@@ -5340,7 +5340,7 @@
                                                             <div class="productimgname">
                                                                 <a href="javascript:void(0);"
                                                                     class="product-img stock-img">
-                                                                    <img src="{{ URL::asset('/build/img/products/stock-img-03.png')}}"
+                                                                    <img src="{{ asset('/build/img/products/stock-img-03.png')}}"
                                                                         alt="product">
                                                                 </a>
                                                                 <a href="javascript:void(0);">Apple Series 5 Watch</a>
@@ -5372,7 +5372,7 @@
                                                             <div class="productimgname">
                                                                 <a href="javascript:void(0);"
                                                                     class="product-img stock-img">
-                                                                    <img src="{{ URL::asset('/build/img/products/stock-img-05.png')}}"
+                                                                    <img src="{{ asset('/build/img/products/stock-img-05.png')}}"
                                                                         alt="product">
                                                                 </a>
                                                                 <a href="javascript:void(0);">Lobar Handy</a>
@@ -5512,7 +5512,7 @@
                                                     <input type="text"
                                                         placeholder="Please type product code and select">
                                                     <div class="addonset">
-                                                        <img src="{{ URL::asset('/build/img/icons/scanners.svg')}}" alt="img">
+                                                        <img src="{{ asset('/build/img/icons/scanners.svg')}}" alt="img">
                                                     </div>
                                                 </div>
                                             </div>
@@ -5538,7 +5538,7 @@
                                                         <div class="productimgname">
                                                             <a href="javascript:void(0);"
                                                                 class="product-img stock-img">
-                                                                <img src="{{ URL::asset('/build/img/products/stock-img-02.png')}}"
+                                                                <img src="{{ asset('/build/img/products/stock-img-02.png')}}"
                                                                     alt="product">
                                                             </a>
                                                             <a href="javascript:void(0);">Nike Jordan</a>
@@ -5570,7 +5570,7 @@
                                                         <div class="productimgname">
                                                             <a href="javascript:void(0);"
                                                                 class="product-img stock-img">
-                                                                <img src="{{ URL::asset('/build/img/products/stock-img-03.png')}}"
+                                                                <img src="{{ asset('/build/img/products/stock-img-03.png')}}"
                                                                     alt="product">
                                                             </a>
                                                             <a href="javascript:void(0);">Apple Series 5 Watch</a>
@@ -5602,7 +5602,7 @@
                                                         <div class="productimgname">
                                                             <a href="javascript:void(0);"
                                                                 class="product-img stock-img">
-                                                                <img src="{{ URL::asset('/build/img/products/stock-img-05.png')}}"
+                                                                <img src="{{ asset('/build/img/products/stock-img-05.png')}}"
                                                                     alt="product">
                                                             </a>
                                                             <a href="javascript:void(0);">Lobar Handy</a>
@@ -6017,7 +6017,7 @@
                                                     <input type="text"
                                                         placeholder="Please type product code and select">
                                                     <div class="addonset">
-                                                        <img src="{{ URL::asset('/build/img/icons/qrcode-scan.svg')}}" alt="img">
+                                                        <img src="{{ asset('/build/img/icons/qrcode-scan.svg')}}" alt="img">
                                                     </div>
                                                 </div>
                                             </div>
@@ -6189,7 +6189,7 @@
                                                     <input type="text"
                                                         placeholder="Please type product code and select">
                                                     <div class="addonset">
-                                                        <img src="{{ URL::asset('/build/img/icons/qrcode-scan.svg')}}" alt="img">
+                                                        <img src="{{ asset('/build/img/icons/qrcode-scan.svg')}}" alt="img">
                                                     </div>
                                                 </div>
                                             </div>
@@ -6213,7 +6213,7 @@
                                                     <td>
                                                         <div class="productimgname">
                                                             <a href="javascript:void(0);" class="product-img">
-                                                                <img src="{{ URL::asset('/build/img/products/product6.jpg')}}"
+                                                                <img src="{{ asset('/build/img/products/product6.jpg')}}"
                                                                     alt="product">
                                                             </a>
                                                             <a href="javascript:void(0);">Apple Earpods</a>
@@ -6230,7 +6230,7 @@
                                                     <td>
                                                         <div class="productimgname">
                                                             <a href="javascript:void(0);" class="product-img">
-                                                                <img src="{{ URL::asset('/build/img/products/product7.jpg')}}"
+                                                                <img src="{{ asset('/build/img/products/product7.jpg')}}"
                                                                     alt="product">
                                                             </a>
                                                             <a href="javascript:void(0);">Apple Earpods</a>
@@ -6358,7 +6358,7 @@
                                                     <div class="add-icon tab">
                                                         <a class="btn btn-filter" data-bs-toggle="modal"
                                                             data-bs-target="#add-units"><img
-                                                                src="{{ URL::asset('/build/img/icons/plus1.svg')}}" alt="img">
+                                                                src="{{ asset('/build/img/icons/plus1.svg')}}" alt="img">
                                                         </a>
                                                     </div>
                                                 </div>
@@ -6390,7 +6390,7 @@
                                                 <input type="text"
                                                     placeholder="Please type product code and select">
                                                 <div class="addonset">
-                                                    <img src="{{ URL::asset('/build/img/icons/qrcode-scan.svg')}}" alt="img">
+                                                    <img src="{{ asset('/build/img/icons/qrcode-scan.svg')}}" alt="img">
                                                 </div>
                                             </div>
                                         </div>
@@ -6556,7 +6556,7 @@
                                                     <input type="text"
                                                         placeholder="Please type product code and select">
                                                     <div class="addonset">
-                                                        <img src="{{ URL::asset('/build/img/icons/scanners.svg')}}" alt="img">
+                                                        <img src="{{ asset('/build/img/icons/scanners.svg')}}" alt="img">
                                                     </div>
                                                 </div>
                                             </div>
@@ -6582,7 +6582,7 @@
                                                         <div class="productimgname">
                                                             <a href="javascript:void(0);"
                                                                 class="product-img stock-img">
-                                                                <img src="{{ URL::asset('/build/img/products/stock-img-02.png')}}"
+                                                                <img src="{{ asset('/build/img/products/stock-img-02.png')}}"
                                                                     alt="product">
                                                             </a>
                                                             <a href="javascript:void(0);">Nike Jordan</a>
@@ -6614,7 +6614,7 @@
                                                         <div class="productimgname">
                                                             <a href="javascript:void(0);"
                                                                 class="product-img stock-img">
-                                                                <img src="{{ URL::asset('/build/img/products/stock-img-03.png')}}"
+                                                                <img src="{{ asset('/build/img/products/stock-img-03.png')}}"
                                                                     alt="product">
                                                             </a>
                                                             <a href="javascript:void(0);">Apple Series 5 Watch</a>
@@ -6646,7 +6646,7 @@
                                                         <div class="productimgname">
                                                             <a href="javascript:void(0);"
                                                                 class="product-img stock-img">
-                                                                <img src="{{ URL::asset('/build/img/products/stock-img-05.png')}}"
+                                                                <img src="{{ asset('/build/img/products/stock-img-05.png')}}"
                                                                     alt="product">
                                                             </a>
                                                             <a href="javascript:void(0);">Lobar Handy</a>
@@ -6762,7 +6762,7 @@
 @endif
 
 @if (Route::is(['store.pos']))
-    
+
 
     <!-- Print Receipt -->
     <div class="modal fade modal-default" id="print-receipt" aria-labelledby="print-receipt">
@@ -6776,7 +6776,7 @@
                 <div class="modal-body">
                     <div class="icon-head text-center">
                         <a href="{{ url('pos-design') }}">
-                            <img src="{{ URL::asset('/build/img/logo.png')}}" width="100" height="30" alt="Receipt Logo">
+                            <img src="{{ asset('/build/img/logo.png')}}" width="100" height="30" alt="Receipt Logo">
                         </a>
                     </div>
                     <div class="text-center info text-center">
@@ -6865,7 +6865,7 @@
                         <p>**VAT against this challan is payable through central registration. Thank you for your
                             business!</p>
                         <a href="{{ url('pos-design') }}">
-                            <img src="{{ URL::asset('/build/img/barcode/barcode-03.jpg')}}" alt="Barcode">
+                            <img src="{{ asset('/build/img/barcode/barcode-03.jpg')}}" alt="Barcode">
                         </a>
                         <p>Sale 31</p>
                         <p>Thank You For Shopping With Us. Please Come Again</p>
@@ -6896,7 +6896,7 @@
                             <div class="product-list d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center flex-fill">
                                     <a href="javascript:void(0);" class="img-bg me-2">
-                                        <img src="{{ URL::asset('/build/img/products/pos-product-16.png')}}" alt="Products">
+                                        <img src="{{ asset('/build/img/products/pos-product-16.png')}}" alt="Products">
                                     </a>
                                     <div class="info d-flex align-items-center justify-content-between flex-fill">
                                         <div>
@@ -6911,7 +6911,7 @@
                             <div class="product-list d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center flex-fill">
                                     <a href="javascript:void(0);" class="img-bg me-2">
-                                        <img src="{{ URL::asset('/build/img/products/pos-product-17.png')}}" alt="Products">
+                                        <img src="{{ asset('/build/img/products/pos-product-17.png')}}" alt="Products">
                                     </a>
                                     <div class="info d-flex align-items-center justify-content-between flex-fill">
                                         <div>
@@ -6925,7 +6925,7 @@
                             <div class="product-list d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center flex-fill">
                                     <a href="javascript:void(0);" class="img-bg me-2">
-                                        <img src="{{ URL::asset('/build/img/products/pos-product-16.png')}}" alt="Products">
+                                        <img src="{{ asset('/build/img/products/pos-product-16.png')}}" alt="Products">
                                     </a>
                                     <div class="info d-flex align-items-center justify-content-between flex-fill">
                                         <div>
@@ -6939,7 +6939,7 @@
                             <div class="product-list d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center flex-fill">
                                     <a href="javascript:void(0);" class="img-bg me-2">
-                                        <img src="{{ URL::asset('/build/img/products/pos-product-17.png')}}" alt="Products">
+                                        <img src="{{ asset('/build/img/products/pos-product-17.png')}}" alt="Products">
                                     </a>
                                     <div class="info d-flex align-items-center justify-content-between flex-fill">
                                         <div>
@@ -6963,7 +6963,7 @@
     </div>
     <!-- /Products -->
 
-    
+
 
     <!-- Hold -->
     <div class="modal fade modal-default pos-modal" id="hold-order" aria-labelledby="hold-order">
@@ -7104,7 +7104,7 @@
                                     <div class="search-set">
                                         <div class="search-input">
                                             <a class="btn btn-searchset d-flex align-items-center h-100"><img
-                                                    src="{{ URL::asset('/build/img/icons/search-white.svg')}}" alt="img"></a>
+                                                    src="{{ asset('/build/img/icons/search-white.svg')}}" alt="img"></a>
                                         </div>
                                     </div>
                                     <div class="wordset">
@@ -7112,13 +7112,13 @@
                                             <li>
                                                 <a class="d-flex align-items-center justify-content-center"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Pdf"><img src="{{ URL::asset('/build/img/icons/pdf.svg')}}"
+                                                    title="Pdf"><img src="{{ asset('/build/img/icons/pdf.svg')}}"
                                                         alt="img"></a>
                                             </li>
                                             <li>
                                                 <a class="d-flex align-items-center justify-content-center"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Excel"><img src="{{ URL::asset('/build/img/icons/excel.svg')}}"
+                                                    title="Excel"><img src="{{ asset('/build/img/icons/excel.svg')}}"
                                                         alt="img"></a>
                                             </li>
                                             <li>
@@ -7270,7 +7270,7 @@
                                     <div class="search-set">
                                         <div class="search-input">
                                             <a class="btn btn-searchset d-flex align-items-center h-100"><img
-                                                    src="{{ URL::asset('/build/img/icons/search-white.svg')}}" alt="img"></a>
+                                                    src="{{ asset('/build/img/icons/search-white.svg')}}" alt="img"></a>
                                         </div>
                                     </div>
                                     <div class="wordset">
@@ -7278,13 +7278,13 @@
                                             <li>
                                                 <a class="d-flex align-items-center justify-content-center"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Pdf"><img src="{{ URL::asset('/build/img/icons/pdf.svg')}}"
+                                                    title="Pdf"><img src="{{ asset('/build/img/icons/pdf.svg')}}"
                                                         alt="img"></a>
                                             </li>
                                             <li>
                                                 <a class="d-flex align-items-center justify-content-center"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Excel"><img src="{{ URL::asset('/build/img/icons/excel.svg')}}"
+                                                    title="Excel"><img src="{{ asset('/build/img/icons/excel.svg')}}"
                                                         alt="img"></a>
                                             </li>
                                             <li>
@@ -7436,7 +7436,7 @@
                                     <div class="search-set">
                                         <div class="search-input">
                                             <a class="btn btn-searchset d-flex align-items-center h-100"><img
-                                                    src="{{ URL::asset('/build/img/icons/search-white.svg')}}" alt="img"></a>
+                                                    src="{{ asset('/build/img/icons/search-white.svg')}}" alt="img"></a>
                                         </div>
                                     </div>
                                     <div class="wordset">
@@ -7444,12 +7444,12 @@
                                             <li>
                                                 <a data-bs-toggle="tooltip" data-bs-placement="top" title="Pdf"
                                                     class="d-flex align-items-center justify-content-center"><img
-                                                        src="{{ URL::asset('/build/img/icons/pdf.svg')}}" alt="img"></a>
+                                                        src="{{ asset('/build/img/icons/pdf.svg')}}" alt="img"></a>
                                             </li>
                                             <li>
                                                 <a data-bs-toggle="tooltip" data-bs-placement="top" title="Excel"
                                                     class="d-flex align-items-center justify-content-center"><img
-                                                        src="{{ URL::asset('/build/img/icons/excel.svg')}}" alt="img"></a>
+                                                        src="{{ asset('/build/img/icons/excel.svg')}}" alt="img"></a>
                                             </li>
                                             <li>
                                                 <a data-bs-toggle="tooltip" data-bs-placement="top" title="Print"
@@ -7638,7 +7638,7 @@
                                     <div class="search-set w-100 search-order">
                                         <div class="search-input w-100">
                                             <a class="btn btn-searchset d-flex align-items-center h-100"><img
-                                                    src="{{ URL::asset('/build/img/icons/search-white.svg')}}" alt="img"></a>
+                                                    src="{{ asset('/build/img/icons/search-white.svg')}}" alt="img"></a>
                                         </div>
                                     </div>
                                 </div>
@@ -7777,7 +7777,7 @@
                                     <div class="search-set w-100 search-order">
                                         <div class="search-input">
                                             <a class="btn btn-searchset d-flex align-items-center h-100"><img
-                                                    src="{{ URL::asset('/build/img/icons/search-white.svg')}}" alt="img"></a>
+                                                    src="{{ asset('/build/img/icons/search-white.svg')}}" alt="img"></a>
                                         </div>
                                     </div>
 
@@ -7916,7 +7916,7 @@
                                     <div class="search-set w-100 search-order">
                                         <div class="search-input">
                                             <a class="btn btn-searchset d-flex align-items-center h-100"><img
-                                                    src="{{ URL::asset('/build/img/icons/search-white.svg')}}" alt="img"></a>
+                                                    src="{{ asset('/build/img/icons/search-white.svg')}}" alt="img"></a>
                                         </div>
                                     </div>
                                 </div>
@@ -8411,7 +8411,7 @@
                                 <div class="new-employee-field">
                                     <div class="profile-pic-upload">
                                         <div class="profile-pic people-profile-pic">
-                                            <img src="{{ URL::asset('/build/img/profiles/profile.png')}}" alt="Img">
+                                            <img src="{{ asset('/build/img/profiles/profile.png')}}" alt="Img">
                                             <a href="#"><i data-feather="x-square"
                                                     class="x-square-add"></i></a>
                                         </div>
@@ -8621,7 +8621,7 @@
                                             <span>Avatar</span>
                                             <div class="profile-pic-upload edit-pic">
                                                 <div class="profile-pic">
-                                                    <span><img src="{{ URL::asset('/build/img/supplier/edit-supplier.jpg')}}"
+                                                    <span><img src="{{ asset('/build/img/supplier/edit-supplier.jpg')}}"
                                                             alt=""></span>
                                                     <div class="close-img">
                                                         <i data-feather="x" class="info-img"></i>
@@ -9106,7 +9106,7 @@
 												</div>
 											</div>
 										</div>
-									</div>					
+									</div>
 									<div class="modal-footer-btn">
 										<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
 										<button type="submit" class="btn btn-submit">Submit</button>
@@ -9165,7 +9165,7 @@
 												</div>
 											</div>
 										</div>
-									</div>					
+									</div>
 									<div class="modal-footer-btn">
 										<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
 										<button type="submit" class="btn btn-submit">Save Changes</button>
@@ -9248,7 +9248,7 @@
 											</div>
 										</div>
 									</div>
-								</div>					
+								</div>
 								<div class="modal-footer-btn">
 									<a href="javascript:void(0);" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</a>
 									<a href="{{url('warehouse')}}" class="btn btn-submit">Submit</a>
@@ -9305,7 +9305,7 @@
 											</div>
 										</div>
 									</div>
-								</div>					
+								</div>
 								<div class="modal-footer-btn">
 									<a href="javascript:void(0);" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</a>
 									<a href="{{url('warehouse')}}" class="btn btn-submit">Save Changes</a>
@@ -9771,7 +9771,7 @@
 					</div>
 				</div>
 				<!-- /Add Event Modal -->
-				
+
                 <!-- Add Event Modal -->
                 <div class="modal custom-modal fade none-border" id="my_event">
                     <div class="modal-dialog modal-dialog-centered">
@@ -9792,7 +9792,7 @@
                     </div>
                 </div>
 				<!-- /Add Event Modal -->
-				
+
                 <!-- Add Category Modal -->
                 <div class="modal custom-modal fade" id="add_new_event">
                     <div class="modal-dialog modal-dialog-centered">
@@ -9859,7 +9859,7 @@
 												<input type="text" class="form-control">
 											</div>
 										</div>
-										
+
 										<div class="row">
 											<!-- Editor -->
 											<div class="col-md-12">
@@ -9876,7 +9876,7 @@
 											<!-- /Editor -->
 										</div>
 									</div>
-									
+
 									<div class="modal-footer-btn">
 										<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
 										<button type="submit" class="btn btn-submit">Submit</button>
@@ -9919,14 +9919,14 @@
 												<input type="text" class="form-control" placeholder="Beijing">
 											</div>
 										</div>
-										
+
 										<div class="row">
 											<!-- Editor -->
 											<div class="col-md-12">
 												<div class="edit-add card">
 													<div class="edit-add">
 														<label class="form-label">Description</label>
-				
+
 													</div>
 													<div class="card-body-list">
 														<div id="summernote5">Type your message</div>
@@ -9937,7 +9937,7 @@
 											<!-- /Editor -->
 										</div>
 									</div>
-									
+
 									<div class="modal-footer-btn">
 										<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
 										<button type="submit" class="btn btn-submit">Submit</button>
@@ -10283,13 +10283,13 @@
 													<option>Susan Lopez</option>
 												</select>
 											</div>
-										</div>	
+										</div>
 										<div class="col-lg-12">
 											<div class="mb-3 summer-description-box">
 												<label class="form-label">Description</label>
 												<div id="summernote"></div>
 											</div>
-										</div>			
+										</div>
 										<div class="input-blocks m-0">
 											<div class="status-toggle modal-status d-flex justify-content-between align-items-center">
 												<span class="status-label">Status</span>
@@ -10342,13 +10342,13 @@
 													<option>Susan Lopez</option>
 												</select>
 											</div>
-										</div>	
+										</div>
 										<div class="col-lg-12">
 											<div class="mb-3 summer-description-box">
 												<label class="form-label">Description</label>
 												<div id="summernote2"></div>
 											</div>
-										</div>			
+										</div>
 										<div class="input-blocks m-0">
 											<div class="status-toggle modal-status d-flex justify-content-between align-items-center">
 												<span class="status-label">Status</span>
@@ -10394,7 +10394,7 @@
 												<label class="form-label">Designation Name</label>
 												<input type="text" class="form-control">
 											</div>
-										</div>		
+										</div>
 										<div class="input-blocks m-0">
 											<div class="status-toggle modal-status d-flex justify-content-between align-items-center">
 												<span class="status-label">Status</span>
@@ -10438,7 +10438,7 @@
 												<label class="form-label">Designation  Name</label>
 												<input type="text" class="form-control" value="Designer">
 											</div>
-										</div>		
+										</div>
 										<div class="input-blocks m-0">
 											<div class="status-toggle modal-status d-flex justify-content-between align-items-center">
 												<span class="status-label">Status</span>
@@ -10639,14 +10639,14 @@
 													<label class="form-label">Expense Name</label>
 													<input type="text" class="form-control">
 												</div>
-												
-											</div>								
+
+											</div>
 											<!-- Editor -->
 											<div class="col-md-12">
 												<div class="edit-add card">
 													<div class="edit-add">
 														<label class="form-label">Description</label>
-				
+
 													</div>
 													<div class="card-body-list input-blocks mb-0">
 														<textarea class="form-control"></textarea>
@@ -10655,7 +10655,7 @@
 												</div>
 											</div>
 											<!-- /Editor -->
-										</div>									
+										</div>
 										<div class="modal-footer-btn">
 											<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
 											<button type="submit" class="btn btn-submit">Submit</button>
@@ -10689,8 +10689,8 @@
 											<label class="form-label">Expense Name</label>
 											<input type="text" value="Employee Benefits" class="form-control">
 										</div>
-										
-									</div>							
+
+									</div>
 									<!-- Editor -->
 									<div class="col-md-12">
 										<div class="edit-add card">
@@ -10704,7 +10704,7 @@
 										</div>
 									</div>
 									<!-- /Editor -->
-								</div>						
+								</div>
 								<div class="modal-footer-btn">
 									<a href="javascript:void(0);" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</a>
 									<a href="{{url('expense-category')}}" class="btn btn-submit">Save Changes</a>
@@ -10771,8 +10771,8 @@
 												<input type="text" class="form-control">
 												<span class="unlimited-text">0 for Unlimited</span>
 											</div>
-											
-										</div>								
+
+										</div>
 										<!-- Editor -->
 										<div class="col-md-12">
 											<div class="edit-add card">
@@ -10786,7 +10786,7 @@
 											</div>
 										</div>
 										<!-- /Editor -->
-									</div>							
+									</div>
 									<div class="modal-footer-btn">
 										<a href="javascript:void(0);" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</a>
 										<a href="{{url('expense-list')}}" class="btn btn-submit">Submit</a>
@@ -10851,8 +10851,8 @@
 												<input type="text" class="form-control">
 												<span class="unlimited-text">0 for Unlimited</span>
 											</div>
-											
-										</div>								
+
+										</div>
 										<!-- Editor -->
 										<div class="col-md-12">
 											<div class="edit-add card">
@@ -10893,7 +10893,7 @@
 			</div>
 		</div>
 		<div class="text-center">
-			<a href="javascript:void(0);"><img src="{{ URL::asset('/build/img/file-manager/folder-lg.png')}}" alt="Folder"></a>
+			<a href="javascript:void(0);"><img src="{{ asset('/build/img/file-manager/folder-lg.png')}}" alt="Folder"></a>
 			<h5>Website Backup for the Design team</h5>
 			<p>File Size : 616 MB</p>
 		</div>
@@ -10953,16 +10953,16 @@
 				<div class="d-flex align-items-center justify-content-between avatar-wrap">
 					<div class="avatar-access d-flex align-items-center mb-4">
 						<span>
-							<a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Member 1" data-bs-original-title="Member 1"><img src="{{ URL::asset('/build/img/avatar/avatar-1.jpg')}}" alt="Avatar" class="avatar-md"></a>
+							<a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Member 1" data-bs-original-title="Member 1"><img src="{{ asset('/build/img/avatar/avatar-1.jpg')}}" alt="Avatar" class="avatar-md"></a>
 						</span>
 						<span>
-							<a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Member 2" data-bs-original-title="Member 2"><img src="{{ URL::asset('/build/img/avatar/avatar-2.jpg')}}" alt="Avatar" class="avatar-md"></a>
+							<a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Member 2" data-bs-original-title="Member 2"><img src="{{ asset('/build/img/avatar/avatar-2.jpg')}}" alt="Avatar" class="avatar-md"></a>
 						</span>
 						<span>
-							<a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Member 3" data-bs-original-title="Member 3"><img src="{{ URL::asset('/build/img/avatar/avatar-3.jpg')}}" alt="Avatar" class="avatar-md"></a>
+							<a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Member 3" data-bs-original-title="Member 3"><img src="{{ asset('/build/img/avatar/avatar-3.jpg')}}" alt="Avatar" class="avatar-md"></a>
 						</span>
 						<span>
-						   <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Member 4" data-bs-original-title="Member 4"><img src="{{ URL::asset('/build/img/avatar/avatar-4.jpg')}}" alt="Avatar" class="avatar-md"></a>
+						   <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Member 4" data-bs-original-title="Member 4"><img src="{{ asset('/build/img/avatar/avatar-4.jpg')}}" alt="Avatar" class="avatar-md"></a>
 						</span>
 						<span>
 						   <a href="javascript:void(0);" class="avatar-md add d-flex align-items-center justify-content-center"><i data-feather="plus" class="feather-16 me-1"></i></a>
@@ -10976,27 +10976,27 @@
 				<ul class="mb-4">
 					<li class="mb-4">
 						<div class="d-flex align-items-center mb-2">
-							<a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-1.jpg')}}" alt="Avatar" class="avatar-md"></a>
+							<a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-1.jpg')}}" alt="Avatar" class="avatar-md"></a>
 							<p>Andrew commented on 1 items <br>3:39 PM Jul 19</p>
 						</div>
-						<p class="d-flex align-items-center location border-0"><img src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for the Design team</p>
+						<p class="d-flex align-items-center location border-0"><img src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for the Design team</p>
 					</li>
 					<li class="mb-4">
 						<div class="d-flex align-items-center mb-2">
-							<a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-2.jpg')}}" alt="Avatar" class="avatar-md"></a>
+							<a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-2.jpg')}}" alt="Avatar" class="avatar-md"></a>
 							<p>Drake shared an item<br>3:39 PM Jul 19</p>
 						</div>
-						<p class="d-flex align-items-center location border-0"><img src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for the Design team</p>
+						<p class="d-flex align-items-center location border-0"><img src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for the Design team</p>
 					</li>
 					<li class="mb-2">
 						<div class="d-flex align-items-center mb-2">
-							<a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-3.jpg')}}" alt="Avatar" class="avatar-md"></a>
+							<a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-3.jpg')}}" alt="Avatar" class="avatar-md"></a>
 							<div><p class="mb-0 text-secondary">Melvin</p><p class="mb-0">Commentor</p></div>
 						</div>
 					</li>
 					<li class="mb-2">
 						<div class="d-flex align-items-center mb-2">
-							<a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-4.jpg')}}" alt="Avatar" class="avatar-md"></a>
+							<a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-4.jpg')}}" alt="Avatar" class="avatar-md"></a>
 							<div><p class="mb-0 text-secondary">Drake</p><p class="mb-0">Editor</p></div>
 						</div>
 					</li>
@@ -11005,27 +11005,27 @@
 				<ul class="mb-4">
 					<li class="mb-4">
 						<div class="d-flex align-items-center mb-2">
-							<a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-1.jpg')}}" alt="Avatar" class="avatar-md"></a>
+							<a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-1.jpg')}}" alt="Avatar" class="avatar-md"></a>
 							<p>Andrew commented on 1 items <br>3:39 PM Jul 19</p>
 						</div>
-						<p class="d-flex align-items-center location border-0"><img src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for the Design team</p>
+						<p class="d-flex align-items-center location border-0"><img src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for the Design team</p>
 					</li>
 					<li class="mb-4">
 						<div class="d-flex align-items-center mb-2">
-							<a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-2.jpg')}}" alt="Avatar" class="avatar-md"></a>
+							<a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-2.jpg')}}" alt="Avatar" class="avatar-md"></a>
 							<p>Drake shared an item<br>3:39 PM Jul 19</p>
 						</div>
-						<p class="d-flex align-items-center location border-0"><img src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for the Design team</p>
+						<p class="d-flex align-items-center location border-0"><img src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">Website Backup for the Design team</p>
 					</li>
 					<li class="mb-2">
 						<div class="d-flex align-items-center mb-2">
-							<a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-3.jpg')}}" alt="Avatar" class="avatar-md"></a>
+							<a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-3.jpg')}}" alt="Avatar" class="avatar-md"></a>
 							<div><p class="mb-0 text-secondary">Melvin</p><p class="mb-0">Commentor</p></div>
 						</div>
 					</li>
 					<li class="mb-2">
 						<div class="d-flex align-items-center mb-2">
-							<a href="javascript:void(0);" class="me-3"><img src="{{ URL::asset('/build/img/avatar/avatar-4.jpg')}}" alt="Avatar" class="avatar-md"></a>
+							<a href="javascript:void(0);" class="me-3"><img src="{{ asset('/build/img/avatar/avatar-4.jpg')}}" alt="Avatar" class="avatar-md"></a>
 							<div><p class="mb-0 text-secondary">Drake</p><p class="mb-0">Editor</p></div>
 						</div>
 					</li>
@@ -11050,7 +11050,7 @@
 				<div class="modal-body p-4">
 					<div class="drag-drop text-center mb-4">
 						<div class="upload">
-							<a href="#"><img src="{{ URL::asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
+							<a href="#"><img src="{{ asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
 							<p>Drag and drop a <a href="#">file to upload</a></p>
 						</div>
 						<input type="file" multiple="">
@@ -11067,7 +11067,7 @@
 					<ul>
 						<li class="d-flex align-items-center justify-content-between">
 							<div class="d-flex align-items-center w-85">
-								<img src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
+								<img src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
 								<div class="flex-fill">
 									<h6><a href="javascript:void(0);">latest-version.zip<i data-feather="check-circle" class="ms-2 feather-16"></i></a></h6>
 									<span>616 MB</span>
@@ -11077,7 +11077,7 @@
 						</li>
 						<li class="d-flex align-items-center justify-content-between">
 							<div class="d-flex align-items-center w-85">
-								<img src="{{ URL::asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
+								<img src="{{ asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
 								<div class="flex-fill">
 									<h6><a href="javascript:void(0);">Update work history.xls</a></h6>
 									<span>616 MB</span>
@@ -11093,7 +11093,7 @@
 						</li>
 						<li class="d-flex align-items-center justify-content-between">
 							<div class="d-flex align-items-center w-85">
-								<img src="{{ URL::asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
+								<img src="{{ asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
 								<div class="flex-fill">
 									<h6><a href="javascript:void(0);">Updated Project.zip</a></h6>
 									<span>616 MB</span>
@@ -11128,7 +11128,7 @@
 				<div class="modal-body p-4">
 					<div class="drag-drop text-center mb-4">
 						<div class="upload">
-							<a href="#"><img src="{{ URL::asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
+							<a href="#"><img src="{{ asset('/build/img/icons/drag-drop.svg')}}" alt=""></a>
 							<p>Drag and drop a <a href="#">file to upload</a></p>
 						</div>
 						<input type="file" multiple="">
@@ -11145,7 +11145,7 @@
 					<ul>
 						<li class="d-flex align-items-center justify-content-between">
 							<div class="d-flex align-items-center w-85">
-								<img src="{{ URL::asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
+								<img src="{{ asset('/build/img/icons/folder.svg')}}" alt="Folder" class="me-2">
 								<div class="flex-fill">
 									<h6><a href="javascript:void(0);">latest-version<i data-feather="check-circle" class="ms-2 feather-16"></i></a></h6>
 									<span>616 MB</span>
@@ -11155,7 +11155,7 @@
 						</li>
 						<li class="d-flex align-items-center justify-content-between">
 							<div class="d-flex align-items-center w-85">
-								<img src="{{ URL::asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
+								<img src="{{ asset('/build/img/icons/xls.svg')}}" alt="Folder" class="me-2">
 								<div class="flex-fill">
 									<h6><a href="javascript:void(0);">Update work history.xls<i data-feather="trash-2" class="feather-16"></i></a></h6>
 									<span>16 MB</span>
@@ -11168,7 +11168,7 @@
 						</li>
 						<li class="d-flex align-items-center justify-content-between">
 							<div class="d-flex align-items-center w-85">
-								<img src="{{ URL::asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
+								<img src="{{ asset('/build/img/icons/zip.svg')}}" alt="Folder" class="me-2">
 								<div class="flex-fill">
 									<h6><a href="javascript:void(0);">updated project.zip<i data-feather="trash-2" class="feather-16"></i></a></h6>
 									<span>14 MB</span>
@@ -11279,7 +11279,7 @@
 											<i data-feather="calendar" class="info-img"></i>
 											<input type="text" class="datetimepicker" placeholder="Select">
 											</div>
-										</div>		
+										</div>
 									</div>
 									<div class="col-lg-6">
 										<div class="input-blocks">
@@ -11288,14 +11288,14 @@
 										<i data-feather="calendar" class="info-img"></i>
 										<input type="text" class="datetimepicker" placeholder="Select">
 										</div>
-									</div>		
+									</div>
 									</div>
 										<div class="col-lg-12">
 											<div class="input-blocks">
 												<label>No of Days</label>
 												<input type="text" class="form-control" placeholder="01">
 											</div>
-										</div>	
+										</div>
 										<div class="input-blocks m-0">
 											<div class="status-toggle modal-status d-flex justify-content-between align-items-center">
 												<span class="status-label">Status</span>
@@ -11339,7 +11339,7 @@
 												<label>Add Holiday</label>
 												<input type="text" class="form-control" value="Newyear">
 											</div>
-										</div>		
+										</div>
 										<div class="col-lg-6">
 											<div class="input-blocks">
 											<label>Start Date</label>
@@ -11347,7 +11347,7 @@
 											<i data-feather="calendar" class="info-img"></i>
 											<input type="text" class="datetimepicker" placeholder="01 Jan 2023">
 											</div>
-										</div>		
+										</div>
 									</div>
 									<div class="col-lg-6">
 										<div class="input-blocks">
@@ -11356,7 +11356,7 @@
 											<i data-feather="calendar" class="info-img"></i>
 											<input type="text" class="datetimepicker" placeholder="01 Jan 2023">
 										</div>
-									</div>		
+									</div>
 									</div>
 										<div class="mb-0">
 											<div class="status-toggle modal-status d-flex justify-content-between align-items-center">
@@ -11468,8 +11468,8 @@
 											</div>
 										</div>
 									</div>
-									
-									
+
+
 									<div class="modal-footer-btn">
 										<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
 										<button type="submit" class="btn btn-submit">Save Changes</button>
@@ -11505,7 +11505,7 @@
 										<div class="col-lg-12">
 											<div class="input-blocks">
 												<label>Start Date</label>
-												
+
 												<div class="input-groupicon calender-input">
 													<i data-feather="calendar" class="info-img"></i>
 													<input type="text" class="datetimepicker" placeholder="Select From - To Date" >
@@ -11553,7 +11553,7 @@
 													</div>
 												</div>
 											</div>
-											
+
 										</div>
 										<div class="col-lg-12">
 											<div class="mb-3 summer-description-box mb-0">
@@ -11595,7 +11595,7 @@
 										<div class="col-lg-12">
 											<div class="input-blocks">
 												<label class="form-label">Start Date</label>
-												
+
 												<div class="input-groupicon calender-input">
 													<i data-feather="calendar" class="info-img"></i>
 													<input type="text" class="datetimepicker" placeholder="Select From - To Date" >
@@ -11642,7 +11642,7 @@
 													</div>
 												</div>
 											</div>
-											
+
 										</div>
 										<div class="col-lg-12">
 											<div class="mb-3 summer-description-box mb-0">
@@ -11832,10 +11832,10 @@
 																<td>
 																	<div class="productimgname">
 																		<a href="javascript:void(0);" class="product-img stock-img">
-																			<img src="{{ URL::asset('/build/img/products/stock-img-02.png')}}" alt="product">
+																			<img src="{{ asset('/build/img/products/stock-img-02.png')}}" alt="product">
 																		</a>
 																		<a href="javascript:void(0);">Nike Jordan</a>
-																	</div>												
+																	</div>
 																</td>
 																<td>PT002</td>
 																<td>Nike</td>
@@ -11855,7 +11855,7 @@
 																			<i data-feather="trash-2" class="feather-trash-2"></i>
 																		</a>
 																	</div>
-																	
+
 																</td>
 															</tr>
 														</tbody>
@@ -12225,7 +12225,7 @@
 							</button>
 						</div>
 						<div class="modal-body custom-modal-body">
-							<form action="purchase-list">							
+							<form action="purchase-list">
 								<div>
 									<div class="row">
 										<div class="col-lg-3 col-sm-6 col-12">
@@ -12253,7 +12253,7 @@
 												<div class="input-groupicon">
 													<input type="text" placeholder="19 Jan 2023" class="datetimepicker">
 													<div class="addonset">
-														<img src="{{ URL::asset('/build/img/icons/calendars.svg')}}" alt="img">
+														<img src="{{ asset('/build/img/icons/calendars.svg')}}" alt="img">
 													</div>
 												</div>
 											</div>
@@ -12279,7 +12279,7 @@
 													<input type="text"
 														placeholder="Scan/Search Product by code and select">
 													<div class="addonset">
-														<img src="{{ URL::asset('/build/img/icons/scanners.svg')}}" alt="img">
+														<img src="{{ asset('/build/img/icons/scanners.svg')}}" alt="img">
 													</div>
 												</div>
 											</div>
@@ -12308,7 +12308,7 @@
 															<td>
 																<div class="productimgname">
 																	<a href="javascript:void(0);" class="product-img stock-img">
-																		<img src="{{ URL::asset('/build/img/products/stock-img-02.png')}}" alt="product">
+																		<img src="{{ asset('/build/img/products/stock-img-02.png')}}" alt="product">
 																	</a>
 																	<a href="javascript:void(0);">Nike Jordan</a>
 																</div>
@@ -12326,7 +12326,7 @@
 															<td>1500</td>
 															<td>
 																<a class="delete-set"><img
-																		src="{{ URL::asset('/build/img/icons/delete.svg')}}" alt="svg')}}"></a>
+																		src="{{ asset('/build/img/icons/delete.svg')}}" alt="svg')}}"></a>
 															</td>
 														</tr>
 													</tbody>
@@ -12478,7 +12478,7 @@
 											<div class="image-upload download">
 												<input type="file">
 												<div class="image-uploads">
-													<img src="{{ URL::asset('/build/img/download-img.png')}}" alt="img">
+													<img src="{{ asset('/build/img/download-img.png')}}" alt="img">
 													<h4>Drag and drop a <span>file to upload</span></h4>
 												</div>
 											</div>
@@ -12508,13 +12508,13 @@
 									<div id="summernote3">
 									</div>
 									<p>Maximum 60 Characters</p>
-								</div>	
+								</div>
 								<div class="modal-footer-btn">
 									<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
 									<button type="submit" class="btn btn-submit">Submit</button>
 								</div>
 							</form>
-							
+
 						</div>
 					</div>
 				</div>
@@ -12584,7 +12584,7 @@
 														<div class="input-groupicon select-code">
 															<input type="text" placeholder="Please type product code and select">
 															<div class="addonset">
-																<img src="{{ URL::asset('/build/img/icons/qrcode-scan.svg')}}" alt="img">
+																<img src="{{ asset('/build/img/icons/qrcode-scan.svg')}}" alt="img">
 															</div>
 														</div>
 													</div>
@@ -12620,7 +12620,7 @@
 													</tbody>
 												</table>
 											</div>
-				
+
 											<div class="row">
 												<div class="col-lg-6 ms-auto">
 													<div class="total-order w-100 max-widthauto m-auto mb-4">
@@ -12645,7 +12645,7 @@
 													</div>
 												</div>
 											</div>
-											
+
 											<div class="row">
 												<div class="col-lg-3 col-sm-6 col-12">
 													<div class="input-blocks">
@@ -12653,7 +12653,7 @@
 														<div class="input-groupicon select-code">
 															<input type="text" value="0" class="p-2">
 														</div>
-														
+
 													</div>
 												</div>
 												<div class="col-lg-3 col-sm-6 col-12">
@@ -12755,7 +12755,7 @@
 														<div class="input-groupicon select-code">
 															<input type="text" placeholder="Please type product code and select" value="Apex Computers">
 															<div class="addonset">
-																<img src="{{ URL::asset('/build/img/icons/qrcode-scan.svg')}}" alt="img">
+																<img src="{{ asset('/build/img/icons/qrcode-scan.svg')}}" alt="img">
 															</div>
 														</div>
 													</div>
@@ -12780,7 +12780,7 @@
 														<tr>
 															<td>
 																<a class="product-img">
-																	<img src="{{ URL::asset('/build/img/products/product1.jpg')}}" alt="product">
+																	<img src="{{ asset('/build/img/products/product1.jpg')}}" alt="product">
 																</a>
 															</td>
 															<td>2/27/2022</td>
@@ -12795,7 +12795,7 @@
 														<tr>
 															<td>
 																<a class="product-img">
-																	<img src="{{ URL::asset('/build/img/products/product5.jpg')}}" alt="product">
+																	<img src="{{ asset('/build/img/products/product5.jpg')}}" alt="product">
 																</a>
 															</td>
 															<td>3/24/2022</td>
@@ -12805,12 +12805,12 @@
 															<td>2580</td>
 															<td>1250</td>
 															<td>2580</td>
-															<td><span class="badges bg-lightred">Unpaid</span></td>													
+															<td><span class="badges bg-lightred">Unpaid</span></td>
 														</tr>
 													</tbody>
 												</table>
 											</div>
-				
+
 											<div class="row">
 												<div class="col-lg-6 ms-auto">
 													<div class="total-order w-100 max-widthauto m-auto mb-4">
@@ -12835,7 +12835,7 @@
 													</div>
 												</div>
 											</div>
-											
+
 											<div class="row">
 												<div class="col-lg-3 col-sm-6 col-12">
 													<div class="input-blocks">
@@ -12843,7 +12843,7 @@
 														<div class="input-groupicon select-code">
 															<input type="text" value="0" class="p-2">
 														</div>
-														
+
 													</div>
 												</div>
 												<div class="col-lg-3 col-sm-6 col-12">
@@ -13033,11 +13033,11 @@
 																<tbody>
 																	<tr>
 																		<td>
-																			<div class="status-toggle modal-status d-flex align-items-center">													
+																			<div class="status-toggle modal-status d-flex align-items-center">
 																				<input type="checkbox" id="day1" class="check">
 																				<label for="day1" class="checktoggle"></label>
 																				<span class="status-label ms-2">Monday</span>
-																			</div>							
+																			</div>
 																		</td>
 																		<td>
 																			<div class="text-end">
@@ -13073,14 +13073,14 @@
 																				</label>
 																			</div>
 																		</td>
-																	</tr>	
+																	</tr>
 																	<tr>
 																		<td>
-																			<div class="status-toggle modal-status d-flex align-items-center">													
+																			<div class="status-toggle modal-status d-flex align-items-center">
 																				<input type="checkbox" id="day2" class="check">
 																				<label for="day2" class="checktoggle"></label>
 																				<span class="status-label ms-2">Tuesday</span>
-																			</div>							
+																			</div>
 																		</td>
 																		<td>
 																			<div class="text-end">
@@ -13115,16 +13115,16 @@
 																					5th
 																				</label>
 																			</div>
-																			
+
 																		</td>
-																	</tr>																										
+																	</tr>
 																	<tr>
 																		<td>
-																			<div class="status-toggle modal-status d-flex align-items-center">													
+																			<div class="status-toggle modal-status d-flex align-items-center">
 																				<input type="checkbox" id="day3" class="check">
 																				<label for="day3" class="checktoggle"></label>
 																				<span class="status-label ms-2">Wednesday</span>
-																			</div>							
+																			</div>
 																		</td>
 																		<td>
 																			<div class="text-end">
@@ -13159,16 +13159,16 @@
 																					5th
 																				</label>
 																			</div>
-																			
+
 																		</td>
 																	</tr>
 																	<tr>
 																		<td>
-																			<div class="status-toggle modal-status d-flex align-items-center">													
+																			<div class="status-toggle modal-status d-flex align-items-center">
 																				<input type="checkbox" id="day4" class="check">
 																				<label for="day4" class="checktoggle"></label>
 																				<span class="status-label ms-2">Thursday</span>
-																			</div>							
+																			</div>
 																		</td>
 																		<td>
 																			<div class="text-end">
@@ -13203,16 +13203,16 @@
 																					5th
 																				</label>
 																			</div>
-																			
+
 																		</td>
 																	</tr>
 																	<tr>
 																		<td>
-																			<div class="status-toggle modal-status d-flex align-items-center">													
+																			<div class="status-toggle modal-status d-flex align-items-center">
 																				<input type="checkbox" id="day5" class="check">
 																				<label for="day5" class="checktoggle"></label>
 																				<span class="status-label ms-2">Friday</span>
-																			</div>							
+																			</div>
 																		</td>
 																		<td>
 																			<div class="text-end">
@@ -13247,16 +13247,16 @@
 																					5th
 																				</label>
 																			</div>
-																			
+
 																		</td>
 																	</tr>
 																	<tr>
 																		<td>
-																			<div class="status-toggle modal-status d-flex align-items-center">													
+																			<div class="status-toggle modal-status d-flex align-items-center">
 																				<input type="checkbox" id="day6" class="check">
 																				<label for="day6" class="checktoggle"></label>
 																				<span class="status-label ms-2">Saturday</span>
-																			</div>							
+																			</div>
 																		</td>
 																		<td>
 																			<div class="text-end">
@@ -13291,16 +13291,16 @@
 																					5th
 																				</label>
 																			</div>
-																			
+
 																		</td>
 																	</tr>
 																	<tr>
 																		<td>
-																			<div class="status-toggle modal-status d-flex align-items-center">													
+																			<div class="status-toggle modal-status d-flex align-items-center">
 																				<input type="checkbox" id="day7" class="check">
 																				<label for="day7" class="checktoggle"></label>
 																				<span class="status-label ms-2">Sunday</span>
-																			</div>							
+																			</div>
 																		</td>
 																		<td>
 																			<div class="text-end">
@@ -13335,7 +13335,7 @@
 																					5th
 																				</label>
 																			</div>
-																			
+
 																		</td>
 																	</tr>
 																</tbody>
@@ -13348,7 +13348,7 @@
 																Recurring Shift
 															</label>
 														</div>
-														
+
 														<div class="input-blocks m-0">
 															<div class="status-toggle modal-status d-flex justify-content-between align-items-center">
 																<span class="status-label">Status</span>
@@ -13436,7 +13436,7 @@
 											</div>
 										</div>
 									</div>
-									
+
 									<div class="modal-footer-btn">
 										<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
 										<button type="submit" class="btn btn-submit">Submit</button>
@@ -13525,11 +13525,11 @@
 																	<tbody>
 																		<tr>
 																			<td>
-																				<div class="status-toggle modal-status d-flex align-items-center">													
+																				<div class="status-toggle modal-status d-flex align-items-center">
 																					<input type="checkbox" id="days1" class="check" checked>
 																					<label for="days1" class="checktoggle"></label>
 																					<span class="status-label ms-2">Monday</span>
-																				</div>							
+																				</div>
 																			</td>
 																			<td>
 																				<div class="text-end">
@@ -13565,14 +13565,14 @@
 																					</label>
 																				</div>
 																			</td>
-																		</tr>	
+																		</tr>
 																		<tr>
 																			<td>
-																				<div class="status-toggle modal-status d-flex align-items-center">													
+																				<div class="status-toggle modal-status d-flex align-items-center">
 																					<input type="checkbox" id="days2" class="check" checked>
 																					<label for="days2" class="checktoggle"></label>
 																					<span class="status-label ms-2">Tuesday</span>
-																				</div>							
+																				</div>
 																			</td>
 																			<td>
 																				<div class="text-end">
@@ -13607,16 +13607,16 @@
 																						5th
 																					</label>
 																				</div>
-																				
+
 																			</td>
-																		</tr>																										
+																		</tr>
 																		<tr>
 																			<td>
-																				<div class="status-toggle modal-status d-flex align-items-center">													
+																				<div class="status-toggle modal-status d-flex align-items-center">
 																					<input type="checkbox" id="days3" class="check" checked>
 																					<label for="days3" class="checktoggle"></label>
 																					<span class="status-label ms-2">Wednesday</span>
-																				</div>							
+																				</div>
 																			</td>
 																			<td>
 																				<div class="text-end">
@@ -13651,16 +13651,16 @@
 																						5th
 																					</label>
 																				</div>
-																				
+
 																			</td>
 																		</tr>
 																		<tr>
 																			<td>
-																				<div class="status-toggle modal-status d-flex align-items-center">													
+																				<div class="status-toggle modal-status d-flex align-items-center">
 																					<input type="checkbox" id="days4" class="check" checked>
 																					<label for="days4" class="checktoggle"></label>
 																					<span class="status-label ms-2">Thursday</span>
-																				</div>							
+																				</div>
 																			</td>
 																			<td>
 																				<div class="text-end">
@@ -13695,16 +13695,16 @@
 																						5th
 																					</label>
 																				</div>
-																				
+
 																			</td>
 																		</tr>
 																		<tr>
 																			<td>
-																				<div class="status-toggle modal-status d-flex align-items-center">													
+																				<div class="status-toggle modal-status d-flex align-items-center">
 																					<input type="checkbox" id="days5" class="check">
 																					<label for="days5" class="checktoggle"></label>
 																					<span class="status-label ms-2">Friday</span>
-																				</div>							
+																				</div>
 																			</td>
 																			<td>
 																				<div class="text-end">
@@ -13739,16 +13739,16 @@
 																						5th
 																					</label>
 																				</div>
-																				
+
 																			</td>
 																		</tr>
 																		<tr>
 																			<td>
-																				<div class="status-toggle modal-status d-flex align-items-center">													
+																				<div class="status-toggle modal-status d-flex align-items-center">
 																					<input type="checkbox" id="days6" class="check">
 																					<label for="days6" class="checktoggle"></label>
 																					<span class="status-label ms-2">Saturday</span>
-																				</div>							
+																				</div>
 																			</td>
 																			<td>
 																				<div class="text-end">
@@ -13783,16 +13783,16 @@
 																						5th
 																					</label>
 																				</div>
-																				
+
 																			</td>
 																		</tr>
 																		<tr>
 																			<td>
-																				<div class="status-toggle modal-status d-flex align-items-center">													
+																				<div class="status-toggle modal-status d-flex align-items-center">
 																					<input type="checkbox" id="days7" class="check">
 																					<label for="days7" class="checktoggle"></label>
 																					<span class="status-label ms-2">Sunday</span>
-																				</div>							
+																				</div>
 																			</td>
 																			<td>
 																				<div class="text-end">
@@ -13827,7 +13827,7 @@
 																						5th
 																					</label>
 																				</div>
-																				
+
 																			</td>
 																		</tr>
 																	</tbody>
@@ -13840,7 +13840,7 @@
 																	Recurring Shift
 																</label>
 															</div>
-															
+
 															<div class="input-blocks m-0">
 																<div class="status-toggle modal-status d-flex justify-content-between align-items-center">
 																	<span class="status-label">Status</span>
@@ -13928,7 +13928,7 @@
 												</div>
 											</div>
 										</div>
-										
+
 										<div class="modal-footer-btn">
 											<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
 											<button type="submit" class="btn btn-submit">Submit</button>
@@ -14225,11 +14225,11 @@
 											</div>
 											<div class="mb-3">
 												<label class="form-label">Client Secret Key <span> *</span></label>
-												<input type="text" class="form-control">											
+												<input type="text" class="form-control">
 											</div>
 											<div class="mb-0">
 												<label class="form-label">Login Redirect URL <span> *</span></label>
-												<input type="text" class="form-control">											
+												<input type="text" class="form-control">
 											</div>
 										</div>
 									</div>
@@ -14271,11 +14271,11 @@
 											</div>
 											<div class="mb-3">
 												<label class="form-label">Client Secret Key <span> *</span></label>
-												<input type="text" class="form-control">											
+												<input type="text" class="form-control">
 											</div>
 											<div class="mb-0">
 												<label class="form-label">Login Redirect URL <span> *</span></label>
-												<input type="text" class="form-control">											
+												<input type="text" class="form-control">
 											</div>
 										</div>
 									</div>
@@ -14323,14 +14323,14 @@
 													<input type="text" class="form-control">
 												</div>
 											</div>
-											
+
 											<div class="row">
 												<!-- Editor -->
 												<div class="col-md-12">
 													<div class="edit-add card">
 														<div class="edit-add">
 															<label>Description</label>
-					
+
 														</div>
 														<div class="card-body-list">
 															<div id="summernote">Type your message</div>
@@ -14341,7 +14341,7 @@
 												<!-- /Editor -->
 											</div>
 										</div>
-										
+
 										<div class="modal-footer-btn">
 											<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
 											<button type="submit" class="btn btn-submit">Submit</button>
@@ -14384,14 +14384,14 @@
 												<input type="text" placeholder="China">
 											</div>
 										</div>
-										
+
 										<div class="row">
 											<!-- Editor -->
 											<div class="col-md-12">
 												<div class="edit-add card">
 													<div class="edit-add">
 														<label>Description</label>
-				
+
 													</div>
 													<div class="card-body-list">
 														<div id="summernote5">Type your message</div>
@@ -14402,7 +14402,7 @@
 											<!-- /Editor -->
 										</div>
 									</div>
-									
+
 									<div class="modal-footer-btn">
 										<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
 										<button type="submit" class="btn btn-submit">Submit</button>
@@ -14475,10 +14475,10 @@
 																<td>
 																	<div class="productimgname">
 																		<a href="javascript:void(0);" class="product-img stock-img">
-																			<img src="{{ URL::asset('/build/img/products/stock-img-02.png')}}" alt="product">
+																			<img src="{{ asset('/build/img/products/stock-img-02.png')}}" alt="product">
 																		</a>
 																		<a href="javascript:void(0);">Nike Jordan</a>
-																	</div>												
+																	</div>
 																</td>
 																<td>PT002</td>
 																<td>Nike</td>
@@ -14511,7 +14511,7 @@
 													</table>
 												</div>
 											</div>
-											
+
 										</div>
 										<div class="col-lg-12">
 											<div class="input-blocks">
@@ -14524,7 +14524,7 @@
 											</div>
 										</div>
 									</div>
-									
+
 									<div class="col-lg-12">
 										<div class="input-blocks summer-description-box">
 											<label>Notes</label>
@@ -14600,10 +14600,10 @@
 																<td>
 																	<div class="productimgname">
 																		<a href="javascript:void(0);" class="product-img stock-img">
-																			<img src="{{ URL::asset('/build/img/products/stock-img-02.png')}}" alt="product">
+																			<img src="{{ asset('/build/img/products/stock-img-02.png')}}" alt="product">
 																		</a>
 																		<a href="javascript:void(0);">Nike Jordan</a>
-																	</div>												
+																	</div>
 																</td>
 																<td>PT002</td>
 																<td>Nike</td>
@@ -14630,14 +14630,14 @@
 																			<i data-feather="trash-2" class="feather-trash-2"></i>
 																		</a>
 																	</div>
-																	
+
 																</td>
 															</tr>
 														</tbody>
 													</table>
 												</div>
 											</div>
-											
+
 										</div>
 										<div class="col-lg-12">
 											<div class="input-blocks">
@@ -14649,7 +14649,7 @@
 											</div>
 										</div>
 									</div>
-									
+
 									<div class="col-lg-12">
 										<div class="input-blocks summer-description-box">
 											<label>Notes</label>
@@ -14836,10 +14836,10 @@
 																<td>
 																	<div class="productimgname">
 																		<a href="javascript:void(0);" class="product-img stock-img">
-																			<img src="{{ URL::asset('/build/img/products/stock-img-02.png')}}" alt="product">
+																			<img src="{{ asset('/build/img/products/stock-img-02.png')}}" alt="product">
 																		</a>
 																		<a href="javascript:void(0);">Nike Jordan</a>
-																	</div>												
+																	</div>
 																</td>
 																<td>PT002</td>
 																<td>Nike</td>
@@ -14859,7 +14859,7 @@
 																			<i data-feather="trash-2" class="feather-trash-2"></i>
 																		</a>
 																	</div>
-																	
+
 																</td>
 															</tr>
 														</tbody>
@@ -14948,7 +14948,7 @@
 											<div class="image-upload download">
 												<input type="file">
 												<div class="image-uploads">
-													<img src="{{ URL::asset('/build/img/download-img.png')}}" alt="img">
+													<img src="{{ asset('/build/img/download-img.png')}}" alt="img">
 													<h4>Drag and drop a <span>file to upload</span></h4>
 												</div>
 											</div>
@@ -15350,7 +15350,7 @@
 												<input type="text" class="form-control">
 											</div>
 										</div>
-										
+
 										<div class="col-lg-6">
 											<div class="input-blocks">
 												<label>Email</label>
@@ -15385,13 +15385,13 @@
 												</div>
 											</div>
 										</div>
-										
+
 										<div class="col-lg-12">
 											<div class="mb-0 input-blocks">
 												<label class="form-label">Descriptions</label>
 												<textarea class="form-control mb-1">Type Message</textarea>
 												<p>Maximum 600 Characters</p>
-											</div>	
+											</div>
 										</div>
 									</div>
 									<div class="modal-footer-btn">
@@ -15429,7 +15429,7 @@
 												<span>Avatar</span>
 												<div class="profile-pic-upload edit-pic">
 													<div class="profile-pic">
-														<span><img src="{{ URL::asset('/build/img/users/edit-user.jpg')}}" class="user-editer" alt="User"></span>
+														<span><img src="{{ asset('/build/img/users/edit-user.jpg')}}" class="user-editer" alt="User"></span>
 														<div class="close-img">
 															<i data-feather="x" class="info-img"></i>
 														</div>
@@ -15457,7 +15457,7 @@
 												<input type="text" placeholder="+12163547758 ">
 											</div>
 										</div>
-										
+
 										<div class="col-lg-6">
 											<div class="input-blocks">
 												<label>Email</label>
@@ -15477,7 +15477,7 @@
 										<div class="col-lg-6">
 											<div class="input-blocks">
 												<label>Password</label>
-												<div class="pass-group"> 
+												<div class="pass-group">
 													<input type="password" class="pass-input" placeholder="****">
 													<span class="fas toggle-password fa-eye-slash"></span>
 												</div>
@@ -15492,13 +15492,13 @@
 												</div>
 											</div>
 										</div>
-										
+
 										<div class="col-lg-12">
 											<div class="mb-0 input-blocks">
 												<label class="form-label">Descriptions</label>
 												<textarea class="form-control mb-1"></textarea>
 												<p>Maximum 600 Characters</p>
-											</div>	
+											</div>
 										</div>
 									</div>
 									<div class="modal-footer-btn">
@@ -15545,7 +15545,7 @@
 												<input type="text" class="form-control">
 											</div>
 										</div>
-										
+
 										<div class="row">
 											<!-- Editor -->
 											<div class="col-md-12">
@@ -15562,7 +15562,7 @@
 											<!-- /Editor -->
 										</div>
 									</div>
-									
+
 									<div class="modal-footer-btn">
 										<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
 										<button type="submit" class="btn btn-submit">Submit</button>
@@ -15605,14 +15605,14 @@
 												<input type="text" class="form-control" placeholder="Beijing">
 											</div>
 										</div>
-										
+
 										<div class="row">
 											<!-- Editor -->
 											<div class="col-md-12">
 												<div class="edit-add card">
 													<div class="edit-add">
 														<label class="form-label">Description</label>
-				
+
 													</div>
 													<div class="card-body-list">
 														<div id="summernote5">Type your message</div>
@@ -15623,7 +15623,7 @@
 											<!-- /Editor -->
 										</div>
 									</div>
-									
+
 									<div class="modal-footer-btn">
 										<button type="button" class="btn btn-cancel me-2" data-bs-dismiss="modal">Cancel</button>
 										<button type="submit" class="btn btn-submit">Submit</button>

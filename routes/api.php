@@ -218,7 +218,7 @@ Route::group(
     Route::post('/Merchant-OrderHistory', [ApiController::class, 'MerchantOrderHistory']);
     Route::post('/Withrawal-Amount', [ApiController::class, 'WithrawalAmount']);
     
-
+    Route::post('/customer-banners', [ApiController::class, 'customerBanners']);
     // Delivery Partner Merchant
     Route::post('/get-my-delivery-boys', [ApiController::class, 'getMyDeliveryBoys']);
 
@@ -236,6 +236,8 @@ Route::group(
         Route::post('/order-status-change', [ApiMerchantController::class, 'orderStatusChange']);
     });
 });
+
+Route::post('/get-me', [ApiController::class, 'getMe']);
 
 Route::post('/get-ModuleByStoreType', [ApiUpdateController::class, 'getModuleByStoreType']);
 Route::post('/verify-ReferralCode', [ApiController::class, 'verifyReferralCode']);

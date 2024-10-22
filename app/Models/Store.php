@@ -14,6 +14,7 @@ class Store extends Model
     protected $fillable = [
         'zone_id',
         'user_id',
+        'store_id',
         'store_type',
         'module_id',
         'store_image',
@@ -47,7 +48,10 @@ class Store extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
+    public function store_id()
+    {
+        return $this->belongsTo(Module::class, 'store_id');
+    }
     public function module()
     {
         return $this->belongsTo(Module::class, 'module_id');

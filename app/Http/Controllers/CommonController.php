@@ -24,6 +24,7 @@ use App\Models\OrderStatus;
 use App\Models\HomeDeliveryDetail;
 use App\Models\Zone;
 use App\Models\DeliveryPartners;
+use App\Models\DeliveryPartnerEarnings;
 
 // Events
 use App\Events\OrderStatusUpdated;
@@ -538,6 +539,7 @@ class CommonController extends Controller
         $zones = Zone::select("per_km_rate")->find($order->store->zone_id);
         
         $expected_earning = $drop * ($zones->per_km_rate ?? 0);
+        return $expected_earning;
     }
     public static function assignOrderToDeliveryBoyCommon($order_id, $agent_id)
     {

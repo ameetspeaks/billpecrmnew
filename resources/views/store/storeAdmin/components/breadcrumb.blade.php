@@ -54,11 +54,11 @@
         <!-- <ul class="table-top-head">
             <li>
                 <a data-bs-toggle="tooltip" data-bs-placement="top" title="Pdf"><img
-                        src="{{ URL::asset('/public/build/img/icons/pdf.svg') }}" alt="img"></a>
+                        src="{{ asset('build/img/icons/pdf.svg') }}" alt="img"></a>
             </li>
             <li>
                 <a data-bs-toggle="tooltip" data-bs-placement="top" title="Excel"><img
-                        src="{{ URL::asset('/public/build/img/icons/excel.svg') }}" alt="img"></a>
+                        src="{{ asset('build/img/icons/excel.svg') }}" alt="img"></a>
             </li>
             <li>
                 <a data-bs-toggle="tooltip" data-bs-placement="top" title="Print"><i data-feather="printer"
@@ -288,7 +288,7 @@
                 <a href="{{ $li_2 }}" class="btn btn-added"><i data-feather="plus-circle"
                         class="me-2"></i>{{ $li_3 }}</a>
             </div>
-            
+
         @endif
     </div>
 @endif

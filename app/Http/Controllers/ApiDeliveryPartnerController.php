@@ -89,8 +89,7 @@ class ApiDeliveryPartnerController extends Controller
 
                 $token = $user->createToken('billpe.cloud')->accessToken;
 
-                $deliveryPartners = DeliveryPartners::with(["shift_detail", "delivery_boy_detail"])
-                    ->where('user_id', $user->id)
+                $deliveryPartners = DeliveryPartners::where('user_id', $user->id)
                     ->first();
 
                 DB::commit();
@@ -99,7 +98,8 @@ class ApiDeliveryPartnerController extends Controller
                     'message' => 'User Profile Detail',
                     'account_status' => $deliveryPartners->account_status,
                     'token' => $token,
-                    'data' => $user
+                    'data' => $user,
+                    "deliveryPartners" => $deliveryPartners
                 ];
             }
             return Response::json($response, 200);

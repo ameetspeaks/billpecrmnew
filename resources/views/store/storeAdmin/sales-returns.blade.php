@@ -28,7 +28,7 @@
                         <div class="search-path">
                             <a class="btn btn-filter" id="filter_search">
                                 <i data-feather="filter" class="filter-icon"></i>
-                                <span><img src="{{ URL::asset('/public/build/img/icons/closes.svg') }}" alt="img"></span>
+                                <span><img src="{{ asset('build/img/icons/closes.svg') }}" alt="img"></span>
                             </a>
                         </div>
                         <div class="form-sort">
@@ -117,7 +117,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product1.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product1.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Macbook pro</a>
@@ -153,7 +153,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product2.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product2.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Orange</a>
@@ -190,7 +190,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product3.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product3.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Pineapple</a>
@@ -227,7 +227,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product4.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product4.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Strawberry</a>
@@ -264,7 +264,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product6.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product6.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Macbook Pro</a>
@@ -300,7 +300,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product5.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product5.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Avocat</a>
@@ -336,7 +336,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product7.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product7.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Apple Earpods</a>

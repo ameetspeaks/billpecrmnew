@@ -5,7 +5,7 @@
         <div class="content">
             <div class="welcome d-lg-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center welcome-text">
-                    <h3 class="d-flex align-items-center"><img src="{{ URL::asset('/public/build/img/icons/hi.svg') }}"
+                    <h3 class="d-flex align-items-center"><img src="{{ asset('build/img/icons/hi.svg') }}"
                             alt="img">&nbsp;Hi John Smilga,</h3>&nbsp;<h6>here's what's happening with your store today.
                     </h6>
                 </div>
@@ -33,12 +33,12 @@
                             <p class="sales-range"><span class="text-success"><i data-feather="chevron-up"
                                         class="feather-16"></i>48%&nbsp;</span>increase compare to last week</p>
                         </div>
-                        <img src="{{ URL::asset('/public/build/img/icons/weekly-earning.svg') }}" alt="img">
+                        <img src="{{ asset('build/img/icons/weekly-earning.svg') }}" alt="img">
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6 col-12">
                     <div class="card color-info bg-primary mb-4">
-                        <img src="{{ URL::asset('/public/build/img/icons/total-sales.svg') }}" alt="img">
+                        <img src="{{ asset('build/img/icons/total-sales.svg') }}" alt="img">
                         <h3 class="counters" data-count="10000.00">10,000+</h3>
                         <p>No of Total Sales</p>
                         <i data-feather="rotate-ccw" class="feather-16" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-xl-3 col-sm-6 col-12">
                     <div class="card color-info bg-secondary mb-4">
-                        <img src="{{ URL::asset('/public/build/img/icons/purchased-earnings.svg') }}" alt="img">
+                        <img src="{{ asset('build/img/icons/purchased-earnings.svg') }}" alt="img">
                         <h3 class="counters" data-count="800.00">800+</h3>
                         <p>No of Total Sales</p>
                         <i data-feather="rotate-ccw" class="feather-16" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -75,7 +75,7 @@
                                             <td>
                                                 <div class="product-info">
                                                     <a href="{{ url('product-list') }}" class="product-img">
-                                                        <img src="{{ URL::asset('/public/build/img/products/stock-img-01.png') }}"
+                                                        <img src="{{ asset('build/img/products/stock-img-01.png') }}"
                                                             alt="product">
                                                     </a>
                                                     <div class="info">
@@ -93,7 +93,7 @@
                                             <td>
                                                 <div class="product-info">
                                                     <a href="{{ url('product-list') }}" class="product-img">
-                                                        <img src="{{ URL::asset('/public/build/img/products/stock-img-06.png') }}"
+                                                        <img src="{{ asset('build/img/products/stock-img-06.png') }}"
                                                             alt="product">
                                                     </a>
                                                     <div class="info">
@@ -111,7 +111,7 @@
                                             <td>
                                                 <div class="product-info">
                                                     <a href="{{ url('product-list') }}" class="product-img">
-                                                        <img src="{{ URL::asset('/public/build/img/products/stock-img-02.png') }}"
+                                                        <img src="{{ asset('build/img/products/stock-img-02.png') }}"
                                                             alt="product">
                                                     </a>
                                                     <div class="info">
@@ -129,7 +129,7 @@
                                             <td>
                                                 <div class="product-info">
                                                     <a href="{{ url('product-list') }}" class="product-img">
-                                                        <img src="{{ URL::asset('/public/build/img/products/stock-img-03.png') }}"
+                                                        <img src="{{ asset('build/img/products/stock-img-03.png') }}"
                                                             alt="product">
                                                     </a>
                                                     <div class="info">
@@ -147,7 +147,7 @@
                                             <td>
                                                 <div class="product-info">
                                                     <a href="{{ url('product-list') }}" class="product-img">
-                                                        <img src="{{ URL::asset('/public/build/img/products/stock-img-04.png') }}"
+                                                        <img src="{{ asset('build/img/products/stock-img-04.png') }}"
                                                             alt="product">
                                                     </a>
                                                     <div class="info">
@@ -197,7 +197,7 @@
                                             <td>
                                                 <div class="product-info">
                                                     <a href="{{ url('product-list') }}" class="product-img">
-                                                        <img src="{{ URL::asset('/public/build/img/products/stock-img-05.png') }}"
+                                                        <img src="{{ asset('build/img/products/stock-img-05.png') }}"
                                                             alt="product">
                                                     </a>
                                                     <div class="info">
@@ -219,7 +219,7 @@
                                             <td>
                                                 <div class="product-info">
                                                     <a href="{{ url('product-list') }}" class="product-img">
-                                                        <img src="{{ URL::asset('/public/build/img/products/expire-product-01.png') }}"
+                                                        <img src="{{ asset('build/img/products/expire-product-01.png') }}"
                                                             alt="product">
                                                     </a>
                                                     <div class="info">
@@ -241,7 +241,7 @@
                                             <td>
                                                 <div class="product-info">
                                                     <a href="{{ url('product-list') }}" class="product-img">
-                                                        <img src="{{ URL::asset('/public/build/img/products/expire-product-02.png') }}"
+                                                        <img src="{{ asset('build/img/products/expire-product-02.png') }}"
                                                             alt="product">
                                                     </a>
                                                     <div class="info">
@@ -263,7 +263,7 @@
                                             <td>
                                                 <div class="product-info">
                                                     <a href="{{ url('product-list') }}" class="product-img">
-                                                        <img src="{{ URL::asset('/public/build/img/products/expire-product-03.png') }}"
+                                                        <img src="{{ asset('build/img/products/expire-product-03.png') }}"
                                                             alt="product">
                                                     </a>
                                                     <div class="info">
@@ -285,7 +285,7 @@
                                             <td>
                                                 <div class="product-info">
                                                     <a href="{{ url('product-list') }}" class="product-img">
-                                                        <img src="{{ URL::asset('/public/build/img/products/expire-product-04.png') }}"
+                                                        <img src="{{ asset('build/img/products/expire-product-04.png') }}"
                                                             alt="product">
                                                     </a>
                                                     <div class="info">

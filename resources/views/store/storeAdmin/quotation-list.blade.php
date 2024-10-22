@@ -16,7 +16,7 @@
             @endcomponent
 
             <!-- /product list -->
-            
+
             <div class="card table-list-card">
                 <div class="card-body">
                     <div class="table-top">
@@ -30,7 +30,7 @@
                             <div class="d-flex align-items-center">
                                 <a class="btn btn-filter" id="filter_search">
                                     <i data-feather="filter" class="filter-icon"></i>
-                                    <span><img src="{{ URL::asset('/public/build/img/icons/closes.svg') }}" alt="img"></span>
+                                    <span><img src="{{ asset('build/img/icons/closes.svg') }}" alt="img"></span>
                                 </a>
 
                             </div>
@@ -126,7 +126,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product1.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product1.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Lenovo 3rd Generation</a>
@@ -162,7 +162,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product2.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product2.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Bold V3.2</a>
@@ -199,7 +199,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product3.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product3.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Nike Jordan</a>
@@ -236,7 +236,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product4.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product4.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Apple Series 5 Watch</a>
@@ -273,7 +273,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product6.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product6.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Amazon Echo Dot</a>
@@ -309,7 +309,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product5.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product5.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Lobar Handy</a>
@@ -345,7 +345,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product7.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product7.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Red Premium Handy</a>
@@ -380,7 +380,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product8.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product8.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Iphone 14 Pro</a>
@@ -415,7 +415,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product9.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product9.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Black Slim 200</a>
@@ -450,7 +450,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product10.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product10.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Woodcraft Sandal</a>
@@ -485,7 +485,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product11.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product11.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Lobar Handy</a>
@@ -520,7 +520,7 @@
                                     <td>
                                         <div class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ URL::asset('/public/build/img/products/product8.jpg') }}"
+                                                <img src="{{ asset('build/img/products/product8.jpg') }}"
                                                     alt="product">
                                             </a>
                                             <a href="javascript:void(0);">Iphone 15 Pro</a>

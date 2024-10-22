@@ -86,7 +86,7 @@
                                         <td>
                                             <div class="productimgname">
                                                 <a href="javascript:void(0);" class="product-img stock-img">
-                                                    <img src="{{ URL::asset('/public/build/img/products/stock-img-02.png') }}"
+                                                    <img src="{{ asset('build/img/products/stock-img-02.png') }}"
                                                         alt="product">
                                                 </a>
                                                 <a href="javascript:void(0);">Nike Jordan</a>
