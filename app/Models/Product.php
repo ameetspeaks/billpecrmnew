@@ -49,6 +49,7 @@ class Product extends Model
         'brand',
         'color',
         'status',
+        'food_type',
     ];
 
     public function store()

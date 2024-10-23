@@ -19,19 +19,23 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('test', function () {
-    try {
-
-        $data = "New Order Received!";
-        event(new AdminNewOrder($data));
-        return response()->json(['status' => 'success', 'message' => 'Event has been fired']);
-    } catch (\Throwable $th) {
-        return response()->json(['status' => 'error', 'message' => $th->getMessage()]);
-    }
-});
-Route::get('test-output', function () {
-    return view('test');
-});
+//Route::get('test', function () {
+//    try {
+//
+//        $data = "New Order Received!";
+//        event(new AdminNewOrder($data));
+//        return response()->json(['status' => 'success', 'message' => 'Event has been fired']);
+//    } catch (\Throwable $th) {
+//        return response()->json(['status' => 'error', 'message' => $th->getMessage()]);
+//    }
+//});
+//Route::get('test-output', function () {
+//    return view('test');
+//});
+//route for php artisan migrate
+//Route::get('migrate', function (){
+//   \Illuminate\Support\Facades\Artisan::call('migrate');
+//});
 Route::prefix('admin')->group(base_path('routes/admin.php'));
 Route::prefix('store')->group(base_path('routes/store.php'));
 Route::get('invoice/{store_id}/{combined_id}', [InvoiceController::Class, 'invoice']);

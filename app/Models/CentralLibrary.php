@@ -42,6 +42,7 @@ class CentralLibrary extends Model
         'brand',
         'color',
         'status',
+        'food_type'
     ];
 
     public function category()

@@ -40,7 +40,7 @@ class ExportModuleByCentralLibrary implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        $data = CentralLibrary::where('module_id',$this->module_id)->select('module_id','category','subCategory_id','barcode','product_image','product_name','unit','quantity','mrp','retail_price','wholesale_price','members_price','purchase_price','stock','low_stock','gst','hsn','cess','expiry','tags','brand','color')->get()->toarray();
+        $data = CentralLibrary::where('module_id',$this->module_id)->select('module_id','category','subCategory_id','barcode','food_type','product_image','product_name','unit','quantity','mrp','retail_price','wholesale_price','members_price','purchase_price','stock','low_stock','gst','hsn','cess','expiry','tags','brand','color')->get()->toarray();
         // print_r($data->toarray()); die;
         return collect($data);
 
@@ -53,6 +53,7 @@ class ExportModuleByCentralLibrary implements FromCollection, WithHeadings
             "category",
             "subCategory_id",
             "barcode",
+            "food_type",
             "product_image",
             "product_name",
             "unit",
