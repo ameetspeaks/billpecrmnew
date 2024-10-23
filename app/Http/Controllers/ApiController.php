@@ -112,7 +112,7 @@ class ApiController extends Controller
                 }else{
                     $randNo = rand(100000, 999999);
                     $phone = $request->phone;
-                    
+
                     // print_r($postdata); die;
 
                     $sendOtpResponse = CommonController::sendMsg91WhatsappOtp($phone, $randNo);
@@ -227,7 +227,7 @@ class ApiController extends Controller
                             $store = Store::where('user_id', $user->id)->first();
                         }
                         User::where('whatsapp_no',$phoneNumber)->update(['device_token' => $request->device_token]);
-                      
+
                         Auth::login($user);
                         $token = $user->createToken('billpe.cloud')->accessToken;
 
@@ -337,7 +337,7 @@ class ApiController extends Controller
                                     'store_close_time'      => $request->store_close_time,
                                     'store_days'            => $request->store_days,
                                 ]);
-    
+
                                 $storeAdd->save();
                             }
 
@@ -439,7 +439,7 @@ class ApiController extends Controller
                             'store_close_time'      => $request->store_close_time,
                             'store_days'            => $request->store_days,
                         ]);
-    
+
                         $storeAdd->save();
                     }
 
@@ -983,6 +983,7 @@ class ApiController extends Controller
                     'brand'              => $request->brand,
                     'color'              => $request->color,
                     'status'             => '1',
+                    'food_type'            => $request->food_type,
                 ]);
                 $product->save();
 
@@ -1015,6 +1016,7 @@ class ApiController extends Controller
                     $centrallib->tags = $product->tag;
                     $centrallib->brand = $product->brand;
                     $centrallib->color = $product->color;
+                    $centrallib->food_type = $product->food_type;
                     $centrallib->save();
                 }
                 //
@@ -1116,6 +1118,7 @@ class ApiController extends Controller
                 $product->tags               = $request->tag;
                 $product->brand              = $request->brand;
                 $product->color              = $request->color;
+                $product->food_type         = $request->food_type;
                 $product->save();
 
                 $existingProduct = CentralLibrary::where('product_name', $product->product_name)->where('quantity', $product->qtn)
@@ -1144,6 +1147,7 @@ class ApiController extends Controller
                     $centrallib->tags = $product->tag;
                     $centrallib->brand = $product->brand;
                     $centrallib->color = $product->color;
+                    $centrallib->food_type = $product->food_type;
                     $centrallib->save();
                 }
 
@@ -1598,20 +1602,20 @@ class ApiController extends Controller
                                 $percentAmount = 100+$product->cess;
                                 $cessamount = $productDetail['total_amount']/$percentAmount*$product->cess;
                                 $beforAmount = $productDetail['total_amount'] - $cessamount;
-    
+
                                 $newBillGenerate->totalcessAmount = number_format($newBillGenerate->totalcessAmount + $cessamount, 3);
-                                $newBillGenerate->totalcessBeforeAmount = number_format($newBillGenerate->totalcessBeforeAmount + $beforAmount, 3); 
+                                $newBillGenerate->totalcessBeforeAmount = number_format($newBillGenerate->totalcessBeforeAmount + $beforAmount, 3);
                             }
-    
+
                             if($product->gst){
                                 $percentAmount = 100+$product->gst;
                                 $gstamount = $productDetail['total_amount']/$percentAmount*$product->gst;
-    
+
                                 $beforAmount = $productDetail['total_amount'] - $gstamount;
                             }else{
                                 $gstamount = 0;
                             }
-    
+
                             if($product->gst == 5){
                                 $newBillGenerate->GST5 = number_format($newBillGenerate->GST5+$gstamount, 3);
                                 $newBillGenerate->GST5BeforeAmount = number_format($newBillGenerate->GST5BeforeAmount+$beforAmount, 3);
@@ -1822,7 +1826,7 @@ class ApiController extends Controller
                 DB::commit();
 
                 // $newBillGenerate->GST5 = number_format($GST5, 2);
-               
+
                 $response = ['success' => true, 'message' => 'Bill created successfully', 'data' => $newBillGenerate, 'token' => $newToken];
             }
 
@@ -3731,7 +3735,7 @@ class ApiController extends Controller
 
                 $getCFSignature = CommonController::CFSignature();
                 $getupidetail = CommonController::upiVerification($request->upi_id, $getCFSignature);
-                
+
                 $getupidetail = json_decode($getupidetail);
                 if(isset($getupidetail->vpa)){
 
@@ -3786,7 +3790,7 @@ class ApiController extends Controller
                 $getgstdetail = CommonController::gstVerification($request->gst_number, $getCFSignature);
                 $getgstdetail = json_decode($getgstdetail);
                 if(isset($getgstdetail->GSTIN)){
-                  
+
                     $activity = AppActivity::create([
                         'action'  => 'GST Verified',
                         'message' => Auth::user()->name.' Verify GST',
@@ -3963,12 +3967,12 @@ class ApiController extends Controller
                     $results = DB::insert($query);
                 }
             }
-            
+
             $response = ['success' => true, 'message' => 'Update Success', "results" => $results, "query" => $query];
         } else {
             $response = ['success' => false, 'message' => 'Token invalid'];
         }
-        
+
         return Response::json($response, 200);
     }
     public function MerchantOrderHistory(Request $request)
@@ -4014,10 +4018,10 @@ class ApiController extends Controller
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
                 $deliveryAgents = User::select("id","name")->where('user_id', $request->merchant_id)->where('role_type',5)->get();
-    
+
                 $response = ['success' => true, 'message' => 'Delivery Agents.', 'deliveryAgents' => $deliveryAgents];
             }
-        
+
             return Response::json($response, 200);
         } catch (Exception $e) {
             return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
@@ -4043,7 +4047,7 @@ class ApiController extends Controller
 
                 $response = ['success' => true, 'message' => 'Order Assign Successfully.'];
             }
-        
+
             return Response::json($response, 200);
         } catch (Exception $e) {
             return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
@@ -4138,7 +4142,7 @@ class ApiController extends Controller
                             "updated_at" => now(),
                         ];
                         $DeliveryPartnersSave = DeliveryPartners::updateOrCreate($conditions, $data);
-                        
+
                         $user = User::where('id',$partner->id)->first();
                         Auth::login($user);
                         DB::commit();
@@ -4193,7 +4197,7 @@ class ApiController extends Controller
 
                 $response = ['success' => true, 'message' => 'Success.', 'shiftTimings' => $shiftTimings];
             }
-            
+
             return Response::json($response, 200);
         } catch (Exception $e) {
             DB::rollBack();
@@ -4330,7 +4334,7 @@ class ApiController extends Controller
                 DB::commit();
 
                 $user['delivery_boy_detail'] = $save;
-                
+
                 $response = ['success' => true, 'message' => 'Detail Saved Successfully.', 'user' => $user];
             }
 
@@ -4347,11 +4351,11 @@ class ApiController extends Controller
             $rules = [
                 'current_work_status' => 'required|in:0,1',
             ];
-            
+
             $messages = [
                 'current_work_status.in' => 'The current work status must be either 1 (Online) or 0 (Offline).',
             ];
-            
+
             $requestData = $request->all();
             $validator = Validator::make($requestData, $rules, $messages);
 
@@ -4371,7 +4375,7 @@ class ApiController extends Controller
                 DB::commit();
 
                 $user['delivery_boy_detail'] = $save;
-                
+
                 $response = ['success' => true, 'message' => 'Work Status Updated.', 'user' => $user];
             }
 
@@ -4406,19 +4410,19 @@ class ApiController extends Controller
         }
     }
     public function getAllDPOrderStatus(Request $request)
-    {    
+    {
         $DPOrderStatus = DPOrderStatus::all();
-        
+
         $response = ['success' => true, 'message' => 'Delivery Boys Detail' , 'DPOrderStatus' => $DPOrderStatus];
-        
+
         return Response::json($response, 200);
     }
     public function getAllMerchantOrderStatus(Request $request)
-    {    
+    {
         $MerchantOrderStatus = MerchantOrderStatus::all();
-        
+
         $response = ['success' => true, 'message' => 'Delivery Boys Detail' , 'MerchantOrderStatus' => $MerchantOrderStatus];
-        
+
         return Response::json($response, 200);
     }
 

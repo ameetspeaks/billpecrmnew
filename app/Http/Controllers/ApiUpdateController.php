@@ -46,7 +46,7 @@ use App\Models\PackageOrder;
 use App\Models\PackageTransection;
 use App\Models\TemplateType;
 
-use Illuminate\Support\Str; 
+use Illuminate\Support\Str;
 use App;
 use Session;
 use Stichoza\GoogleTranslate\GoogleTranslate;
@@ -62,13 +62,13 @@ class ApiUpdateController extends Controller
             $rules = [
                 'store_type_id' => 'required|exists:store_types,id|numeric',
             ];
-    
+
             $requestData = $request->all();
             $validator = Validator::make($requestData, $rules);
 
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
-            } else {  
+            } else {
                 $modules = Module::whereIn('store_type_id',[$request->store_type_id,3])->get();
                 if($request->store_type_id == 3)
                 {
@@ -91,13 +91,13 @@ class ApiUpdateController extends Controller
             $rules = [
                 'module_id' => 'required|exists:modules,id|numeric',
             ];
-    
+
             $requestData = $request->all();
             $validator = Validator::make($requestData, $rules);
 
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
-            } else {  
+            } else {
                 $units = Unit::where('module_id',$request->module_id)->get();
                 $response = ['success' => true, 'message' => 'Units detail', 'Units' => $units];
             }
@@ -117,8 +117,8 @@ class ApiUpdateController extends Controller
                 'store_id' => 'required|exists:stores,id|numeric',
                 'product_type' => 'required',
                 'name' => 'required|string',
-            ];  
-            
+            ];
+
                 if($request->product_type == 'Simple'){
                     $rules['qtn'] = 'required|numeric';
                     $rules['unit'] = 'required';
@@ -139,12 +139,12 @@ class ApiUpdateController extends Controller
 
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->first(),'data' => null];
-            } else {  
+            } else {
 
                 $store = Store::where('id',$request->store_id)->first();
 
                 if($request->product_type == "Simple"){
-                    
+
                     $existingProductInDifferentCategory = Product::where('quantity', $request->qtn)
                     ->where('unit', $request->unit)
                     ->where('product_name', $request->name)
@@ -161,7 +161,7 @@ class ApiUpdateController extends Controller
 
                     $barcode = $request->barcode;
                     $barcode_two = $request->barcode_two;
-                
+
                     if ($existingProductWithSameName != null) {
                         // If a product with the same name and store exists, use its barcode
                         $barcode = $existingProductWithSameName->barcode;
@@ -172,7 +172,7 @@ class ApiUpdateController extends Controller
                         $existingProductWithSameBarcode = Product::where('store_id', $request->store_id)
                             ->where('barcode', $barcode)
                             ->first();
-                        
+
                         if ($existingProductWithSameBarcode != null) {
                             // If a product with the same barcode exists, return an error
                             return ["status" => false, 'message' => 'Add a unique barcode.'];
@@ -192,7 +192,7 @@ class ApiUpdateController extends Controller
                     }
 
                     $category = Category::where('id',$category_id)->first();
-                    
+
                     $product = Product::create([
                         'store_id'           => $request->store_id,
                         'module_id'          => $store->module_id,
@@ -220,7 +220,8 @@ class ApiUpdateController extends Controller
                         'tags'               => $request->tag,
                         'brand'              => $request->brand,
                         'color'              => $request->color,
-                        'status'             => '1',  
+                        'status'             => '1',
+                        'food_type'              => $request->food_type,
                     ]);
                     $product->save();
 
@@ -228,7 +229,7 @@ class ApiUpdateController extends Controller
                     $existingProduct = CentralLibrary::where('product_name', $product->product_name)->where('quantity', $product->qtn)
                     ->where('unit', $product->unit)->first();
                     if (!$existingProduct) {
-                    
+
                         $centrallib = new CentralLibrary();
                         $centrallib->product_id = $product->id;
                         $centrallib->module_id = $product->module_id;
@@ -253,6 +254,7 @@ class ApiUpdateController extends Controller
                         $centrallib->tags = $product->tag;
                         $centrallib->brand = $product->brand;
                         $centrallib->color = $product->color;
+                        $centrallib->food_type = $product->food_type;
                         $centrallib->save();
                     }
                     //
@@ -268,7 +270,7 @@ class ApiUpdateController extends Controller
 
                     $barcode = $request->barcode;
                     $barcode_two = $request->barcode_two;
-                
+
                     if ($existingProductWithSameName != null) {
                         // If a product with the same name and store exists, use its barcode
                         $barcode = $existingProductWithSameName->barcode;
@@ -279,7 +281,7 @@ class ApiUpdateController extends Controller
                         $existingProductWithSameBarcode = Product::where('store_id', $request->store_id)
                             ->where('barcode', $barcode)
                             ->first();
-                        
+
                         if ($existingProductWithSameBarcode != null) {
                             // If a product with the same barcode exists, return an error
                             return ["status" => false, 'message' => 'Add a unique barcode.'];
@@ -305,7 +307,7 @@ class ApiUpdateController extends Controller
                         'tags'               => $request->tag,
                         'brand'              => $request->brand,
                         'color'              => $request->color,
-                        'status'             => '1',  
+                        'status'             => '1',
                     ]);
                     $product->save();
 
@@ -320,7 +322,7 @@ class ApiUpdateController extends Controller
                         }else{
                             $product_image = null;
                         }
-                        
+
                         $productVariation = ProductVariation::create([
                             'product_id'         => $product->id,
                             'unit'               => $variant_list['units'],
@@ -335,7 +337,7 @@ class ApiUpdateController extends Controller
                         $productVariation->save();
                     }
                 }
-                
+
                 DB::commit();
                 $response = ['success' => true, 'message' => 'Product added successfully', 'data' => $product];
             }
@@ -355,8 +357,8 @@ class ApiUpdateController extends Controller
                 'product_type' => 'required',
                 'name' => 'required|string',
                 'product_id' => 'required|exists:products,id|numeric',
-            ];  
-            
+            ];
+
                 if($request->product_type == 'Simple'){
                     $rules['qtn'] = 'required|numeric';
                     $rules['unit'] = 'required';
@@ -371,8 +373,8 @@ class ApiUpdateController extends Controller
                     $rules['variant_list.*.units'] = 'required';
                     $rules['variant_list.*.mrp'] = 'required';
                     $rules['variant_list.*.stock'] = 'required';
-                } 
-    
+                }
+
             $requestData = $request->all();
             $validator = Validator::make($requestData, $rules);
 
@@ -382,8 +384,8 @@ class ApiUpdateController extends Controller
 
 
                 if($request->product_type == "Simple"){
-                    $product = Product::with('category')->where('id', $request->product_id)->first();  
-                
+                    $product = Product::with('category')->where('id', $request->product_id)->first();
+
                     #save image
                     $product_image = $request->product_image;
                     if ($product_image) {
@@ -427,6 +429,7 @@ class ApiUpdateController extends Controller
                     $product->tags               = $request->tag;
                     $product->brand              = $request->brand;
                     $product->color              = $request->color;
+                    $product->food_type              = $request->food_type;
                     $product->save();
 
                     $existingProduct = CentralLibrary::where('product_name', $product->product_name)->where('quantity', $product->qtn)
@@ -455,6 +458,7 @@ class ApiUpdateController extends Controller
                         $centrallib->tags = $product->tag;
                         $centrallib->brand = $product->brand;
                         $centrallib->color = $product->color;
+                        $centrallib->food_type = $product->food_type;
                         $centrallib->save();
                     }
                 }
@@ -462,7 +466,7 @@ class ApiUpdateController extends Controller
                 if($request->product_type == "Variable"){
                     $category_id = $request->category_id ?? $this->getUncategorizedCategoryIdForStore($request->store_id);
 
-                    $product = Product::with('category')->where('id', $request->product_id)->first(); 
+                    $product = Product::with('category')->where('id', $request->product_id)->first();
                     $product->category           = $category_id;
                     $product->subCategory_id     = $request->subcategory_id;
                     $product->product_name       = $request->name;
@@ -475,12 +479,13 @@ class ApiUpdateController extends Controller
                     $product->tags               = $request->tag;
                     $product->brand              = $request->brand;
                     $product->color              = $request->color;
+                    $product->food_type              = $request->food_type;
                     $product->save();
 
                     foreach($request->variant_list as $variant_list)
                     {
-                        $productVariation = ProductVariation::where('id', $variant_list['id'])->first(); 
-                    
+                        $productVariation = ProductVariation::where('id', $variant_list['id'])->first();
+
                         #save image
                         $product_image = $variant_list['product_image'];
                         if ($product_image) {
@@ -525,7 +530,7 @@ class ApiUpdateController extends Controller
         $uncategorizedCategory = Category::where('name', 'Uncategorized')
             ->where('module_id', $store->module_id)
             ->first();
-            
+
         if (!$uncategorizedCategory) {
             // If "Uncategorized" category doesn't exist for the store module, create it
             $uncategorizedCategory = new Category();
@@ -533,7 +538,7 @@ class ApiUpdateController extends Controller
             $uncategorizedCategory->module_id = $store->module_id;
             $uncategorizedCategory->save();
         }
-    
+
         return $uncategorizedCategory->id;
     }
 }

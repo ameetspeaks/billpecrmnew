@@ -19,16 +19,22 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//Route::get('test', function () {
-//    try {
-//
-//        $data = "New Order Received!";
-//        event(new AdminNewOrder($data));
-//        return response()->json(['status' => 'success', 'message' => 'Event has been fired']);
-//    } catch (\Throwable $th) {
-//        return response()->json(['status' => 'error', 'message' => $th->getMessage()]);
-//    }
-//});
+
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\CustomerAppController;
+
+Route::get('test', function (Request $request) {
+    // Simulate passing data via query parameters
+    $request->merge([
+        'user_id' => 66,  // Replace with actual user_id
+//        'store_id' => 414,   // Replace with actual store_id
+    ]);
+
+    // Call the checkout method in the controller and pass the modified request
+    return app(CustomerAppController::class)->getAddToCart($request);
+});
+
 //Route::get('test-output', function () {
 //    return view('test');
 //});
