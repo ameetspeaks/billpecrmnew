@@ -65,7 +65,6 @@ class ProductController extends Controller
             'store_id' => 'required',
             'name' => 'required',
             'stock' => 'required',
-            'wholesale_price' => 'required',
             'qtn' => 'required',
             'unit' => 'required',
         ];
