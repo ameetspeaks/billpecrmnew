@@ -4433,6 +4433,7 @@ class ApiController extends Controller
             'category_id' => 'required',
         ];
         $requestData = $request->all();
+        Log::info($requestData);
         $validator = Validator::make($requestData, $rules);
         $getCustomerBanners = CustomerBanner::where(['module_id'=>$request->module_id,'category_id'=>$request->category_id])->get();
         $response = ['success' => true, 'message' => 'Customer Banners' , 'getCustomerBanners' => $getCustomerBanners];

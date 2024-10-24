@@ -11,12 +11,14 @@ class CustomerBanner extends Model
 
     protected $table = 'customer_banners';
 
-    protected $fillable= [
-       'module_id',
-       'category_id',
-       'name',
-       'image',
-       'status',
+    protected $fillable = [
+        'module_id',
+        'category_id',
+        'name',
+        'image',
+        'status',
+        'position',
+        'zone',
     ];
 
     public function module()

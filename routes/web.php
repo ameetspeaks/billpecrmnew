@@ -20,34 +20,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Require __DIR__ . '/testingRoutes.php';
 
-//use Illuminate\Http\Request;
-//use App\Http\Controllers\CustomerAppController;
-//
-//Route::get('test', function (Request $request) {
-//    // Simulate passing data via query parameters
-//    $request->merge([
-//        'user_id' => 66,  // Replace with actual user_id
-////        'store_id' => 414,   // Replace with actual store_id
-//    ]);
-//
-//    // Call the checkout method in the controller and pass the modified request
-//    return app(CustomerAppController::class)->getAddToCart($request);
-//});
-Route::get('test', function (Request $request) {
-   $data[0] = \App\Models\Zone::get();
-    $data[1] = \App\Models\SubZone::get();
-
-    return $data;
-});
-
-//Route::get('test-output', function () {
-//    return view('test');
-//});
-//route for php artisan migrate
-//Route::get('migrate', function (){
-//   \Illuminate\Support\Facades\Artisan::call('migrate');
-//});
 Route::prefix('admin')->group(base_path('routes/admin.php'));
 Route::prefix('store')->group(base_path('routes/store.php'));
 Route::get('invoice/{store_id}/{combined_id}', [InvoiceController::Class, 'invoice']);
@@ -153,6 +127,5 @@ Route::get('shippingPolicy-parcelpay', function () {
 Route::get('terms&condition-parcelpay', function () {
     return view('billpeapp.terms&conditionpp');
 })->name('terms&conditionpp');
-
 
 

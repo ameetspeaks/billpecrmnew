@@ -6,7 +6,6 @@
         Order list
     @endslot
     @slot('content')
-
         <div class="text-right col-12">
             {{-- <a href="{{ route('admin.product.add') }}">
                 <button type="button" class="btn btn-outline-secondary btn-fw text-capitalize">Add product</button>
@@ -19,8 +18,8 @@
             <span class="text-xs text-red-500 mt-2 errmsg_productExcel"></span>
             <div>
                 <ul id="showExportError">
-                    @if($errors->any())
-                        @foreach($errors->all() as $error)
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
                             <li class="text-danger">{{ $error }}</li>
                         @endforeach
                     @endif
@@ -35,15 +34,15 @@
         <div class="table-responsive mt-3">
             <table class="table table-striped">
                 <thead>
-                <tr>
-                    <th> Order Id</th>
-                    <th> Order Date</th>
-                    <th> Customer Information</th>
-                    <th> Store</th>
-                    <th> Total Amount</th>
-                    <th> Order Status</th>
-                    <th> Action</th>
-                </tr>
+                    <tr>
+                        <th> Order Id</th>
+                        <th> Order Date</th>
+                        <th> Customer Information</th>
+                        <th> Store</th>
+                        <th> Total Amount</th>
+                        <th> Order Status</th>
+                        <th> Action</th>
+                    </tr>
                 </thead>
                 <tbody>
 
@@ -56,32 +55,42 @@
         <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 
         <script>
-
-            $(function () {
+            $(function() {
                 var table = $('.table').DataTable({
                     processing: true,
                     serverSide: true,
                     order: [],
                     ajax: "{{ route('admin.order.allOrder') }}",
 
-                    "columns": [
-                        {
+                    "columns": [{
                             "data": "id",
                             "name": "id"
                         },
                         {
                             "data": "created_at",
                             "name": "created_at",
-                            "render": function (data, type, row) {
+                            "render": function(data, type, row) {
                                 const date = new Date(data);
 
-                                // Function to pad single-digit numbers with a leading zero
                                 const padZero = num => (num < 10 ? '0' + num : num);
 
-                                const formattedDate = `${date.getUTCFullYear()}-${padZero(date.getUTCMonth() + 1)}-${padZero(date.getUTCDate())} ${padZero(date.getUTCHours())}:${padZero(date.getUTCMinutes())}:${padZero(date.getUTCSeconds())}`;
+                                const formatAMPM = date => {
+                                    let hours = date.getHours();
+                                    const minutes = padZero(date.getMinutes());
+                                    // const seconds = padZero(date.getSeconds());
+                                    const ampm = hours >= 12 ? 'PM' : 'AM';
+                                    hours = hours % 12;
+                                    hours = hours ? hours : 12;
+                                    // return `${padZero(hours)}:${minutes}:${seconds} ${ampm}`;
+                                    return `${padZero(hours)}:${minutes} ${ampm}`;
+                                };
+
+                                const formattedDate =
+                                    `${date.getFullYear()}-${padZero(date.getMonth() + 1)}-${padZero(date.getDate())} ${formatAMPM(date)}`;
 
                                 return formattedDate;
                             },
+
                         },
                         {
                             "data": "customer_name",
@@ -122,7 +131,7 @@
                 var channel = pusher.subscribe('order-tracking');
 
 
-                channel.bind('order-tracker', function (data) {
+                channel.bind('order-tracker', function(data) {
                     console.log('Event Data - ', data);
                     table.ajax.reload(null, false);
 
@@ -133,7 +142,7 @@
                 });
 
                 var channel2 = pusher2.subscribe('admin-order-alert');
-                channel2.bind('new-order', function (data) {
+                channel2.bind('new-order', function(data) {
                     //     reload the table
                     table.ajax.reload(null, false);
                 });
@@ -152,7 +161,7 @@
 
 
             //remove product
-            $(document).on('click', '#remove', function () {
+            $(document).on('click', '#remove', function() {
                 var id = $(this).attr('data-id');
 
                 Swal.fire({
@@ -161,15 +170,15 @@
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonText: "Yes, delete it!"
-                }).then(function (result) {
+                }).then(function(result) {
                     if (result.value) {
 
-                        var url = '{{ route('admin.product.delete',["id" => ":id"]) }}';
+                        var url = '{{ route('admin.product.delete', ['id' => ':id']) }}';
                         url = url.replace(':id', id);
                         $.ajax({
                             type: 'GET',
                             url: url,
-                            success: function (data) {
+                            success: function(data) {
                                 if (data.status == false) {
                                     Swal.fire(data.title, data.message, data.type);
                                 }
@@ -177,7 +186,7 @@
                                     "Deleted!",
                                     "Deleted successfully.",
                                     "success"
-                                ).then(function () {
+                                ).then(function() {
                                     $('.table').DataTable().ajax.reload();
                                 });
                             }
@@ -188,7 +197,7 @@
             })
 
             //change status
-            $(document).on('click', '.changeStatus', function () {
+            $(document).on('click', '.changeStatus', function() {
                 var id = $(this).attr('data-id');
                 var statusName = $(this).attr('data-statusName');
 
@@ -196,18 +205,17 @@
                     url: "{{ route('admin.centralLibrary.changeStatus') }}",
                     method: 'post',
                     data: {
-                        "_token": "{{csrf_token()}}",
+                        "_token": "{{ csrf_token() }}",
                         'id': id,
                         'statusName': statusName
                     },
-                    success: function (data) {
+                    success: function(data) {
                         console.log(data)
                         $('.table').DataTable().ajax.reload();
                     }
                 });
 
             })
-
         </script>
     @endslot
 @endcomponent

@@ -2,34 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\CommonController;
-
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Log;
-use Spatie\Permission\Models\Permission;
-
+use App\Http\Controllers\Controller;
+use App\Models\CustomerBanner;
+use App\Models\Module;
+use App\Models\Zone;
+use DataTables;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-
-use App\Models\Unit;
-use App\Models\Attribute;
-use App\Models\Module;
-use App\Models\Store;
-use App\Models\CustomerBanner;
-
-use DataTables;
 
 class CustomerBannerController extends Controller
 {
     public function index()
     {
-        if(\request()->ajax()){
-            $data = CustomerBanner::with('module','category')->get();
+        if (\request()->ajax()) {
+            $data = CustomerBanner::with('module', 'category')->get();
             return DataTables::of($data)
                 ->make(true);
         }
@@ -38,8 +27,9 @@ class CustomerBannerController extends Controller
 
     public function add()
     {
-        $modules = Module::where('status',1)->get();
-        return view('admin.customerbanner.add', compact('modules'));
+        $zones = Zone::get();
+        $modules = Module::where('status', 1)->get();
+        return view('admin.customerbanner.add', compact('modules','zones'));
     }
 
     public function store(Request $request)
@@ -56,29 +46,44 @@ class CustomerBannerController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->with('error', $validator->errors()->first());
         } else {
-            if($request->banner_image_link)
-            {
+            if ($request->banner_image_link) {
                 $customer_banner_image = $request->banner_image_link;
-            }else{
+            } else {
 
                 #save image
                 $customer_banner_image = $request->banner_image;
                 if ($customer_banner_image) {
-                    $path  = config('image.profile_image_path_view');
-                    $customer_banner_image = CommonController::saveImage($customer_banner_image, $path , 'customerbannerImage');
-                }else{
+                    $path = config('image.profile_image_path_view');
+                    $customer_banner_image = CommonController::saveImage($customer_banner_image, $path, 'customerbannerImage');
+                } else {
                     $customer_banner_image = null;
                 }
 
             }
 
-            $banner = CustomerBanner::create([
-                'module_id'   =>$request->modules_id,
-                'category_id' =>$request->category_id,
-                'name'        =>$request->name,
-                'image'       =>$customer_banner_image,
-                'status'      =>1,
-            ]);
+
+            $newBanner = new CustomerBanner();
+            $newBanner->module_id = $request->modules_id;
+            $newBanner->category_id = $request->category_id;
+            $newBanner->name = $request->name;
+            $newBanner->image = $customer_banner_image;
+            $newBanner->status = 1;
+            $newBanner->position = $request->position;
+            if ($request->zone && $request->position === "bottom") {
+
+                $zoneIds = Zone::all()->pluck('id')->toArray();
+                if (in_array('all', $request->zone)) {
+                    $newBanner->zone = json_encode($zoneIds);
+                } else {
+                    $newBanner->zone = json_encode($request->zone);
+                }
+
+            } else {
+                $newBanner->zone = null;
+            }
+
+            $newBanner->save();
+
             DB::commit();
             return redirect()->route('admin.customerbanner.index')->with('message', 'Banner added successfully');
         }
@@ -86,9 +91,10 @@ class CustomerBannerController extends Controller
 
     public function edit($id)
     {
-        $banner = CustomerBanner::where('id',$id)->first();
-        $modules = Module::where('status',1)->get();
-        return view('admin.customerbanner.edit', compact('banner','modules'));
+        $zones = Zone::get();
+        $banner = CustomerBanner::where('id', $id)->first();
+        $modules = Module::where('status', 1)->get();
+        return view('admin.customerbanner.edit', compact('banner', 'modules', 'zones'));
     }
 
     public function update(Request $request)
@@ -108,10 +114,9 @@ class CustomerBannerController extends Controller
 
             $banner = CustomerBanner::where('id', $request->banner_id)->first();
 
-            if($request->banner_image_link)
-            {
+            if ($request->banner_image_link) {
                 $customer_banner_image = $request->banner_image_link;
-            }else{
+            } else {
 
                 #save image
                 $customer_banner_image = $request->banner_image;
@@ -119,14 +124,13 @@ class CustomerBannerController extends Controller
                     $find = url('/storage');
                     $pathurl = str_replace($find, "", $banner->image);
 
-                    if(File::exists('storage'.$pathurl))
-                    {
-                        File::delete('storage'.$pathurl);
+                    if (File::exists('storage' . $pathurl)) {
+                        File::delete('storage' . $pathurl);
                     }
 
-                    $path  = config('image.profile_image_path_view');
-                    $customer_banner_image = CommonController::saveImage($customer_banner_image, $path , 'customerbannerImage');
-                }else{
+                    $path = config('image.profile_image_path_view');
+                    $customer_banner_image = CommonController::saveImage($customer_banner_image, $path, 'customerbannerImage');
+                } else {
                     $customer_banner_image = $banner->image;
                 }
             }
@@ -135,7 +139,23 @@ class CustomerBannerController extends Controller
             $banner->category_id = $request->category_id;
             $banner->name = $request->name;
             $banner->image = $customer_banner_image;
+            $banner->position = $request->position;
+            if ($request->zone && $request->position === "bottom") {
+
+                $zoneIds = Zone::all()->pluck('id')->toArray();
+                if (in_array('all', $request->zone)) {
+                    $banner->zone = json_encode($zoneIds);
+                } else {
+                    $banner->zone = json_encode($request->zone);
+                }
+
+            } else {
+                $banner->zone = null;
+            }
             $banner->save();
+
+
+
 
             DB::commit();
             return redirect()->route('admin.customerbanner.index')->with('message', 'Banner updated successfully');
@@ -144,8 +164,8 @@ class CustomerBannerController extends Controller
 
     public function delete($id)
     {
-        $banner = CustomerBanner::where('id',$id)->first();
+        $banner = CustomerBanner::where('id', $id)->first();
         $banner->destroy($id);
-        return response()->json(['status' => true,'message' => 'Banner Deleted successfully']);
+        return response()->json(['status' => true, 'message' => 'Banner Deleted successfully']);
     }
 }
