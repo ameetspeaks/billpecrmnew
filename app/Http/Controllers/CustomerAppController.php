@@ -3,51 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Events\AdminNewOrder;
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Store;
+use App\Events\NotificationToMerchant;
+use App\Helpers\LocationHelper;
+use App\Models\AddtoCart;
 use App\Models\AppActivity;
 use App\Models\Category;
-use App\Models\Product;
-use App\Models\TemplateOffer;
+use App\Models\CustomerCoupan;
+use App\Models\CustomerOrder;
+use App\Models\Filter;
+use App\Models\HomeDeliveryDetail;
 use App\Models\Module;
 use App\Models\MultipleAddress;
-use App\Models\CustomerOrder;
-use App\Models\Otp;
-use App\Models\Filter;
-use App\Models\AddtoCart;
-use App\Models\SubZone;
-use App\Models\HomeDeliveryDetail;
-use App\Models\CustomerCoupan;
 use App\Models\OrderStatus;
-
-use Illuminate\Support\Str;
-use App;
-use Session;
-use Stichoza\GoogleTranslate\GoogleTranslate;
-
+use App\Models\Otp;
+use App\Models\Product;
+use App\Models\Store;
+use App\Models\TemplateOffer;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Response;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Log;
-use Spatie\Permission\Models\Permission;
-use App\Models\CentralLibrary;
-use Illuminate\Support\Facades\Auth;
-use App\Events\OrderStatusUpdated;
-use App\Events\NotificationToMerchant;
-
-use PDF;
-use Carbon\Carbon;
-
-use App\Exports\BillExport;
-use Excel;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 // Helpers
-use App\Helpers\LocationHelper;
 
 class CustomerAppController extends Controller
 {
@@ -65,19 +48,19 @@ class CustomerAppController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                if($request->phone == '9634188285' || $request->phone == '9670006261'){
+                if ($request->phone == '9634188285' || $request->phone == '9670006261') {
                     $randNo = '123456';
-                }else{
+                } else {
                     $randNo = rand(100000, 999999);
-                    $sendOtpResponse = CommonController::sendMsg91WhatsappOtp($request->phone,$randNo);
+                    $sendOtpResponse = CommonController::sendMsg91WhatsappOtp($request->phone, $randNo);
                 }
-                $checkPhone = Otp::where('phone_number',$request->phone)->first();
-                if($checkPhone){
-                    $otp = Otp::where('phone_number',$request->phone)->update(['otp' => $randNo]);
-                }else{
+                $checkPhone = Otp::where('phone_number', $request->phone)->first();
+                if ($checkPhone) {
+                    $otp = Otp::where('phone_number', $request->phone)->update(['otp' => $randNo]);
+                } else {
                     $otp = Otp::create([
-                        'phone_number'     => $request->phone,
-                        'otp'              => $randNo,
+                        'phone_number' => $request->phone,
+                        'otp' => $randNo,
                     ]);
                 }
                 DB::commit();
@@ -97,7 +80,7 @@ class CustomerAppController extends Controller
         try {
             $rules = [
                 'phone' => 'required|numeric|digits:10',
-                'otp'   => 'required|numeric',
+                'otp' => 'required|numeric',
                 'device_token' => 'required',
                 'role_type' => 'required',
             ];
@@ -108,14 +91,14 @@ class CustomerAppController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                $checkOtp = Otp::where("phone_number",$request->phone)->where('otp',$request->otp)->first();
-                if($checkOtp){
-                    $user = User::where('whatsapp_no',$request->phone)->where('role_type',$request->role_type)->first();
-                    if($user){
-                        User::where('whatsapp_no',$request->phone)->where('role_type',$request->role_type)->update(['device_token' => $request->device_token]);
-                        $user = User::where('whatsapp_no',$request->phone)->where('role_type',$request->role_type)->first();
+                $checkOtp = Otp::where("phone_number", $request->phone)->where('otp', $request->otp)->first();
+                if ($checkOtp) {
+                    $user = User::where('whatsapp_no', $request->phone)->where('role_type', $request->role_type)->first();
+                    if ($user) {
+                        User::where('whatsapp_no', $request->phone)->where('role_type', $request->role_type)->update(['device_token' => $request->device_token]);
+                        $user = User::where('whatsapp_no', $request->phone)->where('role_type', $request->role_type)->first();
 
-                        $address = MultipleAddress::where('user_id',$user->id)->where('label',$user->label)->first();
+                        $address = MultipleAddress::where('user_id', $user->id)->where('label', $user->label)->first();
                         $user->address = $address;
                         // print_r($address); die;
 
@@ -123,17 +106,17 @@ class CustomerAppController extends Controller
                         $token = $user->createToken('billpe.cloud')->accessToken;
 
                         $activity = AppActivity::create([
-                            'action'  => 'Login',
-                            'message' => $user->name.' logged in',
+                            'action' => 'Login',
+                            'message' => $user->name . ' logged in',
                         ]);
                         $activity->save();
 
                         DB::commit();
 
                         return response()->json(['success' => true, 'is_complete' => true, 'message' => 'User Login successfully.', 'token' => $token, 'data' => $user], 200);
-                    }else{
+                    } else {
 
-                        $roleID = Role::where('id',$request->role_type)->first();
+                        $roleID = Role::where('id', $request->role_type)->first();
 
                         $customer = new User();
                         $customer->whatsapp_no = $request->phone;
@@ -147,13 +130,13 @@ class CustomerAppController extends Controller
                         $customer->save();
 
                         $token = $customer->createToken('billpe.cloud')->accessToken;
-                        $user = User::where('id',$customer->id)->first();
+                        $user = User::where('id', $customer->id)->first();
                         Auth::login($user);
                         DB::commit();
 
-                        return Response::json(['success' => true, 'is_complete' => false,  'message' => 'Complete your profile.', 'token'=> $token, 'data' => $user], 200);
+                        return Response::json(['success' => true, 'is_complete' => false, 'message' => 'Complete your profile.', 'token' => $token, 'data' => $user], 200);
                     }
-                }else{
+                } else {
                     return Response::json(['success' => false, 'message' => "Phone or otp is not valid. Enter valid detail."], 404);
                 }
             }
@@ -181,41 +164,39 @@ class CustomerAppController extends Controller
                 return Response::json(['status' => false, 'message' => $validator->errors()->all()], 404);
             } else {
                 $verifyOtpLess = CommonController::verifyOTPLess($request->otpless_token);
-                if(array_key_exists('message',$verifyOtpLess))
-                {
+                if (array_key_exists('message', $verifyOtpLess)) {
                     return Response::json(['status' => false, 'message' => 'Unable to login. kindly login first.'], 200);
                 }
 
-                if($verifyOtpLess['authentication_details']['phone'])
-                {
+                if ($verifyOtpLess['authentication_details']['phone']) {
                     $phoneNumber = $verifyOtpLess['authentication_details']['phone']['phone_number'];
-                    $user = User::where('whatsapp_no',$phoneNumber)->where('role_type',$request->role_type)->first();
+                    $user = User::where('whatsapp_no', $phoneNumber)->where('role_type', $request->role_type)->first();
 
-                    if($user){
+                    if ($user) {
                         $store = null;
-                        if($user->role_type == 2){
+                        if ($user->role_type == 2) {
                             $store = Store::where('user_id', $user->id)->first();
                         }
-                        User::where('whatsapp_no',$phoneNumber)->where('role_type',$request->role_type)->update(['device_token' => $request->device_token]);
-                        $user = User::where('whatsapp_no',$phoneNumber)->where('role_type',$request->role_type)->first();
-                        $address = MultipleAddress::where('user_id',$user->id)->where('label',$user->label)->first();
+                        User::where('whatsapp_no', $phoneNumber)->where('role_type', $request->role_type)->update(['device_token' => $request->device_token]);
+                        $user = User::where('whatsapp_no', $phoneNumber)->where('role_type', $request->role_type)->first();
+                        $address = MultipleAddress::where('user_id', $user->id)->where('label', $user->label)->first();
                         $user->address = $address;
 
                         Auth::login($user);
                         $token = $user->createToken('billpe.cloud')->accessToken;
 
                         $activity = AppActivity::create([
-                            'action'  => 'Login',
-                            'message' => $user->name.' logged in',
+                            'action' => 'Login',
+                            'message' => $user->name . ' logged in',
                         ]);
                         $activity->save();
 
                         DB::commit();
 
                         return response()->json(['success' => true, 'is_complete' => true, 'message' => 'User Login successfully.', 'token' => $token, 'data' => $user, 'store' => $store], 200);
-                    }else{
+                    } else {
 
-                        $roleID = Role::where('id',$request->role_type)->first();
+                        $roleID = Role::where('id', $request->role_type)->first();
 
                         $customer = new User();
                         $customer->whatsapp_no = $phoneNumber;
@@ -229,11 +210,11 @@ class CustomerAppController extends Controller
                         $customer->save();
 
                         $token = $customer->createToken('billpe.cloud')->accessToken;
-                        $user = User::where('id',$customer->id)->first();
+                        $user = User::where('id', $customer->id)->first();
                         Auth::login($user);
                         DB::commit();
 
-                        return Response::json(['success' => true, 'is_complete' => false,  'message' => 'Complete your profile.', 'token'=> $token, 'data' => $user], 200);
+                        return Response::json(['success' => true, 'is_complete' => false, 'message' => 'Complete your profile.', 'token' => $token, 'data' => $user], 200);
                     }
                 }
             }
@@ -265,7 +246,7 @@ class CustomerAppController extends Controller
                 return Response::json(['status' => false, 'message' => $validator->errors()->all()], 404);
             } else {
 
-                $check_Customer = User::where('id',$request->user_id)->first();
+                $check_Customer = User::where('id', $request->user_id)->first();
                 $check_Customer->address = $request->address;
                 $check_Customer->latitude = $request->latitude;
                 $check_Customer->longitude = $request->longitude;
@@ -287,8 +268,8 @@ class CustomerAppController extends Controller
                 $customerMultiAdd->save();
 
                 $activity = AppActivity::create([
-                    'action'  => 'Customer Update Address',
-                    'message' => $check_Customer->name.' update address in',
+                    'action' => 'Customer Update Address',
+                    'message' => $check_Customer->name . ' update address in',
                 ]);
                 $activity->save();
                 DB::commit();
@@ -322,8 +303,8 @@ class CustomerAppController extends Controller
                 return Response::json(['status' => false, 'message' => $validator->errors()->all()], 404);
             } else {
 
-                $checkLableAdd = MultipleAddress::where('user_id', $request->user_id)->where('label',$request->label)->first();
-                if($checkLableAdd){
+                $checkLableAdd = MultipleAddress::where('user_id', $request->user_id)->where('label', $request->label)->first();
+                if ($checkLableAdd) {
                     return Response::json(['status' => false, 'message' => 'This lable address has already been taken.'], 404);
                 }
 
@@ -339,8 +320,8 @@ class CustomerAppController extends Controller
                 $customerMultiAdd->save();
 
                 $activity = AppActivity::create([
-                    'action'  => 'Add Multipe Address',
-                    'message' => Auth::user()->name.' add multiple address in',
+                    'action' => 'Add Multipe Address',
+                    'message' => Auth::user()->name . ' add multiple address in',
                 ]);
                 $activity->save();
                 DB::commit();
@@ -398,11 +379,11 @@ class CustomerAppController extends Controller
                 return Response::json(['status' => false, 'message' => $validator->errors()->all()], 404);
             } else {
 
-                $getAdd = MultipleAddress::where('id',$request->address_id)->first();
+                $getAdd = MultipleAddress::where('id', $request->address_id)->first();
 
-                if($getAdd->label != $request->label){
-                    $checkLableAdd = MultipleAddress::where('user_id', $getAdd->user_id)->where('label',$request->label)->first();
-                    if($checkLableAdd){
+                if ($getAdd->label != $request->label) {
+                    $checkLableAdd = MultipleAddress::where('user_id', $getAdd->user_id)->where('label', $request->label)->first();
+                    if ($checkLableAdd) {
                         return Response::json(['status' => false, 'message' => 'This lable address has already been taken.'], 404);
                     }
                 }
@@ -416,9 +397,8 @@ class CustomerAppController extends Controller
                 $getAdd->label = $request->label;
                 $getAdd->save();
 
-                if($request->label == "Home")
-                {
-                    $user = User::where('id',$getAdd->user_id)->first();
+                if ($request->label == "Home") {
+                    $user = User::where('id', $getAdd->user_id)->first();
                     $user->address = $request->address;
                     $user->latitude = $request->latitude;
                     $user->longitude = $request->longitude;
@@ -430,8 +410,8 @@ class CustomerAppController extends Controller
                 }
 
                 $activity = AppActivity::create([
-                    'action'  => 'Update Multipe Address',
-                    'message' => Auth::user()->name.' update multiple address in',
+                    'action' => 'Update Multipe Address',
+                    'message' => Auth::user()->name . ' update multiple address in',
                 ]);
                 $activity->save();
                 DB::commit();
@@ -459,11 +439,11 @@ class CustomerAppController extends Controller
                 return Response::json(['status' => false, 'message' => $validator->errors()->all()], 404);
             } else {
 
-                $getUser = User::where('id',$request->user_id)->first();
+                $getUser = User::where('id', $request->user_id)->first();
 
-                if($getUser->whatsapp_no != $request->phone){
-                    $checkUserPhone = User::where('whatsapp_no', $request->phone)->where('role_type',4)->first();
-                    if($checkUserPhone){
+                if ($getUser->whatsapp_no != $request->phone) {
+                    $checkUserPhone = User::where('whatsapp_no', $request->phone)->where('role_type', 4)->first();
+                    if ($checkUserPhone) {
                         return Response::json(['status' => false, 'message' => 'This phone number has already been taken.'], 404);
                     }
                 }
@@ -474,14 +454,13 @@ class CustomerAppController extends Controller
                     $find = url('/storage');
                     $pathurl = str_replace($find, "", $getUser->image);
 
-                    if(File::exists('storage'.$pathurl))
-                    {
-                        File::delete('storage'.$pathurl);
+                    if (File::exists('storage' . $pathurl)) {
+                        File::delete('storage' . $pathurl);
                     }
 
-                    $path  = config('image.profile_image_path_view');
+                    $path = config('image.profile_image_path_view');
                     $image = CommonController::saveImage($image, $path, 'user');
-                }else{
+                } else {
                     $image = $getUser->image;
                 }
 
@@ -495,8 +474,8 @@ class CustomerAppController extends Controller
                 $getUser->save();
 
                 $activity = AppActivity::create([
-                    'action'  => 'Customer Profile Updated',
-                    'message' => Auth::user()->name.' Customer update profile',
+                    'action' => 'Customer Profile Updated',
+                    'message' => Auth::user()->name . ' Customer update profile',
                 ]);
                 $activity->save();
                 DB::commit();
@@ -547,12 +526,12 @@ class CustomerAppController extends Controller
                 'product_details.*.price' => 'required|numeric',
                 'product_details.*.total_amount' => 'required|numeric',
 
-                'user_id'=>'required|exists:users,id|numeric',
-                'store_id'=>'required|exists:stores,id|numeric',
-                'amount'=>'required|numeric',
-                'total_amount'=>'required|numeric',
-                'payment_mode'=>'required|string',
-                'address_id'=>'required|numeric',
+                'user_id' => 'required|exists:users,id|numeric',
+                'store_id' => 'required|exists:stores,id|numeric',
+                'amount' => 'required|numeric',
+                'total_amount' => 'required|numeric',
+                'payment_mode' => 'required|string',
+                'address_id' => 'required|numeric',
             ];
 
             $requestData = $request->all();
@@ -561,19 +540,17 @@ class CustomerAppController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                $deliveryDetail = HomeDeliveryDetail::where('store_id',$request->store_id)->first();
+                $deliveryDetail = HomeDeliveryDetail::where('store_id', $request->store_id)->first();
 
-                if($deliveryDetail)
-                {
-                    if($request->total_amount < $deliveryDetail->minimum_order_amount)
-                    {
-                        return Response::json(['success' => false, 'message' => 'Your total order amount is less then minimum order amount '.$deliveryDetail->minimum_order_amount.''], 404);
+                if ($deliveryDetail) {
+                    if ($request->total_amount < $deliveryDetail->minimum_order_amount) {
+                        return Response::json(['success' => false, 'message' => 'Your total order amount is less then minimum order amount ' . $deliveryDetail->minimum_order_amount . ''], 404);
                     }
                 }
 
                 $orderNumber = 1;
-                $order = CustomerOrder::where('user_id', $request->user_id)->orderBy('created_at','DESC')->first();
-                if($order){
+                $order = CustomerOrder::where('user_id', $request->user_id)->orderBy('created_at', 'DESC')->first();
+                if ($order) {
                     $orderNumber = $order->order_number + 1;
                 }
 
@@ -601,19 +578,19 @@ class CustomerAppController extends Controller
                     $product = Product::where('id', $productDetail['id'])->first();
 
                     if ($product) {
-                        if ((int)$product->stock > 0 && (int) $request->qtn<=(int)$product->stock) {
-                            $product->stock = (int)$product->stock - (int) $productDetail['qtn'];
+                        if ((int)$product->stock > 0 && (int)$request->qtn <= (int)$product->stock) {
+                            $product->stock = (int)$product->stock - (int)$productDetail['qtn'];
                             $product->save();
                         }
                     }
                 }
                 $newOrder->save();
 
-                AddtoCart::where('user_id',$request->user_id)->delete();
+                AddtoCart::where('user_id', $request->user_id)->delete();
 
-                $msg = Auth::user()->name.' Customer Created New Order';
+                $msg = Auth::user()->name . ' Customer Created New Order';
                 $activity = AppActivity::create([
-                    'action'  => 'Customer Order',
+                    'action' => 'Customer Order',
                     'message' => $msg,
                 ]);
                 $activity->save();
@@ -634,13 +611,13 @@ class CustomerAppController extends Controller
 
                 event(new NotificationToMerchant($newOrder, "new_order_by_customer", $msg, $otherDetail));
 
-//                New Order notification to CRM admin
+                //                New Order notification to CRM admin
                 // Check if `id` exists and is not null
                 if (!is_null($newOrder->id)) {
                     $msg = $newOrder->id . "; ";
                 }
                 $msg .= "New Order Received! ";
-                
+
                 event(new AdminNewOrder($msg));
 
 
@@ -655,417 +632,410 @@ class CustomerAppController extends Controller
     }
 
     //Location based data - paid user - no distruibute module userd apis
-        public function customerHomeDashboard(Request $request)
-        {
-            DB::beginTransaction();
-            try {
-                $rules = [
-                    'latitude' => 'required',
-                    'longitude' => 'required',
-                ];
+    public function customerHomeDashboard(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'latitude' => 'required',
+                'longitude' => 'required',
+            ];
 
-                $requestData = $request->all();
-                $validator = Validator::make($requestData, $rules);
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
 
-                if ($validator->fails()) {
-                    $response = ['success' => false, 'message' => $validator->errors()->all()];
-                } else {
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
 
-                    $customer = Auth::user();
+                $customer = Auth::user();
 
-                    $nearestData = $this->nearestRange($request->latitude, $request->longitude);
-                    $getStores =  Store::with('module')
+                $nearestData = $this->nearestRange($request->latitude, $request->longitude);
+                $getStores = Store::with('module')
                     ->whereHas('module', function ($query) {
                         $query->where('online', 1);
                     })
                     ->select('*')
                     ->selectRaw("{$nearestData['haversine']} AS distance")
                     ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
-                    ->where('package_id', '<>' , 1)
+                    ->where('package_id', '<>', 1)
                     ->where('featured', 1)
                     ->orderBy('distance')
                     // ->orderByRaw("FIELD(featured, 1) DESC")
                     ->get();
-                    foreach($getStores as $store){
-                        $store->delivery_time = intval($store->distance * 4);
-                    }
-
-                    $storeIDs = $getStores->pluck('id');
-
-                    //storecategory
-                        $products = Product::whereIn('store_id',$storeIDs)->where('status', '1')->get();
-
-                        $productCat = $products->unique('category')->pluck('category');
-                        $categories = Category::with('module')
-                        ->whereHas('module', function ($query) {
-                            $query->where('online', 1);
-                        })->whereIn('id',$productCat)->where('featured',1)->get();
-                    //
-
-                    //product offer
-                        $productIDS = $products->pluck('id');
-                        $offerbyProduct = TemplateOffer::whereIn('product_id',$productIDS)->get();
-                    //
-
-                    //module wise product
-
-                        $storeModuleIDs = $getStores->unique('module_id')->pluck('module_id');
-                        $moduleProduct = Module::with(['stores' => function ($query) use ($storeIDs, $nearestData) {
-                            // Filter stores based on module_id present in $storeModuleIDs
-                            $query->select('*')
-                                    ->selectRaw("{$nearestData['haversine']} AS distance")
-                                    ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])->whereIn('id', $storeIDs)
-                                    ->where('package_id', '<>' , 1)
-                                    ->orderByRaw("FIELD(featured, 1) DESC");
-                        }])
-                        ->whereIn('id', $storeModuleIDs)
-                        ->where('online', 1)
-                        ->where('status', 1)
-                        ->get();
-
-                        foreach($moduleProduct as $store){
-                            foreach($store->stores as $storedistance){
-                                // print_R($storedistance->distance); die;
-                                $storedistance->delivery_time = intval($storedistance->distance * 4);
-                            }
-                        }
-                    //
-
-                    $response = ['success' => true, 'message' => 'Home dashboard detail', 'stores' => $getStores, 'categories' => $categories, 'offerbyProduct' => $offerbyProduct, 'moduleProduct' => $moduleProduct];
+                foreach ($getStores as $store) {
+                    $store->delivery_time = intval($store->distance * 4);
                 }
-                return Response::json($response, 200);
 
-            } catch (Exception $e) {
-                DB::rollBack();
-                return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
-            }
-        }
+                $storeIDs = $getStores->pluck('id');
 
-        public function foodStoreList(Request $request)
-        {
-            DB::beginTransaction();
-            try {
-                $rules = [
-                    'latitude' => 'required',
-                    'longitude' => 'required',
-                ];
+                //storecategory
+                $products = Product::whereIn('store_id', $storeIDs)->where('status', '1')->get();
 
-                $requestData = $request->all();
-                $validator = Validator::make($requestData, $rules);
+                $productCat = $products->unique('category')->pluck('category');
+                $categories = Category::with('module')
+                    ->whereHas('module', function ($query) {
+                        $query->where('online', 1);
+                    })->whereIn('id', $productCat)->where('featured', 1)->get();
+                //
 
-                if ($validator->fails()) {
-                    $response = ['success' => false, 'message' => $validator->errors()->all()];
-                } else {
-                    $customer = Auth::user();
+                //product offer
+                $productIDS = $products->pluck('id');
+                $offerbyProduct = TemplateOffer::whereIn('product_id', $productIDS)->get();
+                //
 
-                    $nearestData = $this->nearestRange($request->latitude, $request->longitude);
-                    $getfoodStores =  Store::with('module')
-                        ->whereHas('module', function ($query) {
-                            $query->where('online', 1);
-                        })
-                        ->select('*')
+                //module wise product
+
+                $storeModuleIDs = $getStores->unique('module_id')->pluck('module_id');
+                $moduleProduct = Module::with(['stores' => function ($query) use ($storeIDs, $nearestData) {
+                    // Filter stores based on module_id present in $storeModuleIDs
+                    $query->select('*')
                         ->selectRaw("{$nearestData['haversine']} AS distance")
-                        ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
-                        ->where('package_id', '<>' , 1)
-                        ->where('module_id', 4)
-                        ->orderBy('distance')
-                        ->get();
+                        ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])->whereIn('id', $storeIDs)
+                        ->where('package_id', '<>', 1)
+                        ->orderByRaw("FIELD(featured, 1) DESC");
+                }])
+                    ->whereIn('id', $storeModuleIDs)
+                    ->where('online', 1)
+                    ->where('status', 1)
+                    ->get();
 
-                    foreach($getfoodStores as $store){
-                        $store->delivery_time = intval($store->distance * 4);
+                foreach ($moduleProduct as $store) {
+                    foreach ($store->stores as $storedistance) {
+                        // print_R($storedistance->distance); die;
+                        $storedistance->delivery_time = intval($storedistance->distance * 4);
                     }
-                    $response = ['success' => true, 'message' => 'Food store list', 'getfoodStores' => $getfoodStores];
                 }
-                return Response::json($response, 200);
-            } catch (Exception $e) {
-                DB::rollBack();
-                return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+                //
+
+                $response = ['success' => true, 'message' => 'Home dashboard detail', 'stores' => $getStores, 'categories' => $categories, 'offerbyProduct' => $offerbyProduct, 'moduleProduct' => $moduleProduct];
             }
+            return Response::json($response, 200);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
         }
+    }
 
-        public function getCategoryStoreList(Request $request)
-        {
-            DB::beginTransaction();
-            try {
-                $rules = [
-                    'category_id'=>'required|exists:categories,id|numeric',
-                    'latitude' => 'required',
-                    'longitude' => 'required',
-                ];
+    public function foodStoreList(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'latitude' => 'required',
+                'longitude' => 'required',
+            ];
 
-                $requestData = $request->all();
-                $validator = Validator::make($requestData, $rules);
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
 
-                if ($validator->fails()) {
-                    $response = ['success' => false, 'message' => $validator->errors()->all()];
-                } else {
-                    $customer = Auth::user();
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $customer = Auth::user();
 
-                    $categorsyProductsStoreIDs = Product::where('category',$request->category_id)->groupby('store_id')->get()->pluck('store_id');
-
-                    $nearestData = $this->nearestRange($request->latitude, $request->longitude);
-
-                    $categoryStores =  Store::with('module')
+                $nearestData = $this->nearestRange($request->latitude, $request->longitude);
+                $getfoodStores = Store::with('module')
                     ->whereHas('module', function ($query) {
                         $query->where('online', 1);
                     })
                     ->select('*')
                     ->selectRaw("{$nearestData['haversine']} AS distance")
                     ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
-                    ->whereIn('id',$categorsyProductsStoreIDs)
-                    ->where('package_id', '<>' , 1)
+                    ->where('package_id', '<>', 1)
+                    ->where('module_id', 4)
                     ->orderBy('distance')
                     ->get();
 
-                    foreach($categoryStores as $store){
-                        $store->delivery_time = intval($store->distance * 4);
-                    }
-                    // print_R($categoryStores->toarray()); die;
-                    DB::commit();
-
-                    $response = ['success' => true, 'message' => 'Category Store List', 'data' => $categoryStores];
+                foreach ($getfoodStores as $store) {
+                    $store->delivery_time = intval($store->distance * 4);
                 }
-
-                return Response::json($response, 200);
-            } catch (Exception $e) {
-                DB::rollBack();
-                return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+                $response = ['success' => true, 'message' => 'Food store list', 'getfoodStores' => $getfoodStores];
             }
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
         }
+    }
 
-        public function getstoreDetail(Request $request)
-        {
-            DB::beginTransaction();
-            try {
-                $rules = [
-                    'user_id'=>'required|exists:users,id|numeric',
-                    'store_id'=>'required|exists:stores,id|numeric',
-                    'latitude' => 'required',
-                    'longitude' => 'required',
-                ];
+    public function getCategoryStoreList(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'category_id' => 'required|exists:categories,id|numeric',
+                'latitude' => 'required',
+                'longitude' => 'required',
+            ];
 
-                $requestData = $request->all();
-                $validator = Validator::make($requestData, $rules);
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
 
-                if ($validator->fails()) {
-                    $response = ['success' => false, 'message' => $validator->errors()->all()];
-                } else {
-                    $customer = Auth::user();
-                    $nearestData = $this->nearestRange($request->latitude, $request->longitude);
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $customer = Auth::user();
 
-                    $store =  Store::withCount('product')->with('module')
+                $categorsyProductsStoreIDs = Product::where('category', $request->category_id)->groupby('store_id')->get()->pluck('store_id');
+
+                $nearestData = $this->nearestRange($request->latitude, $request->longitude);
+
+                $categoryStores = Store::with('module')
+                    ->whereHas('module', function ($query) {
+                        $query->where('online', 1);
+                    })
+                    ->select('*')
+                    ->selectRaw("{$nearestData['haversine']} AS distance")
+                    ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
+                    ->whereIn('id', $categorsyProductsStoreIDs)
+                    ->where('package_id', '<>', 1)
+                    ->orderBy('distance')
+                    ->get();
+
+                foreach ($categoryStores as $store) {
+                    $store->delivery_time = intval($store->distance * 4);
+                }
+                // print_R($categoryStores->toarray()); die;
+                DB::commit();
+
+                $response = ['success' => true, 'message' => 'Category Store List', 'data' => $categoryStores];
+            }
+
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
+
+    public function getstoreDetail(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'user_id' => 'required|exists:users,id|numeric',
+                'store_id' => 'required|exists:stores,id|numeric',
+                'latitude' => 'required',
+                'longitude' => 'required',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $customer = Auth::user();
+                $nearestData = $this->nearestRange($request->latitude, $request->longitude);
+
+                $store = Store::withCount('product')->with('module')
+                    // ->select('*')
+                    ->whereHas('module', function ($query) {
+                        $query->where('online', 1);
+                    })
+                    ->selectRaw("{$nearestData['haversine']} AS distance")
+                    ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
+                    ->where('id', $request->store_id)
+                    ->where('package_id', '<>', 1)
+                    ->orderBy('distance')
+                    ->first();
+                if ($store) {
+                    $store->delivery_time = intval($store->distance * 4);
+                }
+                //storecategory
+                $productsCategortIds = Product::where('store_id', $request->store_id)->where('status', '1')->groupby('category')->get()->pluck('category');
+
+                $categories = Category::with(['products' => function ($query) use ($request) {
+                    // $query->where('store_id', $request->store_id);
+
+                    $query->where('store_id', $request->store_id)
+                        ->with(['cart' => function ($query) use ($request) {
+                            $query->where('user_id', $request->user_id)
+                                ->where('store_id', $request->store_id);  // Assuming user_id identifies the user
+                        }]);
+                }])->with('module')
+                    ->whereHas('module', function ($query) {
+                        $query->where('online', 1);
+                    })
+                    ->whereIn('id', $productsCategortIds)->get();
+                // print_R($categories->toarray()); die;
+
+                //
+                DB::commit();
+
+                $response = ['success' => true, 'message' => 'Store detail', 'store' => $store, 'category' => $categories];
+            }
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
+
+    public function searchStorebyproductandStore(Request $request)
+    {
+
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'name' => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $storeIDs = Product::where('status', '1')->where('product_name', 'LIKE', '%' . $request->name . '%')->groupby('store_id')->get()->pluck('store_id');
+                $nearestData = $this->nearestRange($request->latitude, $request->longitude);
+
+                if (count($storeIDs) > 0) {
+                    $stores = Store::withCount('product')->with('module')
                         // ->select('*')
                         ->whereHas('module', function ($query) {
                             $query->where('online', 1);
                         })
                         ->selectRaw("{$nearestData['haversine']} AS distance")
                         ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
-                        ->where('id',$request->store_id)
-                        ->where('package_id', '<>' , 1)
+                        ->whereIn('id', $storeIDs)
+                        ->where('package_id', '<>', 1)
                         ->orderBy('distance')
-                        ->first();
-                    if($store){
-                        $store->delivery_time = intval($store->distance * 4);
-                    }
-                    //storecategory
-                        $productsCategortIds = Product::where('store_id',$request->store_id)->where('status', '1')->groupby('category')->get()->pluck('category');
+                        ->get();
 
-                        $categories = Category::with(['products' => function($query) use ($request) {
-                            // $query->where('store_id', $request->store_id);
-
-                            $query->where('store_id', $request->store_id)
-                                  ->with(['cart' => function($query) use ($request) {
-                                      $query->where('user_id', $request->user_id)
-                                            ->where('store_id', $request->store_id);  // Assuming user_id identifies the user
-                                  }]);
-                        }])->with('module')
+                } else {
+                    $stores = Store::withCount('product')->with('module')
+                        // ->select('*')
                         ->whereHas('module', function ($query) {
                             $query->where('online', 1);
                         })
-                        ->whereIn('id', $productsCategortIds)->get();
-                        // print_R($categories->toarray()); die;
-
-                    //
-                    DB::commit();
-
-                    $response = ['success' => true, 'message' => 'Store detail', 'store' => $store, 'category' => $categories];
+                        ->selectRaw("{$nearestData['haversine']} AS distance")
+                        ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
+                        ->where('shop_name', 'LIKE', '%' . $request->name . '%')
+                        ->where('package_id', '<>', 1)
+                        ->orderBy('distance')
+                        ->get();
                 }
-                return Response::json($response, 200);
-            } catch (Exception $e) {
-                DB::rollBack();
-                return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
-            }
-        }
 
-        public function searchStorebyproductandStore(Request $request)
-        {
-
-            DB::beginTransaction();
-            try {
-                $rules = [
-                    'name'=>'required',
-                    'latitude' => 'required',
-                    'longitude' => 'required',
-                ];
-
-                $requestData = $request->all();
-                $validator = Validator::make($requestData, $rules);
-
-                if ($validator->fails()) {
-                    $response = ['success' => false, 'message' => $validator->errors()->all()];
-                } else {
-                    $storeIDs = Product::where('status', '1')->where('product_name', 'LIKE', '%'.$request->name.'%')->groupby('store_id')->get()->pluck('store_id');
-                    $nearestData = $this->nearestRange($request->latitude, $request->longitude);
-
-                    if(count($storeIDs) > 0)
-                    {
-                        $stores =  Store::withCount('product')->with('module')
-                            // ->select('*')
-                            ->whereHas('module', function ($query) {
-                                $query->where('online', 1);
-                            })
-                            ->selectRaw("{$nearestData['haversine']} AS distance")
-                            ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
-                            ->whereIn('id',$storeIDs)
-                            ->where('package_id', '<>' , 1)
-                            ->orderBy('distance')
-                            ->get();
-
-                    }else{
-                        $stores =  Store::withCount('product')->with('module')
-                            // ->select('*')
-                            ->whereHas('module', function ($query) {
-                                $query->where('online', 1);
-                            })
-                            ->selectRaw("{$nearestData['haversine']} AS distance")
-                            ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
-                            ->where('shop_name', 'LIKE', '%'.$request->name.'%')
-                            ->where('package_id', '<>' , 1)
-                            ->orderBy('distance')
-                            ->get();
-                    }
-
-                    foreach($stores as $store)
-                    {
-                        $store->delivery_time = intval($store->distance * 4);
-                    }
-
-                    DB::commit();
-
-                    $response = ['success' => true, 'message' => 'Store detail', 'store' => $stores];
+                foreach ($stores as $store) {
+                    $store->delivery_time = intval($store->distance * 4);
                 }
-                return Response::json($response, 200);
-            } catch (Exception $e) {
-                DB::rollBack();
-                return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+
+                DB::commit();
+
+                $response = ['success' => true, 'message' => 'Store detail', 'store' => $stores];
             }
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
         }
+    }
 
-        public function filterStore(Request $request)
-        {
-            DB::beginTransaction();
-            try {
-                $rules = [
-                    'filter_id'=>'required|exists:filters,id|numeric',
-                    'latitude' => 'required',
-                    'longitude' => 'required',
-                ];
+    public function filterStore(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $rules = [
+                'filter_id' => 'required|exists:filters,id|numeric',
+                'latitude' => 'required',
+                'longitude' => 'required',
+            ];
 
-                $requestData = $request->all();
-                $validator = Validator::make($requestData, $rules);
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
 
-                if ($validator->fails()) {
-                    $response = ['success' => false, 'message' => $validator->errors()->all()];
-                } else {
-                    $stores = [];
-                    $nearestData = $this->nearestRange($request->latitude, $request->longitude);
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all()];
+            } else {
+                $stores = [];
+                $nearestData = $this->nearestRange($request->latitude, $request->longitude);
 
-                    if($request->filter_id == 1)
-                    {
-                        $radius = 1;
-                        $stores =  Store::withCount('product')->with('module')
+                if ($request->filter_id == 1) {
+                    $radius = 1;
+                    $stores = Store::withCount('product')->with('module')
                         // ->select('*')
                         ->whereHas('module', function ($query) {
                             $query->where('online', 1);
                         })
                         ->selectRaw("{$nearestData['haversine']} AS distance")
                         ->whereRaw("{$nearestData['haversine']} < ?", [$radius])
-                        ->where('package_id', '<>' , 1)
+                        ->where('package_id', '<>', 1)
                         ->orderBy('distance')
                         ->get();
-                        if(count($stores) == 0)
-                        {
-                            $stores =  Store::withCount('product')->with('module')
+                    if (count($stores) == 0) {
+                        $stores = Store::withCount('product')->with('module')
                             // ->select('*')
                             ->whereHas('module', function ($query) {
                                 $query->where('online', 1);
                             })
                             ->selectRaw("{$nearestData['haversine']} AS distance")
                             ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
-                            ->where('package_id', '<>' , 1)
-                            ->orderBy('distance')
-                            ->get();
-                        }
-                    }
-
-                    if($request->filter_id == 2)
-                    {
-                        $stores =  Store::withCount('product')->with('module')
-                            // ->select('*')
-                            ->whereHas('module', function ($query) {
-                                $query->where('online', 1);
-                            })
-                            ->selectRaw("{$nearestData['haversine']} AS distance")
-                            ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
-                            ->where('package_id', '<>' , 1)
-                            ->where('featured', 1)
+                            ->where('package_id', '<>', 1)
                             ->orderBy('distance')
                             ->get();
                     }
-
-                    if($request->filter_id == 3)
-                    {
-                        $stores =  Store::withCount('product','customer_orders')->with('module')
-                            // ->select('*')
-                            ->whereHas('module', function ($query) {
-                                $query->where('online', 1);
-                            })
-                            ->selectRaw("{$nearestData['haversine']} AS distance")
-                            ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
-                            ->where('package_id', '<>' , 1)
-                            ->orderBy('customer_orders_count', 'desc')
-                            ->get();
-                    }
-
-                    if($request->filter_id == 4)
-                    {
-                        $stores =  Store::withCount('product')->with('module')
-                            // ->select('*')
-                            ->whereHas('module', function ($query) {
-                                $query->where('online', 1);
-                            })
-                            ->selectRaw("{$nearestData['haversine']} AS distance")
-                            ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
-                            ->where('package_id', '<>' , 1)
-                            ->whereDate('created_at', date('Y-m-d'))
-                            ->orderBy('distance')
-                            ->get();
-                    }
-
-                    foreach($stores as $store)
-                    {
-                        $store->delivery_time = intval($store->distance * 4);
-                    }
-                    DB::commit();
-
-                    $response = ['success' => true, 'message' => 'Store detail', 'store' => $stores];
                 }
-                return Response::json($response, 200);
-            } catch (Exception $e) {
-                DB::rollBack();
-                return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+
+                if ($request->filter_id == 2) {
+                    $stores = Store::withCount('product')->with('module')
+                        // ->select('*')
+                        ->whereHas('module', function ($query) {
+                            $query->where('online', 1);
+                        })
+                        ->selectRaw("{$nearestData['haversine']} AS distance")
+                        ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
+                        ->where('package_id', '<>', 1)
+                        ->where('featured', 1)
+                        ->orderBy('distance')
+                        ->get();
+                }
+
+                if ($request->filter_id == 3) {
+                    $stores = Store::withCount('product', 'customer_orders')->with('module')
+                        // ->select('*')
+                        ->whereHas('module', function ($query) {
+                            $query->where('online', 1);
+                        })
+                        ->selectRaw("{$nearestData['haversine']} AS distance")
+                        ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
+                        ->where('package_id', '<>', 1)
+                        ->orderBy('customer_orders_count', 'desc')
+                        ->get();
+                }
+
+                if ($request->filter_id == 4) {
+                    $stores = Store::withCount('product')->with('module')
+                        // ->select('*')
+                        ->whereHas('module', function ($query) {
+                            $query->where('online', 1);
+                        })
+                        ->selectRaw("{$nearestData['haversine']} AS distance")
+                        ->whereRaw("{$nearestData['haversine']} < ?", [$nearestData['radius']])
+                        ->where('package_id', '<>', 1)
+                        ->whereDate('created_at', date('Y-m-d'))
+                        ->orderBy('distance')
+                        ->get();
+                }
+
+                foreach ($stores as $store) {
+                    $store->delivery_time = intval($store->distance * 4);
+                }
+                DB::commit();
+
+                $response = ['success' => true, 'message' => 'Store detail', 'store' => $stores];
             }
+            return Response::json($response, 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
         }
+    }
+
     //
 
     public function getFilters(Request $request)
@@ -1086,9 +1056,9 @@ class CustomerAppController extends Controller
         DB::beginTransaction();
         try {
             $rules = [
-                'user_id'=>'required|exists:users,id|numeric',
-                'store_id'=>'required|exists:stores,id|numeric',
-                'product_id'=>'required|exists:products,id|numeric',
+                'user_id' => 'required|exists:users,id|numeric',
+                'store_id' => 'required|exists:stores,id|numeric',
+                'product_id' => 'required|exists:products,id|numeric',
                 'product_qty' => 'required',
             ];
 
@@ -1098,25 +1068,24 @@ class CustomerAppController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                $anotherStoreData = AddtoCart::where('user_id',$request->user_id)->where('store_id','<>',$request->store_id)->first();
-                if($anotherStoreData){
-                    return Response::json(['success' => false, 'message' => 'Your cart contains items from another store Do You want to discard the selection and add dishes from current store', 'store_id'=>$anotherStoreData->store_id], 404);
+                $anotherStoreData = AddtoCart::where('user_id', $request->user_id)->where('store_id', '<>', $request->store_id)->first();
+                if ($anotherStoreData) {
+                    return Response::json(['success' => false, 'message' => 'Your cart contains items from another store Do You want to discard the selection and add dishes from current store', 'store_id' => $anotherStoreData->store_id], 404);
                 }
 
-                $product = Product::where('id',$request->product_id)->first();
-                if($request->product_qty > $product->stock)
-                {
+                $product = Product::where('id', $request->product_id)->first();
+                if ($request->product_qty > $product->stock) {
                     return Response::json(['success' => false, 'message' => 'Product qty greater then product stock'], 404);
                 }
-                $product_amount = $product->mrp*$request->product_qty;
-                if($product->retail_price){
-                    $product_amount = $product->retail_price*$request->product_qty;
+                $product_amount = $product->mrp * $request->product_qty;
+                if ($product->retail_price) {
+                    $product_amount = $product->retail_price * $request->product_qty;
                 }
 
-                $addToCart = AddtoCart::where('user_id',$request->user_id)->where('store_id',$request->store_id)->where('product_id',$request->product_id)->first();
+                $addToCart = AddtoCart::where('user_id', $request->user_id)->where('store_id', $request->store_id)->where('product_id', $request->product_id)->first();
 
-                if($request->product_qty > 0){
-                    if(!$addToCart){
+                if ($request->product_qty > 0) {
+                    if (!$addToCart) {
                         $addToCart = new AddtoCart();
                     }
                     $addToCart->user_id = $request->user_id;
@@ -1127,18 +1096,18 @@ class CustomerAppController extends Controller
                     $addToCart->save();
 
                     $activity = AppActivity::create([
-                        'action'  => 'Add TO Cart',
-                        'message' => Auth::user()->name.' add product to our cart',
+                        'action' => 'Add TO Cart',
+                        'message' => Auth::user()->name . ' add product to our cart',
                     ]);
                     $activity->save();
-                }else{
-                    if($addToCart){
+                } else {
+                    if ($addToCart) {
                         $addToCart->destroy($addToCart->id);
                         $addToCart = null;
                     }
                 }
 
-                $storeAddtoCart = AddtoCart::where('user_id',$request->user_id)->where('store_id',$request->store_id)->get();
+                $storeAddtoCart = AddtoCart::where('user_id', $request->user_id)->where('store_id', $request->store_id)->get();
 
                 $itemCount = $storeAddtoCart->count();
                 $itemTotalAmount = $storeAddtoCart->sum('product_amount');
@@ -1158,7 +1127,7 @@ class CustomerAppController extends Controller
         DB::beginTransaction();
         try {
             $rules = [
-                'user_id'=>'required|exists:users,id|numeric',
+                'user_id' => 'required|exists:users,id|numeric',
             ];
 
             $requestData = $request->all();
@@ -1167,10 +1136,10 @@ class CustomerAppController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                $addToCart = AddtoCart::with('store','product')->where('user_id',$request->user_id)->get();
+                $addToCart = AddtoCart::with('store', 'product')->where('user_id', $request->user_id)->get();
 
-                $itemCount = AddtoCart::where('user_id',$request->user_id)->count();
-                $itemTotalAmount = AddtoCart::where('user_id',$request->user_id)->sum('product_amount');
+                $itemCount = AddtoCart::where('user_id', $request->user_id)->count();
+                $itemTotalAmount = AddtoCart::where('user_id', $request->user_id)->sum('product_amount');
                 DB::commit();
 
                 $response = ['success' => true, 'message' => 'Add To Cart List', 'data' => $addToCart, 'itemCount' => $itemCount, 'itemTotalAmount' => $itemTotalAmount];
@@ -1187,8 +1156,8 @@ class CustomerAppController extends Controller
         DB::beginTransaction();
         try {
             $rules = [
-                'user_id'=>'required|exists:users,id|numeric',
-                'store_id'=>'required|exists:stores,id|numeric',
+                'user_id' => 'required|exists:users,id|numeric',
+                'store_id' => 'required|exists:stores,id|numeric',
             ];
 
             $requestData = $request->all();
@@ -1197,7 +1166,7 @@ class CustomerAppController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                $addToCart = AddtoCart::where('user_id',$request->user_id)->where('store_id',$request->store_id)->delete();
+                $addToCart = AddtoCart::where('user_id', $request->user_id)->where('store_id', $request->store_id)->delete();
                 DB::commit();
 
                 $response = ['success' => true, 'message' => 'Cart data deleted successfully.'];
@@ -1214,8 +1183,8 @@ class CustomerAppController extends Controller
         DB::beginTransaction();
         try {
             $rules = [
-                'user_id'=>'required|exists:users,id|numeric',
-                'store_id'=>'required|exists:stores,id|numeric',
+                'user_id' => 'required|exists:users,id|numeric',
+                'store_id' => 'required|exists:stores,id|numeric',
             ];
 
             $requestData = $request->all();
@@ -1224,50 +1193,50 @@ class CustomerAppController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                $addToCartItems = AddtoCart::with('product')->where('user_id',$request->user_id)->where('store_id',$request->store_id)->get();
+                $addToCartItems = AddtoCart::with('product')->where('user_id', $request->user_id)->where('store_id', $request->store_id)->get();
 
-                $subTotalAmount = '0';
+                $subTotalAmount = 0;
                 $subTotalDiscountAmount = $addToCartItems->sum('product_amount');
 
-                foreach($addToCartItems as $addToCartItem)
-                {
-                    $addToCartItem->subTotalAmount = $addToCartItem->product_qty*$addToCartItem->product->mrp;
-                    $subTotalAmount = $subTotalAmount+$addToCartItem->product_qty*$addToCartItem->product->mrp;
+                foreach ($addToCartItems as $addToCartItem) {
+                    $addToCartItem->subTotalAmount = $addToCartItem->product_qty * $addToCartItem->product->mrp;
+                    $subTotalAmount = $subTotalAmount + $addToCartItem->product_qty * $addToCartItem->product->mrp;
                 }
 
                 $cartProductIDs = $addToCartItems->pluck('product_id');
-                $suggestedProducts = Product::whereNotIn('id',$cartProductIDs)->where('store_id',$request->store_id)->get();
+                $suggestedProducts = Product::whereNotIn('id', $cartProductIDs)->where('store_id', $request->store_id)->get();
 
-                $deliveryDetail = HomeDeliveryDetail::where('store_id',$request->store_id)->first();
+                $deliveryDetail = HomeDeliveryDetail::where('store_id', $request->store_id)->first();
 
-                $areaZone = DB::table('sub_zones')->whereRaw("FIND_IN_SET($request->store_id, store_id)")->where('status',1)->first();
+                // $areaZone = DB::table('sub_zones')->whereRaw("FIND_IN_SET($request->store_id, store_id)")->where('status', 1)->first();
+
+                $areaZone = Store::find($request->store_id)->zone_id;
 
                 $allCharges = [];
                 $chargesNotIncluded = [];
-                if($areaZone){
-                    $allCharges = DB::table('charges')->whereRaw("FIND_IN_SET($areaZone->id, subzone_id)")->where('minimum_cart_value', '>', $subTotalDiscountAmount)->where('start_time', '<', date('H:m'))->where('end_time', '>', date('H:m'))->where('status',1)->get();
+                if ($areaZone) {
+                    // $allCharges = DB::table('charges')->whereRaw("FIND_IN_SET($areaZone->id, subzone_id)")->where('minimum_cart_value', '>', $subTotalDiscountAmount)->where('start_time', '<', date('H:m'))->where('end_time', '>', date('H:m'))->where('status', 1)->get();
+                    $allCharges = DB::table('charges')->whereRaw("FIND_IN_SET($areaZone, zone_id)")->where('minimum_cart_value', '>', $subTotalDiscountAmount)->where('start_time', '<', date('H:m'))->where('end_time', '>', date('H:m'))->where('status', 1)->get();
 
-                    $chargesNotIncluded = DB::table('charges')->whereRaw("FIND_IN_SET($areaZone->id, subzone_id)")->where('minimum_cart_value', '<', $subTotalDiscountAmount)->where('start_time', '<', date('H:m'))->where('end_time', '>', date('H:m'))->where('status',1)->get();
+                    // $chargesNotIncluded = DB::table('charges')->whereRaw("FIND_IN_SET($areaZone->id, subzone_id)")->where('minimum_cart_value', '<', $subTotalDiscountAmount)->where('start_time', '<', date('H:m'))->where('end_time', '>', date('H:m'))->where('status', 1)->get();
+                    $chargesNotIncluded = DB::table('charges')->whereRaw("FIND_IN_SET($areaZone, zone_id)")->where('minimum_cart_value', '<', $subTotalDiscountAmount)->where('start_time', '<', date('H:m'))->where('end_time', '>', date('H:m'))->where('status', 1)->get();
                 }
-
                 // print_r($chargesNotIncluded->toarray()); die;
 
                 $grandTotal = $subTotalDiscountAmount;
-                if(count($allCharges) > 0)
-                {
+                if (count($allCharges) > 0) {
                     $grandTotal = $subTotalDiscountAmount + $allCharges->sum('amount');
                 }
 
                 $coupons = CustomerCoupan::where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->get();
-                foreach($coupons as $coupon)
-                {
+                foreach ($coupons as $coupon) {
                     $coupon->valid = 0;
-                    if (in_array($request->store_id, explode(',',$coupon->store_id)) && $grandTotal > $coupon->minimum_purchase) {
+                    if (in_array($request->store_id, explode(',', $coupon->store_id)) && $grandTotal > $coupon->minimum_purchase) {
                         $coupon->valid = 1;
                     }
                 }
 
-                $response = ['success' => true, 'message' => 'Checkout Details', 'addToCartItems' => $addToCartItems, 'suggestedProducts' => $suggestedProducts,  'subTotalAmount' => $subTotalAmount,  'subTotalDiscountAmount' => $subTotalDiscountAmount , 'deliveryDetail' => $deliveryDetail, 'allCharges' => $allCharges , 'chargesNotIncluded' => $chargesNotIncluded , 'grandTotal' => $grandTotal, 'coupons' => $coupons];
+                $response = ['success' => true, 'message' => 'Checkout Details', 'addToCartItems' => $addToCartItems, 'suggestedProducts' => $suggestedProducts, 'subTotalAmount' => $subTotalAmount, 'subTotalDiscountAmount' => $subTotalDiscountAmount, 'deliveryDetail' => $deliveryDetail, 'allCharges' => $allCharges, 'chargesNotIncluded' => $chargesNotIncluded, 'grandTotal' => $grandTotal, 'coupons' => $coupons];
             }
             return Response::json($response, 200);
         } catch (Exception $e) {
@@ -1292,7 +1261,7 @@ class CustomerAppController extends Controller
     {
         try {
             $rules = [
-                'store_id'=>'required|exists:stores,id|numeric',
+                'store_id' => 'required|exists:stores,id|numeric',
                 'coupan_code' => 'required',
                 'total_amount' => 'required',
             ];
@@ -1302,21 +1271,19 @@ class CustomerAppController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                $coupan = CustomerCoupan::where('coupan_code',$request->coupan_code)->where('minimum_purchase', '<', $request->total_amount)->whereRaw('FIND_IN_SET('.$request->store_id.', store_id)')->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+                $coupan = CustomerCoupan::where('coupan_code', $request->coupan_code)->where('minimum_purchase', '<', $request->total_amount)->whereRaw('FIND_IN_SET(' . $request->store_id . ', store_id)')->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
 
-                if(!$coupan)
-                {
+                if (!$coupan) {
                     return Response::json(['success' => false, 'message' => 'Coupan not valid']);
                 }
 
                 $totalDiscount = $coupan->discount;
-                if($coupan->discountType =='%')
-                {
-                    $totalDiscount = $request->total_amount*$coupan->discount/100;
+                if ($coupan->discountType == '%') {
+                    $totalDiscount = $request->total_amount * $coupan->discount / 100;
                 }
 
-                if($totalDiscount > 0){
-                    if($totalDiscount > $coupan->maximum_discount_amount){
+                if ($totalDiscount > 0) {
+                    if ($totalDiscount > $coupan->maximum_discount_amount) {
                         $totalDiscount = $coupan->maximum_discount_amount;
                     }
                 }
@@ -1336,7 +1303,7 @@ class CustomerAppController extends Controller
     {
         try {
             $rules = [
-                'user_id'=>'required|exists:users,id|numeric',
+                'user_id' => 'required|exists:users,id|numeric',
             ];
             $requestData = $request->all();
             $validator = Validator::make($requestData, $rules);
@@ -1344,7 +1311,7 @@ class CustomerAppController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                $orders = CustomerOrder::with('customer','store','address','orderStatus','delivery_boy')->where('user_id',$request->user_id)->get();
+                $orders = CustomerOrder::with('customer', 'store', 'address', 'orderStatus', 'delivery_boy')->where('user_id', $request->user_id)->get();
                 $response = ['success' => true, 'message' => 'Order List.', 'orders' => $orders,];
             }
             return Response::json($response, 200);
@@ -1371,11 +1338,11 @@ class CustomerAppController extends Controller
         $customer = Auth::user();
 
         //radius wise store
-            $latitude = $latitude;
-            $longitude = $longitude;
-            $radius = '5';
+        $latitude = $latitude;
+        $longitude = $longitude;
+        $radius = '5';
 
-            $haversine = "(6371 * acos(cos(radians($latitude))
+        $haversine = "(6371 * acos(cos(radians($latitude))
                             * cos(radians(latitude))
                             * cos(radians(longitude)
                             - radians($longitude))
@@ -1384,7 +1351,7 @@ class CustomerAppController extends Controller
         //
         $data = [
             'haversine' => $haversine,
-            'radius'    => $radius,
+            'radius' => $radius,
         ];
         return $data;
     }

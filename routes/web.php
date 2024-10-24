@@ -21,18 +21,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\CustomerAppController;
-
+//use Illuminate\Http\Request;
+//use App\Http\Controllers\CustomerAppController;
+//
+//Route::get('test', function (Request $request) {
+//    // Simulate passing data via query parameters
+//    $request->merge([
+//        'user_id' => 66,  // Replace with actual user_id
+////        'store_id' => 414,   // Replace with actual store_id
+//    ]);
+//
+//    // Call the checkout method in the controller and pass the modified request
+//    return app(CustomerAppController::class)->getAddToCart($request);
+//});
 Route::get('test', function (Request $request) {
-    // Simulate passing data via query parameters
-    $request->merge([
-        'user_id' => 66,  // Replace with actual user_id
-//        'store_id' => 414,   // Replace with actual store_id
-    ]);
+   $data[0] = \App\Models\Zone::get();
+    $data[1] = \App\Models\SubZone::get();
 
-    // Call the checkout method in the controller and pass the modified request
-    return app(CustomerAppController::class)->getAddToCart($request);
+    return $data;
 });
 
 //Route::get('test-output', function () {
