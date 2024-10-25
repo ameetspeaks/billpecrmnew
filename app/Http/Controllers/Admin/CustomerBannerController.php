@@ -6,6 +6,7 @@ use App\Http\Controllers\CommonController;
 use App\Http\Controllers\Controller;
 use App\Models\CustomerBanner;
 use App\Models\Module;
+use App\Models\Store;
 use App\Models\Zone;
 use DataTables;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class CustomerBannerController extends Controller
     public function index()
     {
         if (\request()->ajax()) {
-            $data = CustomerBanner::with('module', 'category')->get();
+            $data = CustomerBanner::with( 'store')->get();
             return DataTables::of($data)
                 ->make(true);
         }
@@ -29,15 +30,16 @@ class CustomerBannerController extends Controller
     {
         $zones = Zone::get();
         $modules = Module::where('status', 1)->get();
-        return view('admin.customerbanner.add', compact('modules','zones'));
+        return view('admin.customerbanner.add', compact('modules', 'zones'));
     }
 
     public function store(Request $request)
     {
+        //        dd($request->all());
         DB::beginTransaction();
 
         $rules = [
-            'modules_id' => 'required',
+            'position' => 'required',
         ];
 
         $requestData = $request->all();
@@ -63,25 +65,15 @@ class CustomerBannerController extends Controller
 
 
             $newBanner = new CustomerBanner();
-            $newBanner->module_id = $request->modules_id;
-            $newBanner->category_id = $request->category_id;
+            //            $newBanner->module_id = $request->modules_id;
+            //            $newBanner->category_id = $request->category_id;
             $newBanner->name = $request->name;
             $newBanner->image = $customer_banner_image;
             $newBanner->status = 1;
             $newBanner->position = $request->position;
-            if ($request->zone && $request->position === "bottom") {
-
-                $zoneIds = Zone::all()->pluck('id')->toArray();
-                if (in_array('all', $request->zone)) {
-                    $newBanner->zone = json_encode($zoneIds);
-                } else {
-                    $newBanner->zone = json_encode($request->zone);
-                }
-
-            } else {
-                $newBanner->zone = null;
+            if ($request->position === "bottom") {
+                $newBanner->store_id = $request->store_id;
             }
-
             $newBanner->save();
 
             DB::commit();
@@ -97,12 +89,35 @@ class CustomerBannerController extends Controller
         return view('admin.customerbanner.edit', compact('banner', 'modules', 'zones'));
     }
 
+
+    public function getStores(Request $request)
+    {
+        $moduleId = $request->input('module_id');
+        $zoneId = $request->input('zone_id');
+
+        if ($moduleId == null && $zoneId == null) {
+            return response()->json([]);
+        }
+
+        $query = Store::query();
+        if ($moduleId) {
+            $query->where('module_id', $moduleId);
+        }
+        if ($zoneId) {
+            $query->where('zone_id', $zoneId);
+        }
+        $stores = $query->pluck('shop_name', 'id')->toArray();
+
+        return response()->json($stores);
+    }
+
+
     public function update(Request $request)
     {
         DB::beginTransaction();
 
         $rules = [
-            'modules_id' => 'required',
+            'position' => 'required',
         ];
 
         $requestData = $request->all();
@@ -135,26 +150,18 @@ class CustomerBannerController extends Controller
                 }
             }
 
-            $banner->module_id = $request->modules_id;
-            $banner->category_id = $request->category_id;
+            //            $banner->module_id = $request->modules_id;
+            //            $banner->category_id = $request->category_id;
             $banner->name = $request->name;
             $banner->image = $customer_banner_image;
             $banner->position = $request->position;
-            if ($request->zone && $request->position === "bottom") {
-
-                $zoneIds = Zone::all()->pluck('id')->toArray();
-                if (in_array('all', $request->zone)) {
-                    $banner->zone = json_encode($zoneIds);
-                } else {
-                    $banner->zone = json_encode($request->zone);
-                }
-
-            } else {
-                $banner->zone = null;
+            if ($request->position === "bottom") {
+                $banner->store_id = $request->store_id;
+            }
+            else{
+                $banner->store_id = null;
             }
             $banner->save();
-
-
 
 
             DB::commit();

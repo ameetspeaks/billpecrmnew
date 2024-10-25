@@ -12,22 +12,28 @@ class CustomerBanner extends Model
     protected $table = 'customer_banners';
 
     protected $fillable = [
-        'module_id',
-        'category_id',
+//        'module_id',
+//        'category_id',
         'name',
         'image',
         'status',
         'position',
-        'zone',
+//        'zone',
+        'store_id',
     ];
 
-    public function module()
-    {
-        return $this->belongsTo(Module::class, 'module_id');
-    }
+//    public function module()
+//    {
+//        return $this->belongsTo(Module::class, 'module_id');
+//    }
+//
+//    public function category()
+//    {
+//        return $this->belongsTo(Category::class, 'category_id');
+//    }
 
-    public function category()
+    public function store()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Store::class, 'store_id');
     }
 }

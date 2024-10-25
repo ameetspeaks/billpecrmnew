@@ -708,7 +708,7 @@ class CustomerAppController extends Controller
                 }
                 //
 
-                $response = ['success' => true, 'message' => 'Home dashboard detail', 'stores' => $getStores, 'categories' => $categories, 'offerbyProduct' => $offerbyProduct, 'moduleProduct' => $moduleProduct];
+                $response = ['success' => true, 'message' => 'Home dashboard detail', 'stores' => $getStores, 'storeIDs' => $storeIDs, 'categories' => $categories, 'offerbyProduct' => $offerbyProduct, 'moduleProduct' => $moduleProduct];
             }
             return Response::json($response, 200);
 
@@ -1235,7 +1235,8 @@ class CustomerAppController extends Controller
                         $coupon->valid = 1;
                     }
                 }
-
+                $grandTotal = (double)$grandTotal;
+                $grandTotal = round($grandTotal, 2);
                 $response = ['success' => true, 'message' => 'Checkout Details', 'addToCartItems' => $addToCartItems, 'suggestedProducts' => $suggestedProducts, 'subTotalAmount' => $subTotalAmount, 'subTotalDiscountAmount' => $subTotalDiscountAmount, 'deliveryDetail' => $deliveryDetail, 'allCharges' => $allCharges, 'chargesNotIncluded' => $chargesNotIncluded, 'grandTotal' => $grandTotal, 'coupons' => $coupons];
             }
             return Response::json($response, 200);

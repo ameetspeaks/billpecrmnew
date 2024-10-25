@@ -11,49 +11,43 @@
             @csrf
             <input type="hidden" name="banner_id" id="banner_id" value="{{$banner->id}}">
             <input type="hidden" name="catid" id="catid" value="{{$banner->category_id}}">
+
+
             <div class="form-group col-md-6 col-12">
-                <label for="packageSelect">Select Modules:</label>
-                <select class="form-control select selectModule" name="modules_id" required>
-                    <option value="">Select Modules</option>
-                    @foreach($modules as $module)
-                        <option value="{{$module->id}}" {{$banner->module_id == $module->id ? 'selected': ' ' }}>{{$module->name}}</option>
+                <label for="zone"><b>Select Zone</b></label>
+                <select class="form-control select selectZone" name="zone" id="zone" >
+                    <option value="">Select Zone</option>
+                    @foreach($zones as $item)
+                        <option value="{{$item->id}}">{{$item->name}}</option>
                     @endforeach
                 </select>
             </div>
 
-            <div class="form-group col-6">
-                <label>Category</label>
-                <select class="form-control category" name="category_id" id="category_id">
-                    <option value="">Select Category</option>
+            <div class="form-group col-md-6 col-12">
+                <label for="packageSelect"><b>Select Modules</b></label>
+                <select class="form-control select selectModule" name="modules_id" id="module" >
+                    <option value="">Select Modules</option>
+                    @foreach($modules as $module)
+                        <option value="{{$module->id}}">{{$module->name}}</option>
+                    @endforeach
                 </select>
-                <span class="text-xs text-red-500 mt-2 errmsg_discount₹"></span>
             </div>
+
+            <div class="form-group col-md-6 col-12">
+                <label for="store"><b>Stores</b></label>
+                <select class="form-control store" name="store_id" id="store" >
+                    <option value="">Select Zone or Module First</option>
+                </select>
+                <span class="text-xs text-red-500 mt-2"></span>
+            </div>
+
+
 
             <div class="form-group col-md-6 col-12">
                 <label for="positionSelect"><b>Select Position</b></label>
                 <select class="form-control select" name="position" id="positionSelect" required>
                     <option {{ $banner->position === "top" ? 'selected' : '' }} value="top">Top</option>
                     <option {{ $banner->position === "bottom" ? 'selected' : '' }} value="bottom">Bottom</option>
-                </select>
-            </div>
-            @php
-                if ($banner->zone != null){
-
-                $prevSelectedZoneID = json_decode($banner->zone);
-                }
-                else{
-                    $prevSelectedZoneID = [];
-                }
-            @endphp
-
-            <div class="form-group col-md-6 col-12">
-                <label for="zoneSelect"><b>Select Zones</b></label>
-                <select class="form-control select " name="zone[]" required multiple>
-                    <option value="">Select Zone</option>
-                    <option value="all">All</option>
-                    @foreach($zones as $item)
-                        <option {{ in_array($item->id, $prevSelectedZoneID) ? 'selected' : '' }} value="{{$item->id}}">{{$item->name}}</option>
-                    @endforeach
                 </select>
             </div>
 
@@ -88,29 +82,46 @@
         <script>
 
             $(document).ready(function () {
-                var module_id = $('.selectModule').val();
-                var catid = $('#catid').val();
-                $.ajax({
-                    url: '{{ route('admin.customerCoupan.getCategoryandStore') }}',
-                    method: 'post',
-                    data: {
-                        "_token": "{{csrf_token()}}",
-                        'module_id': module_id
-                    },
-                    success: function (data) {
-                        console.log(data)
-                        $('.category').empty();
-                        category = '<option value="">Select Category</option>'
-                        $.each(data.categorys, function (index, value) {
-                            if (value.id == catid) {
-                                category += '<option value="' + value.id + '" selected>' + value.name + '</option>'
-                            } else {
-                                category += '<option value="' + value.id + '">' + value.name + '</option>'
-                            }
-                        })
-                        $('.category').append(category);
-                    }
+
+                // Function to handle the AJAX request
+                function fetchStores() {
+                    // Capture the values of module and zone
+                    var module_id = $('#module').val() || null; // Use null if module_id is empty
+                    var zone_id = $('#zone').val() || null;     // Use null if zone_id is empty
+
+                    // AJAX request to fetch stores based on module and zone values
+                    $.ajax({
+                        url: '{{ route('admin.customer-banner.get-stores') }}',
+                        method: 'post',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            'module_id': module_id,
+                            'zone_id': zone_id
+                        },
+                        success: function (data) {
+                            console.log(data); // Log the response
+
+                            $('#store').empty(); // Clear the current options
+                            var storeData = '<option value="">Select Store</option>';
+
+                            // Populate the dropdown with the returned data
+                            $.each(data, function (id, storeName) {
+                                storeData += '<option value="' + id + '">' + storeName + '</option>';
+                            });
+
+                            $('#store').append(storeData); // Append the new options
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error in AJAX request:', error);
+                        }
+                    });
+                }
+
+                // Trigger the fetchStores function when either zone or module changes
+                $(document).on('change', '#module, #zone', function () {
+                    fetchStores(); // Call fetchStores when either zone or module changes
                 });
+
             })
 
             // SHOW IMAGE

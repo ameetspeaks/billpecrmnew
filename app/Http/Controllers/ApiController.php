@@ -3982,6 +3982,11 @@ class ApiController extends Controller
                 'store_id'=>'required|exists:stores,id|numeric',
             ];
             $requestData = $request->all();
+            // info request all, and type of store_id
+
+            Log::info('MerchantOrderHistory', ['request' => $requestData]);
+            Log::info('Type:' . gettype($requestData['store_id']));
+
             $validator = Validator::make($requestData, $rules);
 
             if ($validator->fails()) {
@@ -4429,15 +4434,34 @@ class ApiController extends Controller
     public function customerBanners(Request $request)
     {
         $rules = [
-            'module_id' => 'required',
-            'category_id' => 'required',
+            'store_id' => 'required',
         ];
+
         $requestData = $request->all();
-        Log::info($requestData);
+
+        // Validate request data
         $validator = Validator::make($requestData, $rules);
-        $getCustomerBanners = CustomerBanner::where(['module_id'=>$request->module_id,'category_id'=>$request->category_id])->get();
-        $response = ['success' => true, 'message' => 'Customer Banners' , 'getCustomerBanners' => $getCustomerBanners];
-        return Response::json($response, 200);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+        }
+
+
+        $storeIds = array_map('intval', explode(",", $request->store_id));
+
+        $bottomBanners = CustomerBanner::whereIn('store_id', $storeIds)->where('status', 1)->get();
+        $topBanners = CustomerBanner::where('position', 'top')->where('status', 1)->get();
+
+        Log::info('Customer Banners', ['store_id' => $storeIds, 'bottomBanners' => $bottomBanners, 'topBanners' => $topBanners]);
+
+        $response = [
+            'success' => true,
+            'message' => 'Customer Banners',
+            'bottomBanners' => $bottomBanners,
+            'topBanners' => $topBanners
+        ];
+
+        return response()->json($response, 200);
+
 
     }
 }

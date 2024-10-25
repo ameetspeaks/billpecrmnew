@@ -205,7 +205,7 @@ Route::group(['as' => 'admin.'], function () {
         Route::post('changeStatus', [CentralLibraryController::class, 'changeStatus'])->name('centralLibrary.changeStatus');
         Route::post('changeFeatured', [CentralLibraryController::class, 'changeFeatured'])->name('centralLibrary.changeFeatured');
         Route::post('exportByModule', [CentralLibraryController::class, 'exportByModule'])->name('centralLibrary.exportByModule');
-        
+
         //gallery
         Route::get('gallery', [GalleryController::class, 'index'])->name('gallery.index')->middleware('adminLogin');
         Route::get('addGallery', [GalleryController::class, 'add'])->name('gallery.add')->middleware('adminLogin');
@@ -370,14 +370,15 @@ Route::group(['as' => 'admin.'], function () {
         //customerbanner
                 Route::get('Customer-Banner', [CustomerBannerController::class, 'index'])->name('customerbanner.index')->middleware('adminLogin');
                 Route::get('Add-Customerbanner', [CustomerBannerController::class, 'add'])->name('customerbanner.add')->middleware('adminLogin');
+                Route::post('get-store-by-module', [CustomerBannerController::class, 'getStores'])->name('customer-banner.get-stores')->middleware('adminLogin');
                 Route::post('Store-customerbanner', [CustomerBannerController::class, 'store'])->name('customerbanner.store');
                 Route::get('editCustomerBanner/{id}', [CustomerBannerController::class, 'edit'])->name('customerbanner.edit')->middleware('adminLogin');
                 Route::post('update-customerbanner', [CustomerBannerController::class, 'update'])->name('customerbanner.update');
                 Route::get('Delete-customerbanner/{id}', [CustomerBannerController::class, 'delete'])->name('customerbanner.delete')->middleware('adminLogin');
         //
-        
+
         Route::middleware('adminLogin')->group(function () {
-                
+
                 // shiftTimings
                 Route::get('shift-timings', [ShiftTimingsController::class, 'index'])->name('shiftTimings.index');
                 Route::get('shift-timings/edit/{id}', [ShiftTimingsController::class, 'edit'])->name('shiftTimings.edit');

@@ -15,6 +15,8 @@
             <tr>
                 <th> Banner Image </th>
                 <th> Name </th>
+                <th> Store </th>
+                <th> Position </th>
                 <th> Status </th>
                 <th> Action </th>
             </tr>
@@ -44,6 +46,15 @@
                     },
                     {
                         "data": "name",
+                    },
+                    {
+                        "data": "store_id",
+                        "render": function(data, type, row) {
+                            return row.store ? row.store.shop_name : 'N/A';
+                        },
+                    },
+                    {
+                        "data": "position",
                     },
                     {
                         "data": "status",

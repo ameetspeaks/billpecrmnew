@@ -9,9 +9,20 @@
 
         <form action="{{route('admin.customerbanner.store')}}" class="row forms-sample w-full" method="POST" enctype="multipart/form-data">
             @csrf
+
+            <div class="form-group col-md-6 col-12">
+                <label for="zone"><b>Select Zone</b></label>
+                <select class="form-control select selectZone" name="zone" id="zone" >
+                    <option value="">Select Zone</option>
+                    @foreach($zones as $item)
+                        <option value="{{$item->id}}">{{$item->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="form-group col-md-6 col-12">
                 <label for="packageSelect"><b>Select Modules</b></label>
-                <select class="form-control select selectModule" name="modules_id" required>
+                <select class="form-control select selectModule" name="modules_id" id="module" >
                     <option value="">Select Modules</option>
                     @foreach($modules as $module)
                         <option value="{{$module->id}}">{{$module->name}}</option>
@@ -20,11 +31,11 @@
             </div>
 
             <div class="form-group col-md-6 col-12">
-                <label><b>Category</b></label>
-                <select class="form-control category" name="category_id" id="category_id">
-                    <option value="">Select Category</option>
+                <label for="store"><b>Stores</b></label>
+                <select class="form-control store" name="store_id" id="store" >
+                    <option value="">Select Zone or Module First</option>
                 </select>
-                <span class="text-xs text-red-500 mt-2 errmsg_discount₹"></span>
+                <span class="text-xs text-red-500 mt-2"></span>
             </div>
 
             <div class="form-group col-md-6 col-12">
@@ -35,17 +46,6 @@
                 </select>
             </div>
 
-
-            <div class="form-group col-md-6 col-12">
-                <label for="zoneSelect"><b>Select Zones</b></label>
-                <select class="form-control select " name="zone[]" required multiple>
-                    <option value="">Select Zone</option>
-                    <option value="all">All</option>
-                    @foreach($zones as $item)
-                        <option value="{{$item->id}}">{{$item->name}}</option>
-                    @endforeach
-                </select>
-            </div>
 
             <div class="form-group col-md-6 col-12 err_image">
                 <label><b>Banner Name</b></label>
@@ -103,28 +103,45 @@
                 readURL(this);
             })
 
+            // Function to handle the AJAX request
+            function fetchStores() {
+                // Capture the values of module and zone
+                var module_id = $('#module').val() || null; // Use null if module_id is empty
+                var zone_id = $('#zone').val() || null;     // Use null if zone_id is empty
 
-            $('.select').select2({placeholder: "Select Module"}).trigger('change');
-            $(document).on('change', '.selectModule', function () {
-                var module_id = $('.selectModule').val();
+                // AJAX request to fetch stores based on module and zone values
                 $.ajax({
-                    url: '{{ route('admin.customerCoupan.getCategoryandStore') }}',
+                    url: '{{ route('admin.customer-banner.get-stores') }}',
                     method: 'post',
                     data: {
-                        "_token": "{{csrf_token()}}",
-                        'module_id': module_id
+                        "_token": "{{ csrf_token() }}",
+                        'module_id': module_id,
+                        'zone_id': zone_id
                     },
                     success: function (data) {
-                        console.log(data)
-                        $('.category').empty();
-                        category = '<option value="">Select Category</option>'
-                        $.each(data.categorys, function (index, value) {
-                            category += '<option value="' + value.id + '">' + value.name + '</option>'
-                        })
-                        $('.category').append(category);
+                        console.log(data); // Log the response
+
+                        $('#store').empty(); // Clear the current options
+                        var storeData = '<option value="">Select Store</option>';
+
+                        // Populate the dropdown with the returned data
+                        $.each(data, function (id, storeName) {
+                            storeData += '<option value="' + id + '">' + storeName + '</option>';
+                        });
+
+                        $('#store').append(storeData); // Append the new options
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error in AJAX request:', error);
                     }
                 });
-            })
+            }
+
+            // Trigger the fetchStores function when either zone or module changes
+            $(document).on('change', '#module, #zone', function () {
+                fetchStores(); // Call fetchStores when either zone or module changes
+            });
+
         </script>
     @endslot
 @endcomponent
