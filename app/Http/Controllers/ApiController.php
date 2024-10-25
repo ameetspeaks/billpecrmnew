@@ -77,6 +77,7 @@ use Excel;
 
 // JOBS
 use App\Jobs\UpdateOrderStatus;
+use Exception;
 
 class ApiController extends Controller
 {
