@@ -42,7 +42,7 @@ Route::group(
     [
         'middleware' => ['auth:api', 'throttle:100,1'],
     ],function(){
-    
+
     Route::get('/logout', [ApiController::class, 'logout']);
     Route::get('/profile', [ApiController::class, 'profile']);
 
@@ -87,13 +87,13 @@ Route::group(
     Route::post('/create-Wholesale-Bill', [ApiController::class, 'createWholesaleBill']);
     Route::post('/report', [ApiController::class, 'report']);
     Route::post('/home-dashboard', [ApiController::class, 'homeDashboard']);
-    
+
     //store
     Route::post('/getStore', [ApiController::class, 'getStore']);
     Route::post('/add-store', [ApiController::class, 'addStore']);
     Route::post('/edit-store', [ApiController::class, 'editStore']);
     Route::post('/Change-StoreStatus', [ApiController::class, 'changeStoreStatus']);
-    
+
     //Delivery Partner
     Route::post('/getMyDeliveryPartners', [ApiController::class, 'getMyDeliveryPartners']);
     Route::post('/assignOrderToDeliveryBoy', [ApiController::class, 'assignOrderToDeliveryBoy']);
@@ -119,12 +119,12 @@ Route::group(
     Route::post('/update-venderDueAmount', [ApiController::class, 'updatevenderDueAmount']);
     Route::post('/delete-VendorStockPurchase', [ApiController::class, 'deleteVendorStockPurchase']);
     Route::post('/getAllVendors', [ApiController::class, 'getAllVendors']);
-    
+
     //coupan
     Route::get('/getCoupan', [ApiController::class, 'getCoupan']);
     Route::post('/verifyCoupan', [ApiController::class, 'verifyCoupan']);
 
-    //template 
+    //template
     Route::get('/getTemplateCategory', [ApiController::class, 'getTemplateCategory']);
     Route::get('/get-TemplateType', [ApiController::class, 'getTemplateType']);
     Route::post('/MarketingTemplate', [ApiController::class, 'MarketingTemplate']);
@@ -168,7 +168,7 @@ Route::group(
     Route::post('/add-ProductByVariant', [ApiUpdateController::class, 'addProductByVariant']);
     Route::post('/edit-ProductByVariant', [ApiUpdateController::class, 'editProductByVariant']);
     Route::post('/get-UnitByModule', [ApiUpdateController::class, 'getUnitByModule']);
-    
+
 
     //Warehouse Apis
     Route::post('/stock-transfer', [WarehouseApiController::class, 'stockTransfer']);
@@ -198,7 +198,7 @@ Route::group(
         Route::post('/food-StoreList', [CustomerAppController::class, 'foodStoreList']);
         Route::post('/get-CategoryStoreList', [CustomerAppController::class, 'getCategoryStoreList']);
         Route::post('/get-storeDetail', [CustomerAppController::class, 'getstoreDetail']);
-        
+
         Route::post('/SearchStoreBy-productName-StoreName', [CustomerAppController::class, 'searchStorebyproductandStore']);
         Route::get('/Get-Filters', [CustomerAppController::class, 'getFilters']);
         Route::post('/filter-Store', [CustomerAppController::class, 'filterStore']);
@@ -216,8 +216,9 @@ Route::group(
     Route::post('/Get-HomeDelivery', [ApiController::class, 'getHomeDelivery']);
     Route::post('/Store-OnlineStatus', [ApiController::class, 'storeOnlineStatus']);
     Route::post('/Merchant-OrderHistory', [ApiController::class, 'MerchantOrderHistory']);
+    Route::get('/Merchant-Order/{id}', [ApiController::class, 'merchantSingleOrderHistory']);
     Route::post('/Withrawal-Amount', [ApiController::class, 'WithrawalAmount']);
-    
+
     Route::post('/customer-banners', [ApiController::class, 'customerBanners']);
     // Delivery Partner Merchant
     Route::post('/get-my-delivery-boys', [ApiController::class, 'getMyDeliveryBoys']);
