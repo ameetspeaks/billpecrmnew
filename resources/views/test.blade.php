@@ -129,7 +129,7 @@
         var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
             cluster: '{{ env('PUSHER_APP_CLUSTER') }}'
         });
-
+console.log(pusher);
         var channel = pusher.subscribe('admin-order-alert');
         channel.bind('new-order', function(data) {
             //     play audio

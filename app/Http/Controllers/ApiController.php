@@ -2554,6 +2554,7 @@ class ApiController extends Controller
 
                 $totalSales = BillDetail::where('store_id', $request->store_id)->whereDate('created_at', date('Y-m-d'))->sum('amount');
                 $totalBilling = BillDetail::where('store_id', $request->store_id)->whereDate('created_at', date('Y-m-d'))->count();
+                $onlineDeliveryEarning = CustomerOrder::where('store_id', $request->store_id)->whereDate('created_at', date('Y-m-d'))->sum('total_amount');
                 $totalCash = BillDetail::where('store_id', $request->store_id)->where('payment_methord', 'Cash')->whereDate('created_at', date('Y-m-d'))->sum('total_amount');
                 $totalUpi = BillDetail::where('store_id', $request->store_id)->where('payment_methord', 'Upi')->whereDate('created_at', date('Y-m-d'))->sum('total_amount');
 
@@ -2588,7 +2589,7 @@ class ApiController extends Controller
                 }
                 // print_r($store->store_status); die;
 
-                $response = ['success' => true, 'message' => 'Home Dashboard details.', 'totalSales' => $totalSales, 'totalBilling' => $totalBilling, 'totalCash' => $totalCash, 'totalUpi' => $totalUpi, 'lastbillnumber' => $lastbillnumber, 'lowStock' => count($lowStock), 'store' => $store, 'promotion_banner' => $promotion_banner, 'homepageVideo' => $homepageVideo];
+                $response = ['success' => true, 'message' => 'Home Dashboard details.', 'totalSales' => $totalSales, 'totalBilling' => $totalBilling, 'totalCash' => $totalCash, 'totalUpi' => $totalUpi, 'lastbillnumber' => $lastbillnumber, 'lowStock' => count($lowStock), 'store' => $store, 'promotion_banner' => $promotion_banner, 'homepageVideo' => $homepageVideo, 'onlineDeliveryEarning' => $onlineDeliveryEarning];
             }
             return Response::json($response, 200);
 
