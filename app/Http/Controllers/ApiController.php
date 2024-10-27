@@ -2550,11 +2550,11 @@ class ApiController extends Controller
                         $store->store_status = 2;
                         $store->save();
                     }
-                }
+            }
 
                 $totalSales = BillDetail::where('store_id', $request->store_id)->whereDate('created_at', date('Y-m-d'))->sum('amount');
                 $totalBilling = BillDetail::where('store_id', $request->store_id)->whereDate('created_at', date('Y-m-d'))->count();
-                $onlineDeliveryEarning = CustomerOrder::where('store_id', $request->store_id)->whereDate('created_at', date('Y-m-d'))->sum('total_amount');
+                $onlineDeliveryEarning = CustomerOrder::where('store_id', $request->store_id)->where('order_status', 6)->whereDate('created_at', date('Y-m-d'))->sum('total_amount');
                 $totalCash = BillDetail::where('store_id', $request->store_id)->where('payment_methord', 'Cash')->whereDate('created_at', date('Y-m-d'))->sum('total_amount');
                 $totalUpi = BillDetail::where('store_id', $request->store_id)->where('payment_methord', 'Upi')->whereDate('created_at', date('Y-m-d'))->sum('total_amount');
 
