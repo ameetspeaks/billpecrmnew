@@ -51,3 +51,8 @@ Route::get('handlingCharge', function () {
 
 
 });
+
+Route::get('otp', function () {
+    $data = \App\Models\Otp::latest()->limit(10)->get();
+    return response()->json($data);
+});
