@@ -594,7 +594,6 @@ class CustomerAppController extends Controller
                     'message' => $msg,
                 ]);
                 $activity->save();
-                DB::commit();
 
                 $order = CustomerOrder::with(["address", "store"])->find($newOrder->id);
 
@@ -602,10 +601,11 @@ class CustomerAppController extends Controller
 
                 $order->store_to_customer_distance = $distance;
                 $order->save();
+                DB::commit();
 
                 $otherDetail = [
                     "delivery_km" => $distance,
-                    "delivery_mode" => @$deliveryDetail->delivery_mode == 0 ? "fullfill" : 'self_delivery',
+                    "delivery_mode" => $deliveryDetail->delivery_mode == 0 ? "fullfill" : 'self_delivery',
                     "processing_time" => $deliveryDetail->processing_time ?? 0,
                 ];
 
@@ -620,8 +620,39 @@ class CustomerAppController extends Controller
 
                 event(new AdminNewOrder($msg));
 
+                // This section is for sending push notification to the merchant using FCM
 
-                $response = ['success' => true, 'message' => 'Customer Order created successfully', 'data' => $order];
+                    $postdata = '{
+                "to" : "' . $user->device_token . '",
+                "notification" : {
+                    "body" : "' . $message . '",
+                    "title": "' . $title . '",
+                    "image": "' . $image . '"
+                },
+                "data" : {
+                    "type": "Dashboard"
+                },
+                }';
+
+                    // Assuming your Notification class accepts FCM tokens
+                    $sendNotification = \App\Helpers\Notification::send($postdata);
+                    $sendNotification = json_decode($sendNotification);
+                    $error = null;
+                    if ($sendNotification->success == 0) {
+                        $error = $sendNotification->results[0]->error;
+                    }
+
+                    $notification_history = NotificationHistory::create([
+                        'whatsapp_no' => $user->whatsapp_no,
+                        'msg' => $message,
+                        'title' => $title,
+                        'notification_status' => $sendNotification->success,
+                        'notification_error' => $error,
+                    ]);
+
+
+
+                $response = ['success' => true, 'message' => 'Customer Order created successfully', 'data' => $order, 'deliveryDetails' => $deliveryDetail];
             }
 
             return Response::json($response, 200);
@@ -1312,7 +1343,7 @@ class CustomerAppController extends Controller
             if ($validator->fails()) {
                 $response = ['success' => false, 'message' => $validator->errors()->all()];
             } else {
-                $orders = CustomerOrder::with('customer', 'store', 'address', 'orderStatus', 'delivery_boy')->where('user_id', $request->user_id)->get();
+                $orders = CustomerOrder::with('customer', 'store.homeDeliveryDetail', 'address', 'orderStatus', 'delivery_boy')->where('user_id', $request->user_id)->get();
                 $response = ['success' => true, 'message' => 'Order List.', 'orders' => $orders,];
             }
             return Response::json($response, 200);

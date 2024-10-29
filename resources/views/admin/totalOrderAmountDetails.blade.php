@@ -1,162 +1,1 @@
-<!-- Your Blade View Code -->
-@component('admin.component')
-@slot('title') Dashboard Detail @endslot
-@slot('subTitle') Dashboard Details @endslot
-@slot('content')
-    <div class="table-responsive mt-3">
-        <form id="filter-form">
-            <div class="row">
-                <div class="col-md-3 col-12">
-                    <span class="mb-2 font-weight-bold">Start Date</span>
-                    <input type="date" id="start_date" name="start_date" class="col-12 form-control h-11 mt-2 mb-2 btn-fw border p-2 text-capitalize">
-                </div>
-                <div class="col-md-3 col-12">
-                    <span class="mb-2 font-weight-bold">End Date</span>
-                    <input type="date" id="end_date" name="end_date" class="col-12 form-control h-11 mt-2 mb-2 btn-fw border p-2 text-capitalize">
-                </div>
-                <div class="col-md-3 col-12">
-                    <span class="mb-2 font-weight-bold">Date Range</span>
-                    <select id="date-range" name="date_range" class="col-12 form-control h-11 mt-2 mb-2 btn-fw border p-2 text-capitalize">
-                        <option value="all">All</option>
-                        <option value="today">Today</option>
-                        <option value="yesterday">Yesterday</option>
-                        <option value="this_week">This Week</option>
-                        <option value="this_month">This Month</option>
-                        <option value="last_month">Last Month</option>
-                        <option value="this_year">This Year</option>
-                        <option value="last_year">Last Year</option>
-
-                    </select>
-                </div>
-                <div class="col-md-3 col-12">
-                    <br>
-                    <button type="button" id="apply-filter" class="col-12 form-control bg-primary text-white h-11 mt-2 mb-2 btn-fw border p-2 text-capitalize">Apply Filter</button>
-                </div>
-                
-            </div>
-        </form>
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th> Store Name </th>
-                    <th> Total Bill </th>
-                    <th> Total Amount </th>
-                </tr>
-            </thead>
-            <tbody>
-               
-            </tbody>
-        </table>
-    </div>
-@endslot
-@slot('script')
-<script>
-    var table;
-
-    $(document).ready(function () {
-        table = $('.table').DataTable({
-            processing: true,
-            serverSide: true,
-            order: [],
-            ajax: {
-                url: "{{ route('admin.viewTable') }}",
-                data: function (d) {
-                    d.start_date = $('#start_date').val();
-                    d.end_date = $('#end_date').val();
-                }
-            },
-          
-            "columns": [
-                {
-                    "data": "shop_name",
-                },
-                {
-                    "data": "billcount",
-                },
-                {
-                    "data": "billamount",
-                },
-            ],
-        });
-
-        $('#apply-filter').click(function () {
-           
-            var startDate = $('#start_date').val();
-            var endDate = $('#end_date').val();
-
-            // Check if the start date is not greater than the end date
-            if (startDate && endDate && startDate > endDate) {
-                alert('Start date should be before end date.');
-                return;
-            }
-
-            // Refresh the DataTable with the new filter values
-            table.ajax.reload();
-        });
-
-        $('#date-range').change(function () {
-            var dateRange = $(this).val();
-            if (dateRange === 'all') {
-                $('#start_date').val('');
-                $('#end_date').val('');
-            } else {
-                var today = new Date();
-                var startDate, endDate;
-                if (dateRange === 'today') {
-                    startDate = today.toISOString().split('T')[0];
-                    endDate;
-                } else if (dateRange === 'yesterday') {
-                    today.setDate(today.getDate() - 1);
-                    startDate = today.toISOString().split('T')[0];
-                    startDate;
-                }
-                else if (dateRange === 'this_week') {
-                    var today = new Date();
-                    var endDate = today.toISOString().split('T')[0]; // Today's date
-
-                    // Calculate the start date (7 days ago from today)
-                    var startDate = new Date(today);
-                    startDate.setDate(today.getDate() - 7);
-                    startDate = startDate.toISOString().split('T')[0];
-
-                    console.log('Start Date:', startDate);
-                    console.log('End Date:', endDate);
-                }
-
-                //  else if (dateRange === 'this_week') {
-                //     var firstDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
-                //     startDate = firstDay.toISOString().split('T')[0];
-                //     endDate = today.toISOString().split('T')[0];
-                // } 
-                else if (dateRange === 'this_month') {
-                    var firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-                    startDate = firstDay.toISOString().split('T')[0];
-                    endDate = today.toISOString().split('T')[0];
-                }else if (dateRange === 'last_month') {
-                    var today = new Date();
-                    var lastDayOfLastMonth = new Date(today.getFullYear(), today.getMonth(), 0); // Get the last day of last month
-                    var firstDayOfLastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1); // Get the first day of last month
-                    startDate = firstDayOfLastMonth.toISOString().split('T')[0];
-                    endDate = lastDayOfLastMonth.toISOString().split('T')[0];
-                } else if (dateRange === 'this_year') {
-                    var firstDay = new Date(today.getFullYear(), 0, 1);
-                    startDate = firstDay.toISOString().split('T')[0];
-                    endDate = today.toISOString().split('T')[0];
-                } else if (dateRange === 'last_year') {
-                    var firstDay = new Date(today.getFullYear() - 1, 0, 1);
-                    var lastDay = new Date(today.getFullYear() - 1, 11, 31);
-                    startDate = firstDay.toISOString().split('T')[0];
-                    endDate = lastDay.toISOString().split('T')[0];
-                }
-                $('#start_date').val(startDate);
-                $('#end_date').val(endDate);
-            }
-
-            // Refresh the DataTable with the new filter values
-            table.ajax.reload();
-        });
-    });
-</script>
-@endslot
-@endcomponent
+<!-- Your Blade View Code -->@component('admin.component')    @slot('title')        Dashboard Detail    @endslot    @slot('subTitle')        Total Orders    @endslot    @slot('content')        <div class="table-responsive mt-3">            <form id="filter-form">                <div class="row">                    <div class="col-md-3 col-12">                        <span class="mb-2 font-weight-bold">Start Date</span>                        <input type="date" id="start_date" name="start_date" class="col-12 form-control h-11 mt-2 mb-2 btn-fw border p-2 text-capitalize">                    </div>                    <div class="col-md-3 col-12">                        <span class="mb-2 font-weight-bold">End Date</span>                        <input type="date" id="end_date" name="end_date" class="col-12 form-control h-11 mt-2 mb-2 btn-fw border p-2 text-capitalize">                    </div>                    <div class="col-md-3 col-12">                        <span class="mb-2 font-weight-bold">Date Range</span>                        <select id="date-range" name="date_range" class="col-12 form-control h-11 mt-2 mb-2 btn-fw border p-2 text-capitalize">                            <option value="all">All</option>                            <option value="today">Today</option>                            <option value="yesterday">Yesterday</option>                            <option value="this_week">This Week</option>                            <option value="this_month">This Month</option>                            <option value="last_month">Last Month</option>                            <option value="this_year">This Year</option>                            <option value="last_year">Last Year</option>                        </select>                    </div>                    <div class="col-md-3 col-12">                        <br>                        <button type="button" id="apply-filter" class="col-12 form-control bg-primary text-white h-11 mt-2 mb-2 btn-fw border p-2 text-capitalize">Apply Filter</button>                    </div>                    <div class="col-md-3 col-12">                        <span class="mb-2 font-weight-bold">Zone</span>                        <select id="zone" name="zone_id" class="col-12 form-control h-11 mt-2 mb-2 btn-fw border p-2 text-capitalize">                            <option value="">All</option>                            @foreach($zones as $zone)                                <option value="{{$zone->id}}">{{$zone->name}}</option>                            @endforeach                        </select>                    </div>                </div>            </form>            <table class="table table-striped">                <thead>                <tr>                    <th>Store Name</th>                    <th>Total Orders</th>                    <th>Order Amount</th>                </tr>                </thead>                <tbody>                </tbody>            </table>        </div>    @endslot    @slot('script')        <script>            var table;            $(document).ready(function () {                table = $('.table').DataTable({                    processing: true,                    serverSide: true,                    order: [],                    ajax: {                        url: "{{ route('admin.api.dashboard.total-order-amount-details') }}",                        data: function (d) {                            d.start_date = $('#start_date').val();                            d.end_date = $('#end_date').val();                            d.zone_id = $('#zone').val();                        }                    },                    "columns": [                        {"data": "shop_name"},                        {                            "data": "orderCount",                            // "render": function (data, type, row) {                            //     return data !== null && data !== undefined ? data : 0;                            // }                        },                        {"data": "orderAmount"}                    ],                });                $('#apply-filter').click(function () {                    var startDate = $('#start_date').val();                    var endDate = $('#end_date').val();                    // Check if the start date is not greater than the end date                    if (startDate && endDate && startDate > endDate) {                        alert('Start date should be before end date.');                        return;                    }                    // Refresh the DataTable with the new filter values                    table.ajax.reload();                });                $('#date-range').change(function () {                    var dateRange = $(this).val();                    if (dateRange === 'all') {                        $('#start_date').val('');                        $('#end_date').val('');                    } else {                        var today = new Date();                        var startDate,                            endDate;                        if (dateRange === 'today') {                            startDate = today.toISOString().split('T')[0];                            endDate;                        } else if (dateRange === 'yesterday') {                            today.setDate(today.getDate() - 1);                            startDate = today.toISOString().split('T')[0];                            startDate;                        } else if (dateRange === 'this_week') {                            var today = new Date();                            var endDate = today.toISOString().split('T')[0]; // Today's date                            // Calculate the start date (7 days ago from today)                            var startDate = new Date(today);                            startDate.setDate(today.getDate() - 7);                            startDate = startDate.toISOString().split('T')[0];                            console.log('Start Date:', startDate);                            console.log('End Date:', endDate);                        }                            //  else if (dateRange === 'this_week') {                            //     var firstDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());                            //     startDate = firstDay.toISOString().split('T')[0];                            //     endDate = today.toISOString().split('T')[0];                        // }                        else if (dateRange === 'this_month') {                            var firstDay = new Date(today.getFullYear(), today.getMonth(), 1);                            startDate = firstDay.toISOString().split('T')[0];                            endDate = today.toISOString().split('T')[0];                        } else if (dateRange === 'last_month') {                            var today = new Date();                            var lastDayOfLastMonth = new Date(today.getFullYear(), today.getMonth(), 0); // Get the last day of last month                            var firstDayOfLastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1); // Get the first day of last month                            startDate = firstDayOfLastMonth.toISOString().split('T')[0];                            endDate = lastDayOfLastMonth.toISOString().split('T')[0];                        } else if (dateRange === 'this_year') {                            var firstDay = new Date(today.getFullYear(), 0, 1);                            startDate = firstDay.toISOString().split('T')[0];                            endDate = today.toISOString().split('T')[0];                        } else if (dateRange === 'last_year') {                            var firstDay = new Date(today.getFullYear() - 1, 0, 1);                            var lastDay = new Date(today.getFullYear() - 1, 11, 31);                            startDate = firstDay.toISOString().split('T')[0];                            endDate = lastDay.toISOString().split('T')[0];                        }                        $('#start_date').val(startDate);                        $('#end_date').val(endDate);                    }                    // Refresh the DataTable with the new filter values                    table.ajax.reload();                });                $('#zone').change(function () {                    var zoneId = $(this).val();                    table.ajax.reload();                });            })            ;        </script>    @endslot@endcomponent

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Store extends Model
 {
@@ -80,5 +81,9 @@ class Store extends Model
     public function customer_orders()
     {
         return $this->hasMany(CustomerOrder::class, 'store_id');
+    }
+    public function homeDeliveryDetail(): HasOne
+    {
+        return $this->hasOne(HomeDeliveryDetail::class, 'store_id');
     }
 }

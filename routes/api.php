@@ -40,7 +40,7 @@ Route::post('/verify-delivery-partner-OTP', [ApiController::class, 'verifyDPOTP'
 
 Route::group(
     [
-        'middleware' => ['auth:api', 'throttle:100,1'],
+//        'middleware' => ['auth:api', 'throttle:100,1'],
     ],function(){
 
     Route::get('/logout', [ApiController::class, 'logout']);
