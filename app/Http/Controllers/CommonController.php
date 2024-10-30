@@ -409,6 +409,20 @@ class CommonController extends Controller
                     case 3:
                         $order->order_status = 3;
                         $order->merchant_order_status = 3;
+
+                        //    FireBase Integration for notification to the customer for order is processing
+                        $deviceToken = $order->customer->device_token;
+                        $title = 'Order is processing';
+                        $body = 'Your Order #' . $order->id . ' is processing bt the merchant.';
+                        $data = [
+                            'event_type' => 'order',
+                            'orderData' => $order->id
+                        ];
+
+                        $firebaseService = new FirebaseService();
+                        $firebaseService->sendNotification($deviceToken, $title, $body, $data);
+
+
                         break;
                     case 5:
                         $order->merchant_order_status = 5;
@@ -419,6 +433,18 @@ class CommonController extends Controller
                         if (empty($order->deliveryboy_id)) {
                             return ['success' => false, 'message' => 'Unable to change the status. Please assign a delivery person to this order.'];
                         }
+
+                        //    FireBase Integration for notification to the delivery partner for order is ready to handover
+                        $deviceToken = $order->delivery_boy->device_token;
+                        $title = 'Ready for pickup';
+                        $body = 'Your Order #' . $order->id . ' is ready for pickup.';
+                        $data = [
+                            'event_type' => 'order',
+                            'orderData' => $order_id
+                        ];
+
+                        $firebaseService = new FirebaseService();
+                        $firebaseService->sendNotification($deviceToken, $title, $body, $data);
 
                         break;
                     case 6:
@@ -450,6 +476,24 @@ class CommonController extends Controller
                             event(new DPDetailToCustomerEvent($order, $DPDetail));
                         }
                         break;
+                    case 3:
+                        $order->order_status = 4;
+                        $order->d_p_order_status = 3;
+
+                        //    FireBase Integration for notification to the merchant for delivery partner has reached
+                        $deviceToken = $order->store->user->device_token;
+                        $title = 'Delivery Partner Reached';
+                        $body = 'Delivery partner reached for Order #' . $order->id . '.';
+                        $data = [
+                            'event_type' => 'order',
+                            'orderData' => $order->id
+                        ];
+
+                        $firebaseService = new FirebaseService();
+                        $firebaseService->sendNotification($deviceToken, $title, $body, $data);
+
+                        break;
+
                     case 4:
                         if ($isModeDeliveryPartner && $order->merchant_order_status != 5) {
                             return ['success' => false, 'message' => 'Unable to change status. The merchant is not yet ready to handover.'];
@@ -457,10 +501,37 @@ class CommonController extends Controller
                         $order->order_status = 5;
                         $order->merchant_order_status = 6;
                         $order->d_p_order_status = 4;
+
+                        //    FireBase Integration for notification to the customer for order is picked up
+                        $deviceToken = $order->customer->device_token;
+                        $title = 'Order Picked Up';
+                        $body = 'Your Order #' . $order->id . ' has been picked up by the delivery partner.';
+                        $data = [
+                            'event_type' => 'order',
+                            'orderData' => $order->id
+                        ];
+
+                        $firebaseService = new FirebaseService();
+                        $firebaseService->sendNotification($deviceToken, $title, $body, $data);
+
+
                         break;
                     case 5:
                         $order->order_status = 8;
                         $order->d_p_order_status = 5;
+
+                        //    FireBase Integration for notification to the customer for order has reached drop location
+                        $deviceToken = $order->customer->device_token;
+                        $title = 'Your order has reached';
+                        $body = 'Delivery partner for your Order #' . $order->id . ' has reached your location.';
+                        $data = [
+                            'event_type' => 'order',
+                            'orderData' => $order->id
+                        ];
+
+                        $firebaseService = new FirebaseService();
+                        $firebaseService->sendNotification($deviceToken, $title, $body, $data);
+
                         break;
                     case 6:
                         // Delivered
@@ -477,6 +548,18 @@ class CommonController extends Controller
                             "amount" => $expected_earning,
                         ];
                         DeliveryPartnerEarnings::create($dataEarn);
+
+                        //    FireBase Integration for notification to the merchant for order delivered
+                        $deviceToken = $order->store->user->device_token;
+                        $title = 'Order Delivered';
+                        $body = 'Order #' . $order->id . ' has been delivered successfully.';
+                        $data = [
+                            'event_type' => 'order',
+                            'orderData' => $order->id
+                        ];
+
+                        $firebaseService = new FirebaseService();
+                        $firebaseService->sendNotification($deviceToken, $title, $body, $data);
 
                         break;
                     case 7:
@@ -540,63 +623,75 @@ class CommonController extends Controller
 
     public static function assignOrderToDeliveryBoyCommon($order_id, $agent_id)
     {
-        $order = CustomerOrder::with(["address", "store"])->find($order_id);
 
-        $deliveryBoyDetail = DeliveryPartners::where("user_id", $agent_id)->first();
-        if (empty($deliveryBoyDetail)) {
-            return ["success" => false, 'message' => 'No delivery partner available.'];
+        try {
+
+
+            $order = CustomerOrder::with(["address", "store"])->find($order_id);
+
+            $deliveryBoyDetail = DeliveryPartners::where("user_id", $agent_id)->first();
+            if (empty($deliveryBoyDetail)) {
+                return ["success" => false, 'message' => 'No delivery partner available.'];
+            }
+
+            $order->deliveryboy_id = $agent_id;
+
+            $pickup = LocationHelper::haversineGreatCircleDistance($deliveryBoyDetail->latitude, $deliveryBoyDetail->longitude, $order->store->latitude, $order->store->longitude);
+
+            $order->dp_to_store_distance = $pickup;
+            $order->save();
+
+            DeliveryPartners::where("user_id", $order->deliveryboy_id)->update(['on_going_order' => 1]);
+
+            $drop = $order->store_to_customer_distance;
+
+            $homeDelivery = HomeDeliveryDetail::where('store_id', $order->store_id)->first();
+
+            $expected_earning = self::calculateExpectedEarning($order);
+            $countdown = $homeDelivery->processing_time ?? 0;
+
+            $newOrderData = [
+                "expected_earning" => $expected_earning,
+                "pickup" => $pickup,
+                "drop" => $drop,
+                "countdown" => 30,
+                "order_id" => $order_id,
+                "deliveryboy_id" => $agent_id,
+            ];
+
+
+            event(new NotificationToDP($newOrderData)); // send popup notification to delivery partner
+
+
+            //    FireBase Integration for Notification to Merchant
+            $deviceToken = $order->store->user->device_token;
+            //        $deviceToken = 'dljxvzIVQ9q5QOB92ZaMU1:APA91bFGGZg1n_riDIs9k6HiHP_JSxf_SoVOf-kQKBY_kukVE30vYwQx-A2Tb-sEXOx27k87vb4XKA9rZER0YH94iUR6Eag0Q8Q-APmfyeqq1dhjYP9Rdtk';
+            $title = 'Delivery Partner Assigned';
+            $body = 'Order #' . $order->id . ' has been assigned to the delivery partner.';
+            $data = [
+                'event_type' => 'order',
+                'orderData' => $order->id
+            ];
+            $firebaseService = new FirebaseService();
+            $firebaseService->sendNotification($deviceToken, $title, $body, $data);
+
+
+            //    FireBase Integration for Notification to Delivery Partner
+            $deviceToken1 = $deliveryBoyDetail->user->device_token;
+            //            $deviceToken1 = 'dljxvzIVQ9q5QOB92ZaMU1:APA91bFGGZg1n_riDIs9k6HiHP_JSxf_SoVOf-kQKBY_kukVE30vYwQx-A2Tb-sEXOx27k87vb4XKA9rZER0YH94iUR6Eag0Q8Q-APmfyeqq1dhjYP9Rdtk';
+            $title1 = 'New Order Received';
+            $body1 = 'Order #' . $order->id . ' has been assigned to you.';
+            $data1 = [
+                'event_type' => 'order',
+                'orderData' => $order->id
+            ];
+            $firebaseService1 = new FirebaseService();
+            $firebaseService1->sendNotification($deviceToken1, $title1, $body1, $data1);
+
+
+            return ["success" => true, 'message' => 'Order Assign Successfully.'];
+        } catch (Exception $e) {
+            return ["success" => false, 'message' => $e->getMessage() || 'Order Assign failed.'];
         }
-
-        $order->deliveryboy_id = $agent_id;
-
-        $pickup = LocationHelper::haversineGreatCircleDistance($deliveryBoyDetail->latitude, $deliveryBoyDetail->longitude, $order->store->latitude, $order->store->longitude);
-
-        $order->dp_to_store_distance = $pickup;
-        $order->save();
-
-        DeliveryPartners::where("user_id", $order->deliveryboy_id)->update(['on_going_order' => 1]);
-
-        $drop = $order->store_to_customer_distance;
-
-        $homeDelivery = HomeDeliveryDetail::where('store_id', $order->store_id)->first();
-
-        $expected_earning = self::calculateExpectedEarning($order);
-        $countdown = $homeDelivery->processing_time ?? 0;
-
-        $newOrderData = [
-            "expected_earning" => $expected_earning,
-            "pickup" => $pickup,
-            "drop" => $drop,
-            "countdown" => 30,
-            "order_id" => $order_id,
-            "deliveryboy_id" => $agent_id,
-        ];
-
-
-
-        event(new NotificationToDP($newOrderData)); // send popup notification to delivery partner
-
-
-
-//    FireBase Integration
-        $deviceToken = $order->store->user->device_token;
-        $deviceToken = 'dljxvzIVQ9q5QOB92ZaMU1:APA91bFGGZg1n_riDIs9k6HiHP_JSxf_SoVOf-kQKBY_kukVE30vYwQx-A2Tb-sEXOx27k87vb4XKA9rZER0YH94iUR6Eag0Q8Q-APmfyeqq1dhjYP9Rdtk';
-        $title = 'Delivery Partner Assigned';
-        $body = 'Order #'.$order->id.' has been assigned to the delivery partner.';
-        $data = [
-            'event_type' => 'dp_assigned',
-            'orderData' => $order
-        ];
-
-        $firebaseService = new FirebaseService();
-        $response = $firebaseService->sendNotification($deviceToken, $title, $body, $data);
-
-
-
-
-
-        $response = ["success" => true, 'message' => 'Order Assign Successfully.'];
-
-        return $response;
     }
 }

@@ -620,18 +620,18 @@ class CustomerAppController extends Controller
                 event(new AdminNewOrder($msg));
 
                 // This section is for sending push notification to the merchant using FCM
-                //    FireBase Integration
+                //    FireBase Integration for merchant
                 $deviceToken = $newOrder->store->user->device_token;
                 // $deviceToken = 'dljxvzIVQ9q5QOB92ZaMU1:APA91bFGGZg1n_riDIs9k6HiHP_JSxf_SoVOf-kQKBY_kukVE30vYwQx-A2Tb-sEXOx27k87vb4XKA9rZER0YH94iUR6Eag0Q8Q-APmfyeqq1dhjYP9Rdtk';
                 $title = 'New Order Received';
                 $body = 'You have a new order #' . $newOrder->id;
                 $data = [
-                    'event_type' => 'new_order',
-                    'orderData' => $newOrder
+                    'event_type' => 'order',
+                    'orderData' => $newOrder->id
                 ];
 
                 $firebaseService = new FirebaseService();
-                $response = $firebaseService->sendNotification($deviceToken, $title, $body, $data);
+                $firebaseService->sendNotification($deviceToken, $title, $body, $data);
 
 
                 // Assuming your Notification class accepts FCM tokens

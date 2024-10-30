@@ -45,4 +45,10 @@ class DeliveryPartners extends Model
     {
         return $this->belongsTo(ShiftTimings::class, 'work_shift_id');
     }
+//    user
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }

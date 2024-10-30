@@ -49,7 +49,7 @@ class OrderController extends Controller
             //     // print_r($data); die;
             // }
             return  Datatables::of($data)
-           
+
             // ->editColumn('order_number', function ($row) {
             //     return @$row->id;
             // })
@@ -66,7 +66,7 @@ class OrderController extends Controller
                 return @$row->total_amount;
             })
             ->editColumn('order_status', function ($row) {
-                
+
                 return '<button class="btn btn-primary btn-sm">'.@$row->orderStatus->name.'<button> ';
             })
             ->addColumn('action',function($row){
@@ -134,9 +134,9 @@ class OrderController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->with('error', $validator->errors()->all()[0]);
         } else {
-            CommonController::assignOrderToDeliveryBoyCommon($request->order_id, $request->agent_id);
-            
-            return redirect()->back()->with('message', 'Order Assign Successfully.');
+            $response = CommonController::assignOrderToDeliveryBoyCommon($request->order_id, $request->agent_id);
+
+            return redirect()->back()->with($response);
         }
     }
 }
