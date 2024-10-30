@@ -53,6 +53,15 @@ Route::get('handlingCharge', function () {
 });
 
 Route::get('otp', function () {
-    $data = \App\Models\Otp::latest()->limit(10)->get();
+//    $data = \App\Models\User::latest()->limit(10)->get();
+    $data = \App\Models\MultipleAddress::latest()->limit(10)->get();
     return response()->json($data);
 });
+
+Route::get('test', function () {
+    $data = \App\Models\CustomerOrder::with('store.user')->latest()->limit(1)->get();
+    dd($data[0]->store->user->device_token);
+    return response()->json($data);
+});
+
+Route::get('notification', [\App\Http\Controllers\Admin\ChatController::class, 'sendNotification']);

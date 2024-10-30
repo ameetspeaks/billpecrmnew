@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Events\AdminNewOrder;
-use App\Events\NotificationToMerchant;
 use App\Helpers\LocationHelper;
 use App\Models\AddtoCart;
 use App\Models\AppActivity;
@@ -20,6 +19,7 @@ use App\Models\Product;
 use App\Models\Store;
 use App\Models\TemplateOffer;
 use App\Models\User;
+use App\Services\FirebaseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -273,7 +273,7 @@ class CustomerAppController extends Controller
                 ]);
                 $activity->save();
                 DB::commit();
-                return Response::json(['success' => true, 'message' => 'Customer update address.', 'data' => $check_Customer], 200);
+                return Response::json(['success' => true, 'message' => 'Customer update address.', 'data' => $customerMultiAdd], 200);
             }
         } catch (Exception $e) {
             DB::rollBack();
@@ -609,7 +609,6 @@ class CustomerAppController extends Controller
                     "processing_time" => $deliveryDetail->processing_time ?? 0,
                 ];
 
-                event(new NotificationToMerchant($newOrder, "new_order_by_customer", $msg, $otherDetail));
 
                 //                New Order notification to CRM admin
                 // Check if `id` exists and is not null
@@ -621,34 +620,21 @@ class CustomerAppController extends Controller
                 event(new AdminNewOrder($msg));
 
                 // This section is for sending push notification to the merchant using FCM
+                //    FireBase Integration
+                $deviceToken = $newOrder->store->user->device_token;
+                // $deviceToken = 'dljxvzIVQ9q5QOB92ZaMU1:APA91bFGGZg1n_riDIs9k6HiHP_JSxf_SoVOf-kQKBY_kukVE30vYwQx-A2Tb-sEXOx27k87vb4XKA9rZER0YH94iUR6Eag0Q8Q-APmfyeqq1dhjYP9Rdtk';
+                $title = 'New Order Received';
+                $body = 'You have a new order #' . $newOrder->id;
+                $data = [
+                    'event_type' => 'new_order',
+                    'orderData' => $newOrder
+                ];
 
-                    $postdata = '{
-                "to" : "' . $user->device_token . '",
-                "notification" : {
-                    "body" : "' . $message . '",
-                    "title": "' . $title . '",
-                    "image": "' . $image . '"
-                },
-                "data" : {
-                    "type": "Dashboard"
-                },
-                }';
+                $firebaseService = new FirebaseService();
+                $response = $firebaseService->sendNotification($deviceToken, $title, $body, $data);
 
-                    // Assuming your Notification class accepts FCM tokens
-                    $sendNotification = \App\Helpers\Notification::send($postdata);
-                    $sendNotification = json_decode($sendNotification);
-                    $error = null;
-                    if ($sendNotification->success == 0) {
-                        $error = $sendNotification->results[0]->error;
-                    }
 
-                    $notification_history = NotificationHistory::create([
-                        'whatsapp_no' => $user->whatsapp_no,
-                        'msg' => $message,
-                        'title' => $title,
-                        'notification_status' => $sendNotification->success,
-                        'notification_error' => $error,
-                    ]);
+                // Assuming your Notification class accepts FCM tokens
 
 
 
