@@ -627,7 +627,7 @@ class CommonController extends Controller
         try {
 
 
-            $order = CustomerOrder::with(["address", "store"])->find($order_id);
+            $order = CustomerOrder::with(["address", "store", "delivery_boy"])->find($order_id);
 
             $deliveryBoyDetail = DeliveryPartners::where("user_id", $agent_id)->first();
             if (empty($deliveryBoyDetail)) {
@@ -689,7 +689,7 @@ class CommonController extends Controller
             $firebaseService1->sendNotification($deviceToken1, $title1, $body1, $data1);
 
 
-            return ["success" => true, 'message' => 'Order Assign Successfully.'];
+            return ["success" => true, 'message' => 'Order Assign Successfully.', 'order' => $order];
         } catch (Exception $e) {
             return ["success" => false, 'message' => $e->getMessage() || 'Order Assign failed.'];
         }

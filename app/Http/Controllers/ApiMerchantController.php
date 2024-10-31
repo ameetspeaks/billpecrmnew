@@ -32,16 +32,17 @@ class ApiMerchantController extends Controller
             $validator = Validator::make($requestData, $rules);
 
             if ($validator->fails()) {
-                $response = ['success' => false, 'message' => $validator->errors()->all()];
+                $response = ['success' => false, 'message' => $validator->errors()->all(), 'order' => []];
+                return Response::json($response, 404);
             } else {
                 $updateStatus = CommonController::orderStatusChangeCommon($request->order_id, $request->order_status_id, "merchant_order_status");
-                if ($updateStatus['success']) {
-                    $response = ['success' => true, 'message' => 'Order Status Update Successfully.'];
-                } else {
-                    $response = $updateStatus;
-                }
+//                if ($updateStatus['success']) {
+//                    $response = ['success' => true, 'message' => 'Order Status Update Successfully.'];
+//                } else {
+//                    $response = $updateStatus;
+//                }
+            return Response::json($updateStatus, 200);
             }
-            return Response::json($response, 200);
         } catch (Exception $e) {
             return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
         }
