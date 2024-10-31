@@ -25,6 +25,10 @@ class FirebaseService
             'body' => $body,
         ];
 
+        if($deviceToken == null) {
+            return false;
+        }
+
         $message = Messaging\CloudMessage::withTarget('token', $deviceToken)
             ->withNotification($notification)
             ->withData($data);
