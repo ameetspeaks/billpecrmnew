@@ -593,7 +593,7 @@ class CommonController extends Controller
             }
             $order->save();
 
-            $order = CustomerOrder::with(["orderStatus", "merchantOrderStatus", "DPOrderStatus"])->find($order_id);
+            $order = CustomerOrder::with('customer')->find($order_id);
 
             event(new OrderStatusUpdated($order));
 
