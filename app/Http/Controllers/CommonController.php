@@ -486,7 +486,8 @@ class CommonController extends Controller
                         $body = 'Delivery partner reached for Order #' . $order->id . '.';
                         $data = [
                             'event_type' => 'order',
-                            'orderData' => $order->id
+                            'orderData' => $order->id,
+                            'deliveryType' => 'fullfill',
                         ];
 
                         $firebaseService = new FirebaseService();
@@ -555,7 +556,8 @@ class CommonController extends Controller
                         $body = 'Order #' . $order->id . ' has been delivered successfully.';
                         $data = [
                             'event_type' => 'order',
-                            'orderData' => $order->id
+                            'orderData' => $order->id,
+                            'deliveryType' => 'fullfill',
                         ];
 
                         $firebaseService = new FirebaseService();
@@ -670,7 +672,8 @@ class CommonController extends Controller
             $body = 'Order #' . $order->id . ' has been assigned to the delivery partner.';
             $data = [
                 'event_type' => 'order',
-                'orderData' => $order->id
+                'orderData' => $order->id,
+                'deliveryType' => 'fullfill',
             ];
             $firebaseService = new FirebaseService();
             $firebaseService->sendNotification($deviceToken, $title, $body, $data);

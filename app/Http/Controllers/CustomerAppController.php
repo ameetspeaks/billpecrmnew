@@ -627,7 +627,8 @@ class CustomerAppController extends Controller
                 $body = 'You have a new order #' . $newOrder->id;
                 $data = [
                     'event_type' => 'order',
-                    'orderData' => $newOrder->id
+                    'orderData' => $newOrder->id,
+                    'deliveryType' => $deliveryDetail->delivery_mode == 0 ? "fullfill" : 'self_delivery',
                 ];
 
                 $firebaseService = new FirebaseService();
@@ -729,7 +730,7 @@ class CustomerAppController extends Controller
             }
             return Response::json($response, 200);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
         }
