@@ -412,8 +412,8 @@ class CommonController extends Controller
 
                         //    FireBase Integration for notification to the customer for order is processing
                         $deviceToken = $order->customer->device_token;
-                        $title = 'Order is processing';
-                        $body = 'Your Order #' . $order->id . ' is processing bt the merchant.';
+                        $title = 'Order Update';
+                        $body = 'Order #' . $order->id . ' is now being processed!';
                         $data = [
                             'event_type' => 'order',
                             'orderData' => $order->id
@@ -482,8 +482,8 @@ class CommonController extends Controller
 
                         //    FireBase Integration for notification to the merchant for delivery partner has reached
                         $deviceToken = $order->store->user->device_token;
-                        $title = 'Delivery Partner Reached';
-                        $body = 'Delivery partner reached for Order #' . $order->id . '.';
+                        $title = 'Order Update';
+                        $body = 'Delivery partner has arrived at the store to pick up Order #' . $order->id . '.';
                         $data = [
                             'event_type' => 'order',
                             'orderData' => $order->id,
@@ -505,8 +505,8 @@ class CommonController extends Controller
 
                         //    FireBase Integration for notification to the customer for order is picked up
                         $deviceToken = $order->customer->device_token;
-                        $title = 'Order Picked Up';
-                        $body = 'Your Order #' . $order->id . ' has been picked up by the delivery partner.';
+                        $title = 'Order Update';
+                        $body = 'Your order has been picked up!';
                         $data = [
                             'event_type' => 'order',
                             'orderData' => $order->id
@@ -523,8 +523,8 @@ class CommonController extends Controller
 
                         //    FireBase Integration for notification to the customer for order has reached drop location
                         $deviceToken = $order->customer->device_token;
-                        $title = 'Your order has reached';
-                        $body = 'Delivery partner for your Order #' . $order->id . ' has reached your location.';
+                        $title = 'Order Update';
+                        $body = 'Your order has arrived at your location. Please receive the package!';
                         $data = [
                             'event_type' => 'order',
                             'orderData' => $order->id
@@ -552,8 +552,8 @@ class CommonController extends Controller
 
                         //    FireBase Integration for notification to the merchant for order delivered
                         $deviceToken = $order->store->user->device_token;
-                        $title = 'Order Delivered';
-                        $body = 'Order #' . $order->id . ' has been delivered successfully.';
+                        $title = 'Order Update';
+                        $body = 'Order #' . $order->id . ' has been delivered!';
                         $data = [
                             'event_type' => 'order',
                             'orderData' => $order->id,
@@ -668,8 +668,8 @@ class CommonController extends Controller
             //    FireBase Integration for Notification to Merchant
             $deviceToken = $order->store->user->device_token;
             //        $deviceToken = 'dljxvzIVQ9q5QOB92ZaMU1:APA91bFGGZg1n_riDIs9k6HiHP_JSxf_SoVOf-kQKBY_kukVE30vYwQx-A2Tb-sEXOx27k87vb4XKA9rZER0YH94iUR6Eag0Q8Q-APmfyeqq1dhjYP9Rdtk';
-            $title = 'Delivery Partner Assigned';
-            $body = 'Order #' . $order->id . ' has been assigned to the delivery partner.';
+            $title = 'Order Update';
+            $body = 'A delivery partner has been assigned for Order #' . $order->id . '.';
             $data = [
                 'event_type' => 'order',
                 'orderData' => $order->id,

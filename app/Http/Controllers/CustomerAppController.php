@@ -624,7 +624,7 @@ class CustomerAppController extends Controller
                 $deviceToken = $newOrder->store->user->device_token;
                 // $deviceToken = 'dljxvzIVQ9q5QOB92ZaMU1:APA91bFGGZg1n_riDIs9k6HiHP_JSxf_SoVOf-kQKBY_kukVE30vYwQx-A2Tb-sEXOx27k87vb4XKA9rZER0YH94iUR6Eag0Q8Q-APmfyeqq1dhjYP9Rdtk';
                 $title = 'New Order Received';
-                $body = 'You have a new order #' . $newOrder->id;
+                $body = 'New order received! Order #' . $newOrder->id;
                 $data = [
                     'event_type' => 'order',
                     'orderData' => $newOrder->id,
