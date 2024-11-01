@@ -772,7 +772,7 @@ class CustomerAppController extends Controller
                 $response = ['success' => true, 'message' => 'Food store list', 'getfoodStores' => $getfoodStores];
             }
             return Response::json($response, 200);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
         }

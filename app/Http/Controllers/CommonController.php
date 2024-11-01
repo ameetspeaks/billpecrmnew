@@ -579,6 +579,19 @@ class CommonController extends Controller
                         $order->d_p_order_status = $order_status_id;
                         break;
                 }
+            }elseif ($field_name == 'customer_order_status') {
+                switch ($order_status_id) {
+                    case 7:
+                        if($order->merchant_order_status == 1){
+                            $order->order_status = 7;
+                            $order->merchant_order_status = 1;
+                            $order->d_p_order_status = 1;
+                        }
+                        
+                        break;
+                    default:
+                        break;
+                }
             } else {
                 switch ($order_status_id) {
                     case 1:
@@ -593,7 +606,7 @@ class CommonController extends Controller
             }
             $order->save();
 
-            $order = CustomerOrder::with('customer')->find($order_id);
+            $order = CustomerOrder::with('customer', 'store', 'address', 'delivery_boy')->find($order_id);
 
             event(new OrderStatusUpdated($order));
 
@@ -608,7 +621,7 @@ class CommonController extends Controller
                 "order" => $order,
                 "statusLabel" => $order->orderStatus->name
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response = ['success' => false, 'message' => $e->getMessage() || 'Order Status Update failed.'];
         }
         return $response;

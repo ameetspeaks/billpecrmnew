@@ -4428,4 +4428,31 @@ class ApiController extends Controller
 
 
     }
+
+    public function customerOrderStatusChange(Request $request)
+    {
+        try {
+            $rules = [
+                'order_id' => 'required|numeric',
+            ];
+
+            $requestData = $request->all();
+            $validator = Validator::make($requestData, $rules);
+
+            if ($validator->fails()) {
+                $response = ['success' => false, 'message' => $validator->errors()->all(), 'order' => []];
+                return Response::json($response, 404);
+            } else {
+                $updateStatus = CommonController::orderStatusChangeCommon($request->order_id, 7, "customer_order_status");
+                //                if ($updateStatus['success']) {
+                //                    $response = ['success' => true, 'message' => 'Order Status Update Successfully.'];
+                //                } else {
+                //                    $response = $updateStatus;
+                //                }
+                return Response::json($updateStatus, 200);
+            }
+        } catch (Exception $e) {
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 404);
+        }
+    }
 }

@@ -236,6 +236,9 @@ Route::group(
     Route::group(['prefix' => 'merchant', 'as' => 'merchant.'], function () {
         Route::post('/order-status-change', [ApiMerchantController::class, 'orderStatusChange']);
     });
+    Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
+        Route::post('/order-status-change', [ApiController::class, 'customerOrderStatusChange']);
+    });
 });
 
 Route::post('/get-me', [ApiController::class, 'getMe']);
