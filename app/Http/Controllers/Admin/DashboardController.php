@@ -179,15 +179,21 @@ class DashboardController extends Controller
             $zoneId = $request->input('zone_id');
 
             $query = Store::with('package', 'customer_orders')->orderBy('id', 'DESC');
+
             if ($zoneId) {
                 $query = $query->where('zone_id', $zoneId);
             }
 
             if ($startDate && $endDate) {
-                $query = $query->whereBetween('package_active_date', [$startDate, $endDate]);
+                $query = $query->whereHas('customer_orders', function ($q) use ($startDate, $endDate) {
+                    $q->whereBetween('created_at', [$startDate, $endDate]);
+                });
             } elseif ($startDate && !$endDate) {
-                $query = $query->where('package_active_date', '>=', $startDate);
+                $query = $query->whereHas('customer_orders', function ($q) use ($startDate) {
+                    $q->where('created_at', '>=', $startDate);
+                });
             }
+
 
             $data = $query->get()->map(function ($item) {
                 // Add orderCount and orderAmount to each item
