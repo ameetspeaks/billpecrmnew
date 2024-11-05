@@ -20,6 +20,7 @@ use App\Models\Store;
 use App\Models\TemplateOffer;
 use App\Models\User;
 use App\Services\FirebaseService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -571,6 +572,7 @@ class CustomerAppController extends Controller
                 $newOrder->order_status = 1;
                 $newOrder->unique_id = $uniqueId;
                 $newOrder->combined_id = $orderNumber . $uniqueId;
+                $newOrder->order_expires_at = Carbon::now()->addMinutes(15);
                 $newOrder->order_number = $orderNumber;
 
                 foreach ($request->product_details as $productDetail) {

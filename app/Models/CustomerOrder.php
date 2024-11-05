@@ -34,6 +34,7 @@ class CustomerOrder extends Model
         'transection_id',
         'store_to_customer_distance',
         'dp_to_store_distance',
+        'order_expires_at',
     ];
 
     public function customer()

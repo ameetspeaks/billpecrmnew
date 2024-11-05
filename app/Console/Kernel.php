@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:customer-due')->dailyAt('12:00');
         $schedule->command('app:low-stock')->dailyAt('14:00');
         $schedule->command('app:delete-activity')->hourly();
+        $schedule->command('orders:cancel-expired')->everyMinute();
     }
 
     /**
